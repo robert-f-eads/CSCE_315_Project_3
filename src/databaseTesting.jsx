@@ -1,31 +1,20 @@
 import {useState} from 'react';
 
+function runQuery(name) {
+    return fetch(`http://localhost:3001/data/${name}?number=5`)
+        .then((res) => res.json())
+        .catch((err) => {console.log(err.message)})
+}
+
+
 const DbApp = () => {
     const [posts, setPosts] = useState([]);
 
     function getURL() {
         let name = document.getElementById('pName').value
-        
-        fetch(`http://localhost:3001/data/${name}?number=5`)
-        .then((res) => res.json())
-        .then((data) => {
-            setPosts(data)
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
-    
+        runQuery(name).then((data) => {setPosts(data)})
     }
-
-    /*var searchBar = document.getElementById("pName")
-    searchBar.addEventListener("keypress", (event) => {
-        //let keyCode - event.
-        if(event.keyCode === 13) {
-            document.getElementById("testButton").click()
-        }
-    })*/
     
-
     return (
         
         <div>
@@ -33,7 +22,6 @@ const DbApp = () => {
                 <label for="product name">Product Name:</label><br/>
                 <input type="text" id="pName" name="product name" placeholder='Search' onKeyDown={(e) => {
                     if(e.key === "Enter") {
-                        //alert("Worked")
                         e.preventDefault()
                         document.getElementById("testButton").click()
                     }

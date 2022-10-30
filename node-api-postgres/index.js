@@ -22,16 +22,13 @@ app.use(
     extended: true,
   })
 )
-app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
-})
+app.get('/', (request, response) => {response.json({ info: 'Node.js, Express, and Postgres API' })})
 
-app.get('/materials', db.getMaterials)
-app.get('/materials/:id', db.getMaterialById)
-app.get('/data/:table', db.getLimitedTable)
+app.get('/searchProducts/:name', db.searchProducts)
+app.get('/table/:tableName', db.getTable)
+app.post('/createOrder/ticket', db.insertNewTicket)
+app.post('/createOrder/item', db.insertNewOrderItem)
 
-app.listen(port, () => {
-    console.log(`App running on port ${port}.`)
-})
+app.listen(port, () => {console.log(`App running on port ${port}.`)})
 
 
