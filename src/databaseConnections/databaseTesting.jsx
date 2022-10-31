@@ -1,18 +1,13 @@
 import {useState} from 'react';
-
-function runQuery(name) {
-    return fetch(`http://localhost:3001/data/${name}?number=5`)
-        .then((res) => res.json())
-        .catch((err) => {console.log(err.message)})
-}
-
+import {getTable, getProductsByName} from './exports'
 
 const DbApp = () => {
     const [posts, setPosts] = useState([]);
 
     function getURL() {
         let name = document.getElementById('pName').value
-        runQuery(name).then((data) => {setPosts(data)})
+        //getProductsByName(name).then((data) => {setPosts(data)})
+        //getTable(name, 5).then((data) => {setPosts(data)})
     }
     
     return (

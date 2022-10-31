@@ -21,7 +21,7 @@ const searchProducts = (request, response) => {
     })
 }
 
-//Get table, full or with limit
+//Get table, with or without limit
 const getTable = (request, response) => {
     let Params = request.params
     let Querys = request.query

@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import DbApp from './databaseTesting';
+import DbApp from './databaseConnections/databaseTesting';
 
 function App() {
   return (

@@ -1,0 +1,1 @@
+export {getTable, getProductsByName} from './dbFunctions'
