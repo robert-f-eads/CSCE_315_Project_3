@@ -4,7 +4,7 @@
  * @returns data promise containing results data
  */
 function getProductsByName(partialName) {
-    let queryString = `http://localhost:3000/searchProducts/${partialName}`
+    let queryString = `http://localhost:3001/searchProducts/${partialName}`
     return fetch(queryString)
         .then((res) => res.json())
         .catch((err) => {console.log(err.message)})
