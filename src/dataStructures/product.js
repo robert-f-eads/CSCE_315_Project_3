@@ -64,14 +64,14 @@ class product {
      */
     set setPrice(price) {this.price = price}
     /**
-     * Sets the ingredients of this product to a passed in array
-     * @param {ingredient[]} ingredients a array of ingredients to use to set the ingredients for this prodcut
+     * Sets the ingredients array of this product to a passed in array
+     * @param {ingredient[]} ingredients an array of ingredients to use to set the ingredients for this product
      */
     set setIngredients(ingredients) {this.ingredients = ingredients}
     
     //Methods
      /**
-     * Adds an ingredient to this productSets the ingredient to be added to the product
+     * Adds an ingredient to this product
      * @param {ingredient} ingredientAdded the ingredient to be added to the product
      */
     addIngredient(ingredient) {this.ingredients.push(ingredient)}
@@ -81,9 +81,7 @@ class product {
      */
     removeIngredient(ingredient) {
         let index = this.ingredients.indexOf(ingredient)
-        if(index > -1) {
-            this.ingredients.splice(index, 1)
-        }
+        if(index > -1) {this.ingredients.splice(index, 1)}
     }
 }
 

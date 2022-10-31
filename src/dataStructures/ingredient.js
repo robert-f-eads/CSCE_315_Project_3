@@ -7,12 +7,12 @@ import dateTime from "./dataStructuresExports"
     private
         id = -1
         name = ""
-        expirationDate = ""
+        expirationDate = null
         quantityRemaining = -1
         quantityTarget = -1
         measurementUnits = ""
         pricePerUnitLastOrder = -1
-        lastorderDate = ""
+        lastorderDate = null
         unitsInLastOrder = -1
 
     /**
@@ -142,7 +142,7 @@ import dateTime from "./dataStructuresExports"
     equals(otherIngredient) {
         if(otherIngredient === this) {return true}
         if(!(otherIngredient instanceof ingredient)) {return false}
-        if(otherIngredient.getId === id) {return true}
+        if(otherIngredient.getId === this.id) {return true}
         return false
     }
 }
