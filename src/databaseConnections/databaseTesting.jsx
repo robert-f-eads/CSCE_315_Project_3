@@ -7,7 +7,7 @@ const DbApp = () => {
 
     function getURL() {
         let name = document.getElementById('pName').value
-        //getProductsByName(name).then((data) => {setPosts(data)})
+        getProductsByName(name).then((data) => {setPosts(data)})
         //getTable(name, 5).then((data) => {setPosts(data)})
     }
     
