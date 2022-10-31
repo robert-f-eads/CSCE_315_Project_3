@@ -1,5 +1,6 @@
 import {useState} from 'react';
-import {getTable, getProductsByName} from './exports'
+import {getTable, getProductsByName} from './databaseFunctionExports'
+import {product, ingredient, dateTime} from '../dataStructures/dataStructuresExports'
 
 const DbApp = () => {
     const [posts, setPosts] = useState([]);
