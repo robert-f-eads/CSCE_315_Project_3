@@ -12,3 +12,9 @@ npm start
 ### To run api
 **Be node-api-postgres folder**<br/>
 node index.js
+
+## Authors
+Emma Ong
+Robert Eads
+Alexia Hassan
+Shreyes Kaliyur
