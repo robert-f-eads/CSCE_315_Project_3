@@ -1,13 +1,13 @@
 import {useState} from 'react';
 import {getTable, getProductsByName} from './databaseFunctionExports'
-import {product, ingredient, dateTime, orderTicket} from '../dataStructures/dataStructuresExports'
+import {orderItem} from '../dataStructures/dataStructuresExports'
 
 const DbApp = () => {
     const [posts, setPosts] = useState([]);
 
     function getURL() {
         let name = document.getElementById('pName').value
-        //getProductsByName(name).then((data) => {setPosts(data)})
+        getProductsByName(name).then((data) => {setPosts(data)})
         //getTable(name, 5).then((data) => {setPosts(data)})
     }
     
