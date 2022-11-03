@@ -16,7 +16,7 @@ const insertNewTicket = (request, response) => {
 
     //Creating new order ticket
     let queryString = 'INSERT INTO ordertickets (timestamp, customerfirstname, rewardsmemberid, employeeid, orderpricetotal) VALUES '
-    queryString += `(${Querys.timestamp}, '${Querys.firstName}', ${Querys.memberId}, ${Querys.employeeId}, ${Querys.orderTotal})`
+    queryString += `('${Querys.timestamp}', '${Querys.firstName}', ${Querys.memberId}, ${Querys.employeeId}, ${Querys.orderTotal})`
     newPool.query(queryString, (error, results) => {
         if(error) {throw (error)}
     })
