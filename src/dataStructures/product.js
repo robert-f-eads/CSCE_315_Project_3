@@ -1,5 +1,3 @@
-import ingredient from "./dataStructuresExports"
-
 /**
  * @author Robert Eads
  */
@@ -15,13 +13,11 @@ class product {
      * @param {int} id id of the product
      * @param {string} name name of the product
      * @param {double} price price of the product
-     * @param {ingredient[]} ingredients ingredients in product
      */
-    constructor(id, name, price, ingredients) {
+    constructor(id, name, price) {
         this.id = id
         this.name = name
         this.price = price
-        this.ingredients = ingredients
     }
 
     //Getters

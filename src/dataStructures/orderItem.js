@@ -1,5 +1,3 @@
-import {product, orderItemModification} from "./dataStructuresExports"
-
 /**
  * @author Robert Eads
  */
@@ -21,18 +19,14 @@ class orderItem {
      * @param {int} itemNumberInOrder the index of this item in the order ticket
      * @param {int} itemAmount number of this specific item in the order ticket
      * @param {int} itemSize size of the item (20, 32, 40s)
-     * @param {orderItemModification[]} additions additional ingredients for this item
-     * @param {orderItemModification[]} subtractions ingredients to subtract for this item
      * @param {product} product the product that this item represents
      */
-    constructor(id, orderId, itemNumberInOrder, itemAmount, itemSize, additions, subtractions, product) {
+    constructor(id, orderId, itemNumberInOrder, itemAmount, itemSize, product) {
         this.id = id
         this.orderId = orderId
         this.itemNumberInOrder = itemNumberInOrder
         this.itemAmount = itemAmount
         this.itemSize = itemSize
-        this.additions = additions
-        this.subtractions = subtractions
         this.product = product
     }
 

@@ -1,5 +1,3 @@
-import {dateTime, orderItem} from "./dataStructuresExports"
-
 /**
  * @author Robert Eads
  */
@@ -21,16 +19,14 @@ class orderTicket {
      * @param {int} rewardsMemberId rewards id of the customer (if applicable)
      * @param {int} employeeId id of the employee taking the order
      * @param {double} orderPriceTotal total cost of the order ticket
-     * @param {orderItem[]} items array of items in the order
      */
-    constructor(id, timestamp, customerFirstName, rewardsMemberId, employeeId, orderPriceTotal, items) {
+    constructor(id, timestamp, customerFirstName, rewardsMemberId, employeeId, orderPriceTotal) {
         this.id = id
         this.timestamp = timestamp
         this.customerFirstName = customerFirstName
         this.rewardsMemberId = rewardsMemberId
         this.employeeId = employeeId
         this.orderPriceTotal = orderPriceTotal
-        this.items = items
     }
 
     //Getters

@@ -3,11 +3,46 @@
  * @param {string} partialName partial name of a product to search for
  * @returns data promise containing results data
  */
-function getProductsByName(partialName) {
+async function getProductsByName(partialName) {
     let queryString = `http://localhost:3001/searchProducts/${partialName}`
-    return fetch(queryString)
-        .then((res) => res.json())
-        .catch((err) => {console.log(err.message)})
+    const results = await runFetch(queryString)
+    return results
 }
 
-export {getProductsByName}
+/**
+ * Writes the orderTicket to the database
+ * @param {orderTicket} ticket orderTicket with order information to write to the database
+ */
+async function writeOrderToDb(ticket) {
+    //Order ticket infomation
+    let queryString = `http://localhost:3001/createOrder/ticket?timestamp=${ticket.getTimestamp.formatDateTime()}`
+    queryString += `&firstName=${ticket.getCustomerFirstName}&memberId=${ticket.getRewardsMemberId}&employeeId=${ticket.getEmployeeId}`
+    queryString += `&orderTotal=${ticket.getOrderPriceTotal}`
+    
+    const newOrderId = await runFetch(queryString, {method: "POST"})
+
+    //Order item information
+    ticket.getItems.forEach(async tempItem =>  {
+        queryString = `http://localhost:3001/createOrder/item?orderId=${newOrderId}&numberInOrder=${tempItem.getItemNumberInOrder}&`
+        queryString += `name=${tempItem.getProduct.getName}&amount=${tempItem.getItemAmount}&size=${tempItem.getItemSize}`
+
+        // eslint-disable-next-line
+        const newItemId = await runFetch(queryString, {method: "POST"})
+
+        //Order item modification
+    })
+}
+
+/**
+ * Function to run query and allow data access in calling function
+ * @param {string} query completed http request as a string 
+ * @param {object} options {key: value} for REST method, defaults to {method: "GET"}
+ * @returns data from the query
+ */
+async function runFetch(query, options = {method: "GET"}) {
+        const response = await fetch(query, options)
+        const data = await response.json()
+        return data
+}
+
+export {getProductsByName, writeOrderToDb, runFetch}

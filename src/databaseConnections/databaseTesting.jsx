@@ -1,6 +1,6 @@
 import {useState} from 'react';
+// eslint-disable-next-line
 import {getTable, getProductsByName} from './databaseFunctionExports'
-import {orderItem} from '../dataStructures/dataStructuresExports'
 
 const DbApp = () => {
     const [posts, setPosts] = useState([]);
@@ -12,7 +12,6 @@ const DbApp = () => {
     }
     
     return (
-        
         <div>
             <form>
                 <label for="product name">Product Name:</label><br/>
