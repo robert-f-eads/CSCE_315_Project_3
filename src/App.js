@@ -36,10 +36,13 @@ function App() {
           <div className="row" style={{ "background-image": "url(banner.png)", "height": "100px", "background-size": "cover", "padding-bottom": "100px" }}></div>
 
           <div className="row" style={{ "padding-top": "100px" }}>
-            <ListPanel />
+            <ListPanel></ListPanel>
           </div>
         </div>
 
+        <div className="row" style={{ "padding-top": "100px" }}>
+          <ListPanel></ListPanel>
+        </div>
       </main>
     </>
   );
