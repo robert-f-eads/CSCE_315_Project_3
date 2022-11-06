@@ -21,43 +21,61 @@ export default function SideBar() {
             </script>
 
 
-            <div className=" fakeMain d-flex flex-nowrap" style={{ "background-color": "red" }}>
-                <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ "width": "280px", "height":"100vh;"}}>
-                    <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                        <div className="container">
-                            <div className="row">
-                                <img alt="Test" src= {SmoothieKingLogo}></img>
-                            </div>
+            <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ "width": "280px", "height": "100vh;" }}>
+                <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <div className="container" style = {{"padding-bottom" : "25px"}}>
+                        <div className="row">
+                            <img alt="Test" src={SmoothieKingLogo}></img>
                         </div>
-                    </a>
-                    <hr></hr>
-
-                     <ul className="nav nav-pills flex-column mb-auto">
-                            <li className="nav-item">
-                                <a href="www.google.com" className="nav-link link-dark" aria-current="page">
-                                    Feel Energized
-                                </a>
-                            </li>
-                            <li>
-                                <a href="www.google.com" className="nav-link link-dark">
-                                    Get Fit
-                                </a>
-                            </li>
-                             <li>
-                                <a href="www.google.com" className="nav-link link-dark">
-                                    Manage Weight
-                                </a>
-                            </li>
-                           <li>
-                                <a href="www.google.com" className="nav-link link-dark">
-                                    Be Well
-                                </a>
-                            </li>
-                            <li>
-                                <a href="www.google.com" className="nav-link link-dark">Enjoy A Treat</a> 
-                            </li>
-                        </ul>
+                    </div>
+                </a>
+                <div class="row" style={{ "padding-bottom": "25px" }}>
+                    <div class="col" style={{ "align-content": "center" }}>
+                        <i class="fa fa-user" aria-hidden="true" style={{ "padding-left": "40px", "color": "maroon", "font-size": "25px" }}></i>
+                    </div>
+                    <div class="col" style={{ "align-content": "center" }}>
+                        <i class="fa fa-shopping-cart" aria-hidden="true" style={{ "padding-left": "50px", "color": "maroon", "font-size": "25px" }}></i>
+                    </div>
                 </div>
+
+                <div class="row" style={{ "align-content": "left !important" }}>
+                    <div class="col">
+                        <div class="search">
+                            <input type="text" class="form-control" placeholder="Search for Item"></input>
+                            <button class="btn btn-primary">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr></hr>
+
+                <ul className="nav nav-pills flex-column mb-auto">
+                    <li className="nav-item">
+                        <a href="www.google.com" className="nav-link link-dark" aria-current="page">
+                            Feel Energized
+                        </a>
+                    </li>
+                    <li>
+                        <a href="www.google.com" className="nav-link link-dark">
+                            Get Fit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="www.google.com" className="nav-link link-dark">
+                            Manage Weight
+                        </a>
+                    </li>
+                    <li>
+                        <a href="www.google.com" className="nav-link link-dark">
+                            Be Well
+                        </a>
+                    </li>
+                    <li>
+                        <a href="www.google.com" className="nav-link link-dark">Enjoy A Treat</a>
+                    </li>
+                </ul>
             </div>
         </>
     )
