@@ -1,6 +1,7 @@
 import React from 'react'
 import './SideBar.css'
 import SmoothieKingLogo from './logo.png'
+import SearchBar from './SearchBar.js'
 
 export default function SideBar() {
     return (
@@ -38,20 +39,12 @@ export default function SideBar() {
                     </div>
                 </div>
 
-                <div class="row" style={{ "align-content": "left !important" }}>
-                    <div class="col">
-                        <div class="search">
-                            <input type="text" class="form-control" placeholder="Search for Item"></input>
-                            <button class="btn btn-primary">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
+                <SearchBar></SearchBar>
 
                 <hr></hr>
 
-                <ul className="nav nav-pills flex-column mb-auto">
+                <ul className="nav nav-pills flex-column mb-auto" style = {{"padding-top" : "25px"}}>
                     <li className="nav-item">
                         <a href="www.google.com" className="nav-link link-dark" aria-current="page">
                             Feel Energized
