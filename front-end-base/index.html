@@ -29,54 +29,69 @@
 <body>
 
 
-    <main class="d-flex flex-nowrap" style="background-color: red;">
-        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <div class="container">
-                    <div class="row">
+    <main class="d-flex flex-nowrap">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 325px;">
+            <div class="container">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+
+                    <div class="row" style="padding-bottom: 25px;">
                         <img src="logo.png">
                     </div>
+                </a>
+
+                <div class = "row" style = "padding-bottom: 25px;">
+                    <div class = "col" style = "align-content: center;">
+                        <i class="fa fa-user" aria-hidden="true" style = "padding-left: 40px;  color: maroon; font-size: 25px;"></i>
+                    </div>
+                    <div class = "col" style = "align-content: center;">
+                        <i class="fa fa-shopping-cart" aria-hidden="true" style = "padding-left: 50px; color: maroon; font-size: 25px;"></i>
+                    </div>
                 </div>
-            </a>
-            <hr>
+
+                <div class="row" style = "align-content: left !important;">
+                    <div class = "col">
+                        <div class="search">
+                            <input type="text" class="form-control" placeholder="Search for Item">
+                            <button class="btn btn-primary">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+
+
+
+
             <ul class="nav nav-pills flex-column mb-auto">
+
+
+
                 <li class="nav-item">
                     <a href="#" class="nav-link link-dark" aria-current="page">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#home" />
-                        </svg>
                         Feel Energized
                     </a>
                 </li>
                 <li>
                     <a href="#" class="nav-link link-dark">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
                         Get Fit
                     </a>
                 </li>
                 <li>
                     <a href="#" class="nav-link link-dark">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#table" />
-                        </svg>
                         Manage Weight
                     </a>
                 </li>
                 <li>
                     <a href="#" class="nav-link link-dark">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#grid" />
-                        </svg>
                         Be Well
                     </a>
                 </li>
                 <li>
                     <a href="#" class="nav-link link-dark">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#people-circle" />
-                        </svg>
                         Enjoy A Treat
                     </a>
                 </li>
@@ -84,13 +99,8 @@
             <hr>
         </div>
 
-        <div class=container>
-            <div class="row">
-                <img src="banner.png" style="left: 0; top: 0; width: 100%; height: 100px; padding: 0;">
-            </div>
-
-            <div class="row" style="background-color: aqua;">
-                hi
+        <div class=container-fluid>
+            <div class="row" style="background-image: url(banner.png); height: 100px; background-size: cover;">
             </div>
 
     </main>
