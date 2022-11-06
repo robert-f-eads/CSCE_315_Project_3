@@ -1,7 +1,8 @@
 import './App.css';
 import DbApp from './databaseConnections/databaseTesting';
 import logo from './logo.svg'
-import SideBar from './SideBar'
+import SideBar from './customer-view/SideBar.js'
+import ListPanel from './customer-view/ListPanel.js'
 import 'font-awesome/css/font-awesome.min.css';
 //import Banner from './banner.png'
 
@@ -32,7 +33,11 @@ function App() {
         <SideBar />
 
         <div className="container-fluid">
-          <div className="row" style={{ "background-image": "url(banner.png)", "height": "100px", "background-size": "cover" }}></div>
+          <div className="row" style={{ "background-image": "url(banner.png)", "height": "100px", "background-size": "cover", "padding-bottom": "100px" }}></div>
+
+          <div className="row" style={{ "padding-top": "100px" }}>
+            <ListPanel />
+          </div>
         </div>
 
       </main>

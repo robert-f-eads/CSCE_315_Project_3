@@ -1,7 +1,7 @@
 import React from 'react'
 import './SideBar.css'
 import SmoothieKingLogo from './logo.png'
-import SearchBar from './SearchBar.js'
+import SearchBar from './SearchBar'
 
 export default function SideBar() {
     return (
@@ -24,13 +24,13 @@ export default function SideBar() {
 
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ "width": "280px", "height": "100vh;" }}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                    <div className="container" style = {{"padding-bottom" : "25px"}}>
+                    <div className="container" style = {{"padding-bottom" : "0px"}}>
                         <div className="row">
                             <img alt="Test" src={SmoothieKingLogo}></img>
                         </div>
                     </div>
                 </a>
-                <div class="row" style={{ "padding-bottom": "25px" }}>
+                <div class="row" style={{ "padding-bottom": "10px" }}>
                     <div class="col" style={{ "align-content": "center" }}>
                         <i class="fa fa-user" aria-hidden="true" style={{ "padding-left": "40px", "color": "maroon", "font-size": "25px" }}></i>
                     </div>
@@ -44,7 +44,7 @@ export default function SideBar() {
 
                 <hr></hr>
 
-                <ul className="nav nav-pills flex-column mb-auto" style = {{"padding-top" : "25px"}}>
+                <ul className="nav nav-pills flex-column mb-auto" style = {{"padding-top" : "0px"}}>
                     <li className="nav-item">
                         <a href="www.google.com" className="nav-link link-dark" aria-current="page">
                             Feel Energized

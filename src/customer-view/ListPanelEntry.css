@@ -1,0 +1,14 @@
+.col-md-2 {
+    text-align: left;
+}
+
+.order-item{
+    background-color: rgb(215, 241, 251);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+}
+
+.row {
+    padding-bottom: 20px;
+}
