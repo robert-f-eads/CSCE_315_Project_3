@@ -1,7 +1,7 @@
 import React from 'react'
-import './ListPanelEntry.css'
+import './CartViewEntry.css'
 
-export default function ListPanelEntry(props) {
+export default function CartViewEntry(props) {
     return (
         <>
             <div class="container-fluid">
@@ -19,7 +19,7 @@ export default function ListPanelEntry(props) {
                     </div>
 
                     <div class="order-item col-md-2">
-                        {props.price}
+                        ${props.price}
                     </div>
                 </div>
             </div>
