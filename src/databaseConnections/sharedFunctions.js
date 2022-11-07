@@ -1,10 +1,12 @@
+import apiURL from './sharedInfo'
+
 /**
  * Gets products from the database that contain or equal the given name
  * @param {string} partialName partial name of a product to search for
  * @returns data promise containing results data
  */
 async function getProductsByName(partialName) {
-    let queryString = `http://localhost:3001/searchProducts/${partialName}`
+    let queryString = `${apiURL}/searchProducts/${partialName}`
     const results = await runFetch(queryString)
     return results
 }
@@ -15,7 +17,7 @@ async function getProductsByName(partialName) {
  */
 async function writeOrderToDb(ticket) {
     //Order ticket infomation
-    let queryString = `http://localhost:3001/createOrder/ticket?timestamp=${ticket.getTimestamp.formatDateTime()}`
+    let queryString = `${apiURL}/createOrder/ticket?timestamp=${ticket.getTimestamp.formatDateTime()}`
     queryString += `&firstName=${ticket.getCustomerFirstName}&memberId=${ticket.getRewardsMemberId}&employeeId=${ticket.getEmployeeId}`
     queryString += `&orderTotal=${ticket.getOrderPriceTotal}`
     
@@ -23,7 +25,7 @@ async function writeOrderToDb(ticket) {
 
     //Order item information
     ticket.getItems.forEach(async tempItem =>  {
-        queryString = `http://localhost:3001/createOrder/item?orderId=${newOrderId}&numberInOrder=${tempItem.getItemNumberInOrder}&`
+        queryString = `${apiURL}/createOrder/item?orderId=${newOrderId}&numberInOrder=${tempItem.getItemNumberInOrder}&`
         queryString += `name=${tempItem.getProduct.getName}&amount=${tempItem.getItemAmount}&size=${tempItem.getItemSize}`
 
         // eslint-disable-next-line

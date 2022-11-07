@@ -1,3 +1,4 @@
+import apiURL from './sharedInfo'
 import {runFetch} from "./sharedFunctions"
 
 /**
@@ -9,10 +10,10 @@ import {runFetch} from "./sharedFunctions"
 async function getTable(tableName, limit = 0) {
     let queryString
     if(limit === 0) {
-        queryString = `http://localhost:3001/table/${tableName}`
+        queryString = `${apiURL}/table/${tableName}`
     }
     else {
-        queryString = `http://localhost:3001/table/${tableName}?limit=${limit}`
+        queryString = `${apiURL}/table/${tableName}?limit=${limit}`
     }
     return await runFetch(queryString)
 }
