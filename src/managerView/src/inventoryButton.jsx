@@ -10,7 +10,7 @@ class InventoryButton extends React.Component {
     }
 
     showInventory() {
-        console.log("Showing inventory.");
+        
     }
 }
 

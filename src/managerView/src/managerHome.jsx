@@ -1,13 +1,14 @@
 import '../styles/managerHome.css';
 
 import ManagerSideBar from './managerSideBar';
+import ManagerInventory from './managerInventory';
 
 function ManagerHome() {
     return (
         <>
             <div id="managerHomeContainer">
                 <ManagerSideBar />
-                <p>Hello world</p>
+                <ManagerInventory debug="helo" />
             </div>
         </>
     )
