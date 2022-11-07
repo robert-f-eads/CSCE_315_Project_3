@@ -5,7 +5,7 @@ import '../styles/orderHistoryButton.css'
 class OrderHistoryButton extends React.Component {
     render() {
         return (
-            <button id="orderHistoryButton" onClick={() => {this.showOrderHistory()}}>Generate Order History</button>
+            <button id="orderHistoryButton" onClick={() => {this.showOrderHistory()}}>Order History</button>
         );
     }
 

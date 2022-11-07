@@ -1,3 +1,4 @@
-#managerHomeP {
-    border: 1px solid purple;
+#managerHomeContainer {
+    display: flex;
+    flex-direction: row;
 }

@@ -1,15 +1,14 @@
 import '../styles/managerHome.css';
-import InventoryButton from './inventoryButton';
-import OrderHistoryButton from './orderHistoryButton';
-import ServerViewButton from './serverViewButton';
+
+import ManagerSideBar from './managerSideBar';
 
 function ManagerHome() {
     return (
         <>
-            <ServerViewButton />
-            <p id="managerHomeP">Manager home is here</p>
-            <OrderHistoryButton />
-            <InventoryButton />
+            <div id="managerHomeContainer">
+                <ManagerSideBar />
+                <p>Hello world</p>
+            </div>
         </>
     )
 }

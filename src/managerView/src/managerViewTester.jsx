@@ -5,7 +5,6 @@ function ManagerViewTester() {
   return (
     <>
       <ManagerHome />
-      <ManagerInventory />
     </>
   );
 }
