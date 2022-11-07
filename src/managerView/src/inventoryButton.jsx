@@ -10,7 +10,8 @@ class InventoryButton extends React.Component {
     }
 
     showInventory() {
-        
+        console.log("showing inventory");
+        document.getElementById("contentContainer").innerHTML = <p>hello</p>;
     }
 }
 
