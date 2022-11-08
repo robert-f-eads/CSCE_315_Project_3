@@ -6,11 +6,9 @@
 
 #contentContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 1%;
     width: 95%;
-    height: 150px;
-    border: 2px solid red;
 }

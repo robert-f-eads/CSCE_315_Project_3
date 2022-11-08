@@ -23,6 +23,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { useRef } from 'react';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -151,7 +152,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function GenericTable(props) {
-  const { tableName } = props;
+  const { tableName, tableInfo } = props;
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('id');
@@ -163,19 +164,15 @@ export default function GenericTable(props) {
   const [headCells, setHeadCells] = React.useState();
 
   useEffect(() => {
-    getTable(tableName).then(res => {
-      if(res) {
-        const firstRes = res[0];
-        const resFields = Object.keys(firstRes);
-        let tempHeadCells = [];
-        for(let i = 0; i < resFields.length; i++) {
-          tempHeadCells.push({id: resFields[i], label: resFields[i]})
-        }
-        setHeadCells(tempHeadCells);
-        setRows(res);
-      }
-    })
-  })
+    const firstRes = tableInfo[0];
+    const resFields = Object.keys(firstRes);
+    let tempHeadCells = [];
+    for(let i = 0; i < resFields.length; i++) {
+      tempHeadCells.push({id: resFields[i], label: resFields[i]})
+    }
+    setHeadCells(tempHeadCells);
+    setRows(tableInfo);
+  }, [tableInfo])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -254,17 +251,17 @@ export default function GenericTable(props) {
               {rows?.sort(getComparator(order, orderBy)).slice()
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -289,7 +286,7 @@ export default function GenericTable(props) {
                           const fieldName = cell['id'];
                           if(fieldName !== 'id') {
                             return (
-                              <TableCell align="left" padding="none">{row[fieldName]}</TableCell>
+                              <TableCell key={row.id + fieldName} align="left" padding="none">{row[fieldName]}</TableCell>
                             );
                           }
                         })

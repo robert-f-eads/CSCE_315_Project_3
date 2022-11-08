@@ -2,17 +2,16 @@ import React from 'react';
 
 import '../styles/inventoryButton.css'
 
-class InventoryButton extends React.Component {
-    render() {
-        return (
-            <button id="inventoryButton" onClick={() => {this.showInventory()}}>Get Inventory</button>
-        );
-    }
+function showInventory(setInventoryVisible) {
+    setInventoryVisible(true);
+}
 
-    showInventory() {
-        console.log("showing inventory");
-        document.getElementById("contentContainer").innerHTML = <p>hello</p>;
-    }
+function InventoryButton(props) {
+    const {setInventoryVisible} = props;
+
+    return (
+        <button id="inventoryButton" onClick={() => {showInventory(setInventoryVisible)}}>Get Inventory</button>
+    );
 }
 
 

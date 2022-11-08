@@ -6,7 +6,17 @@ import InventoryButton from './inventoryButton'
 import ServerViewButton from './serverViewButton'
 import OrderHistoryButton from './orderHistoryButton'
 
-export default function ManagerSideBar() {
+export default function ManagerSideBar(props) {
+    const {setInventoryVisible, setOrderHistoryVisible} = props;
+    const safeSetInventoryVisible = () => {
+        setInventoryVisible(true);
+        setOrderHistoryVisible(false);
+    }
+    const safeSetOrderHistoryVisible = () => {
+        setInventoryVisible(false);
+        setOrderHistoryVisible(true);
+    }
+
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossOrigin="anonymous"></link>
@@ -49,10 +59,10 @@ export default function ManagerSideBar() {
                         <ServerViewButton />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <OrderHistoryButton />
+                        <OrderHistoryButton setOrderHistoryVisible={safeSetOrderHistoryVisible} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <InventoryButton />
+                        <InventoryButton setInventoryVisible={safeSetInventoryVisible} />
                     </li>
                 </ul>
             </div>

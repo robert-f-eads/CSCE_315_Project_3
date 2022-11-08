@@ -2,16 +2,16 @@ import React from 'react';
 
 import '../styles/orderHistoryButton.css'
 
-class OrderHistoryButton extends React.Component {
-    render() {
-        return (
-            <button id="orderHistoryButton" onClick={() => {this.showOrderHistory()}}>Order History</button>
-        );
-    }
+function showOrderHistory(setOrderHistoryVisible) {
+    setOrderHistoryVisible(true);
+}
 
-    showOrderHistory() {
-        console.log("Showing order history.");
-    }
+function OrderHistoryButton(props) {
+    const {setOrderHistoryVisible} = props;
+    return (
+        <button id="orderHistoryButton" onClick={() => {showOrderHistory(setOrderHistoryVisible)}}>Order History</button>
+    );
+
 }
 
 

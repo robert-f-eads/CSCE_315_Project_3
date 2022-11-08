@@ -2,17 +2,22 @@ import React from 'react'
 
 import '../styles/SearchBar.css'
 
-export default function SearchBar() {
+export default function SearchBar(props) {
+    const {onClickFunction} = props;
+
     return (
-        <div class="row" style={{ "align-content": "left !important", "padding-bottom": "10px" }}>
-            <div class="col">
-                <div class="search">
-                    <input type="text" class="form-control" placeholder="Search for Item"></input>
-                    <button class="btn btn-primary">
-                        <i class="fa fa-search"></i>
-                    </button>
+        <>
+            <script src="https://kit.fontawesome.com/0b9f4346c0.js" crossOrigin="anonymous"></script>
+            <div className="row" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
+                <div className="col">
+                    <div className="search">
+                        <input id="itemSearchText" type="text" className="form-control" placeholder="Search for Item"></input>
+                        <button className="btn btn-primary" onClick={() => {onClickFunction(document.getElementById("itemSearchText").value)}}>
+                            <i className="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
