@@ -25,7 +25,7 @@ export default function SideBar(props) {
 
 
             <div className="sidebar">
-                <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ "width": "280px", "height": "100vh;" }}>
+                <div className="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                         <div className="container" style={{ "padding-bottom": "0px" }}>
                             <div className="row">
@@ -33,7 +33,7 @@ export default function SideBar(props) {
                             </div>
                         </div>
                     </a>
-                    <div class="row" style={{ "padding-bottom": "10px" }}>
+                    <div class="row" style={{ "padding-bottom": "0px" }}>
                         <div class="col" style={{ "align-content": "center" }}>
                             <i class="fa fa-user" aria-hidden="true" style={{ "padding-left": "40px", "color": "maroon", "font-size": "25px" }}></i>
                         </div>
@@ -45,9 +45,10 @@ export default function SideBar(props) {
                     </div>
 
 
-                    <SearchBar></SearchBar>
+                    
 
                     <hr></hr>
+                    <SearchBar></SearchBar>
 
                     <ul className="nav nav-pills flex-column mb-auto" style={{ "padding-top": "0px" }}>
                         <li className="nav-item">

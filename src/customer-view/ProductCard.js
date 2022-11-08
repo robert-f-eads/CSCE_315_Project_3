@@ -20,11 +20,13 @@ export default function ProductCard(props) {
                 new WOW().init();
             </script>
 
-            <div class="card product-card" style= {{"width": "15rem", "height" : "23rem"} }>
-                <img class="card-img-top" src= {TestImage} alt="Card image cap"></img>
+            <div class="card product-card shadow-sm p-3 mb-5 w-25">
+                <button>
+                    <img class="card-img-top" src={TestImage} alt="Card image cap"></img>
                     <div class="card-body">
                         <h4 class="card-title"> {props.productName} </h4>
                     </div>
+                </button>
             </div>
         </>
     )

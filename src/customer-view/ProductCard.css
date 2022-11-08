@@ -1,8 +1,11 @@
 .card-img-top {
-    
-    padding: 0;
-    top: 0;
-    left: 0;
-    border-radius: 0 !important;
-    object-fit:fill !important;
+}
+
+.card {
+   margin: 10px;
+}
+
+button {
+    border: none;
+    background-color: transparent;
 }
