@@ -1,4 +1,5 @@
 import apiURL from './sharedInfo'
+import {getTable} from './managerViewFunctions';
 
 /**
  * Gets products from the database that contain or equal the given name
@@ -6,6 +7,9 @@ import apiURL from './sharedInfo'
  * @returns data promise containing results data
  */
 async function getProductsByName(partialName) {
+    if(partialName === "") {
+        return getTable("products");
+    }
     let queryString = `${apiURL}/searchProducts/${partialName}`
     const results = await runFetch(queryString)
     return results
