@@ -23,7 +23,6 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { useRef } from 'react';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -229,14 +228,14 @@ export default function GenericTable(props) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }} className="genericTable">
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: '100%'}} className="genericTable">
+      <Paper sx={{ width: '100%'}}>
         <EnhancedTableToolbar numSelected={selected.length} tableName={tableName} />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{minWidth: 750}}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            stickyHeader
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -296,11 +295,7 @@ export default function GenericTable(props) {
                 })}
               
               {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
+                <TableRow>
                   <TableCell colSpan={6} />
                 </TableRow>
                 )}
