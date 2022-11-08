@@ -3,7 +3,8 @@
 }
 
 .order-item {
-    background-color: rgb(215, 241, 251);
+    /*background-color: rgb(215, 241, 251);*/
+    background-color: rgb(248,249,250);
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 20px;
@@ -13,9 +14,3 @@
     padding-bottom: 20px;
 }
 
-button {
-    background-color: rgb(201, 16, 16);
-    border: none;
-    font-size: 2rem !important;
-    color: white;
-}
