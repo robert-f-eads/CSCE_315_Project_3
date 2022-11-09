@@ -3,6 +3,7 @@ import DbApp from './databaseConnections/databaseTesting';
 import logo from './logo.svg'
 import 'font-awesome/css/font-awesome.min.css';
 import CustomerView from './customer-view/CustomerView.js'
+import SideBar from './customer-view/SideBar';
 //import Banner from './banner.png'
 
 
@@ -28,20 +29,7 @@ function App() {
       </div>
 
 
-      <main class="d-flex flex-nowrap" style={{ "height": "100vh" }}>
-        <SideBar />
-
-        <div className="container-fluid">
-          <div className="row" style={{ "background-image": "url(banner.png)", "height": "100px", "background-size": "cover", "padding-bottom": "100px" }}></div>
-          <div className="row" style={{ "padding-top": "100px" }}>
-            <ListPanel></ListPanel>
-          </div>
-        </div>
-
-        <div className="row" style={{ "padding-top": "100px" }}>
-          <ListPanel></ListPanel>
-        </div>
-      </main>
+    <CustomerView></CustomerView>
     </>
   );
 }
