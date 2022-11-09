@@ -16,10 +16,11 @@ html,body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 85%;
+    width: 80%;
 }
 #logo {
     max-width:30vw;
     height:auto;
     margin: 2vw;
 }
+
