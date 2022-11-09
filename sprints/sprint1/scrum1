@@ -1,0 +1,84 @@
+SCRUM Meeting 1 for Smoothie King GUI
+Prepared by: Emma Ong
+Meeting Date: 10/31/2022
+Meeting Attendees
+ Robert Eads
+ Shreyes Kaliyur
+ Emma Ong
+ Alexia Hassan
+Meeting Agenda Items
+Project Setup
+Task Assignments
+Status Update Since Last Meeting
+Accomplishments:
+Got project setup on laptops
+Got web server working
+Got basic querying working
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Setup project on laptop 
+All 
+yes
+Set up GitHub & React Project 
+Robert
+yes
+Created server view functions for table view and product search
+Robert
+Yes
+Created custom object classes
+Robert
+No
+Created an accessibility guidelines document that we will refer to as we create our websites so that the websites are accessible to those with trouble seeing
+Emma
+No
+Main Panel setup for all views
+Alexia
+Yes
+Create typeable search bar for products
+Alexia
+No
+Add visual button to switch to server view
+Shreyes
+Yes
+Add button on manager page to see order history
+Shreyes
+No
+
+Before The Next Meeting
+Plans:
+Get a workable search bar that displays menu items
+Finish object classes
+Create write to database function
+Create basic manager view
+Create basic server view
+
+Task Assignments:
+Task Description
+Assigned to
+Create page layout for server view
+Emma
+Create typeable search bar for products
+Emma
+Create product tiles to display the product search results
+Emma
+Finish object classes
+Robert
+Create write to database function
+Robert
+Add button on manager page to see order history
+Shreyes
+Create typeable search bar for products
+Alexia
+Add button on manager page to see previous order history
+Shreyes
+Have an example table to display inventory status
+Shreyes
+Create product tiles to display search results server view
+Alexia
+
+Minutes from Previous Meeting
+First meeting for this sprint so there are no minutes from the previous meeting to discuss.
+
