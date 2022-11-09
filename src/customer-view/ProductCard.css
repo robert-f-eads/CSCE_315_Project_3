@@ -1,11 +1,21 @@
-.card-img-top {
-}
-
 .card {
    margin: 10px;
+   min-width: 200px;
+   width: 250px !important;
+   height: 350px !important;
+   max-height: 350px !important;
+   padding-bottom: 30px;
+  
 }
 
 button {
     border: none;
     background-color: transparent;
+}
+
+.card-title {
+    font-size: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 50px;
 }

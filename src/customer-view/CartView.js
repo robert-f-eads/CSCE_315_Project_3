@@ -1,6 +1,7 @@
 import React from 'react'
 import "./CartView.css"
 import CartViewEntry from './CartViewEntry'
+import TextBox from './TextBox'
 
 
 export default function CartView(props) {
@@ -21,43 +22,55 @@ export default function CartView(props) {
                 new WOW().init();
             </script>
 
-            <div className = "popup">
-                <div className = "popup-inner">
-                <div class="cart-view">
-                <div class="container" style={{ "min-height": "35vh" }}>
-                    <div class="row top-panel">
-                        <div class="col">
-                            <button>
-                                Remove
-                            </button>
-                        </div>
-                        <div class="col justify-content-end d-flex">
-                            <button>
-                                Edit Item
-                            </button>
-                        </div>
-                    </div>
+            <div className="popup">
+                <div className="popup-inner">
+                    <div class="cart-view">
+                        <div class="container" style={{ "min-height": "35vh" }}>
+                            <div class="row top-panel">
+                                <div class="col">
+                                    <button onClick={() => { props.func(false) }} style={{ "backgroundColor": "transparent", "color": "maroon" }}>
+                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            {/*<div class="row top-panel">
+                                <div class="col">
+                                    <button>
+                                        Remove
+                                    </button>
+                                </div>
+                                <div class="col justify-content-end d-flex">
+                                    <button>
+                                        Edit Item
+                                    </button>
+                                </div>
+                            </div>*/}
 
 
-                    {props.orderTicket && props.orderTicket.getItems.map((item) =>
-                        <div class="row">
-                            <CartViewEntry name={item.getProduct.getName} size={item.getItemSize} price={item.getProduct.getPrice} quantity={item.getItemAmount}></CartViewEntry>
-                        </div>
-                    )}
+                            {props.orderTicket && props.orderTicket.getItems.map((item) =>
+                                <div class="row">
+                                    <CartViewEntry name={item.getProduct.getName} size={item.getItemSize} price={item.getProduct.getPrice} quantity={item.getItemAmount}></CartViewEntry>
+                                </div>
+                            )}
 
-                    <div class="row">
-                        <div class="col justify-content-end d-flex">
-                            <button>
-                                Checkout
-                            </button>
+                            {/*<div class="row">
+                                <TextBox></TextBox>
+                            </div>*/}
+                            <div class="row">
+                                <div class="col justify-content-end d-flex">
+                                    <button onClick={() => {
+                                        props.orderTicket.setItems = []
+                                        props.func(false)
+                                        }}>
+                                        Checkout
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-                </div>
-            </div>
-           
+
         </>
     ) : "";
 }
