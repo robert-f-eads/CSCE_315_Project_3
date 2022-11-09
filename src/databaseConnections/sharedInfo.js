@@ -1,4 +1,4 @@
-const productionBuild = true
+const productionBuild = false
 
 var apiURL;
 if(productionBuild) {apiURL = "https://node-api-postgres.onrender.com"}
