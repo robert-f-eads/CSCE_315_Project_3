@@ -5,6 +5,7 @@ import SearchBar from './SearchBar'
 import SideBar from './SideBar'
 import { getProductsByName } from '../databaseConnections/sharedFunctions'
 import ProductCard from './ProductCard'
+import {CheckDisplay} from '../customer-view/CustomerView';
 
 function showProducts(productName, setProducts) {
     console.log("Showing products");
@@ -24,13 +25,14 @@ export default function MainPanel() {
                     <img id="logo" alt="Smoothie King Logo" src={SmoothieKingLogo}></img>
                     <SearchBar showProducts={(productName) => {showProducts(productName, setProducts)}}></SearchBar>
                     <div id="products">
-                        {products.map(product => {
+                        <CheckDisplay dataProp={products} hasSearched={true}/>
+                        {/* {products.map(product => {
                             return (
                                 <div key={product.id} class="productCardContainer">
                                     <ProductCard productName={product.name}/>
                                 </div>
                             )
-                        })}
+                        })} */}
                     </div>
             // </div>
         // </>

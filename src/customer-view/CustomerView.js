@@ -34,7 +34,7 @@ function getSearchResults(setSearchResults) {
     showSearch = true
 }
 
-function CheckDisplay(props) {
+export function CheckDisplay(props) {
     if (props.hasSearched) {
         /*Search bar results*/
         return <div className="container">

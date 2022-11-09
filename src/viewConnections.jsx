@@ -1,11 +1,13 @@
 import './viewConnections.css';
 
-const ViewSwitch = () => {
+const ViewSwitch = (props) => {
+    const {setPageNum} = props;
+
     return (
         <div class = "button-holder">
-            <a href="https://www.google.com"><button type="button">Manager View</button></a>
-            <button href = "" type="button">Server View</button>
-            <button href = "" type="button">Customer View</button>
+            <button onClick={() => {setPageNum(1)}} type="button">Customer View</button>
+            <button onClick={() => {setPageNum(2)}} type="button">Server View</button>
+            <button onClick={() => {setPageNum(3)}} type="button">Manager View</button>
         </div>
     )
 }
