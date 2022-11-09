@@ -1,0 +1,27 @@
+#products {
+    /* padding: 5px; */
+    margin: 0vw 0vw 0vw 2vw;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.card-img-top {
+    /* height: 2rem;
+    width: auto; */
+    max-height: 15rem;
+    max-width: 15rem;
+}
+
+.card {
+   margin: 10px;
+   /* height: 5%; */
+   /* max-height: 21rem;
+   max-width: 15rem; */
+    /* width: 5rem; */
+}
+
+button {
+    border: none;
+    background-color: transparent;
+}
