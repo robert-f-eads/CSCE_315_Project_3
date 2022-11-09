@@ -1,0 +1,88 @@
+SCRUM Meeting 2 for Smoothie King GUI
+Prepared by: Emma Ong
+Meeting Date: 11/4/2022
+Meeting Attendees
+Robert Eads
+Shreyes Kaliyur
+Emma Ong
+Alexia Hassan 
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now  
+Any roadblocks we are facing
+How we want the customer view to display items
+Status Update Since Last Meeting
+Accomplishments:
+Style guide created
+Customer view options present and styled
+Some manager view components created
+Database objects created, some functions to connect them implemented
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Create page layout for server view
+Emma
+Yes
+Create typeable search bar for products
+Emma
+Yes
+Create product tiles to display the product search results
+Emma
+No
+Finish object classes
+Robert
+Yes
+Create write to database function
+Robert
+Yes
+Add button on manager page to see order history
+Shreyes
+Yes
+Create typeable search bar for products
+Alexia
+Yes
+Add button on manager page to see previous order history
+Shreyes
+Yes
+Have an example table to display inventory status
+Shreyes
+No
+Create product tiles to display search results server view
+Alexia
+Yes
+
+Before The Next Meeting
+Plans:
+Convert HTML to react components 
+Perform styling on manager view
+Connect database function to manager view
+Create display and interaction fields in customer view
+
+Task Assignments:
+Task Description
+Assigned to
+Create typeable order name field
+Emma
+Create typeable rewards member id field
+Emma
+Create product tiles to display the product search results
+Emma
+Have an example table to display inventory status
+Shreyes
+Create Main View
+Alexia
+Connect order history button to function to get orders from backend
+Shreyes
+Connect table to database to display information from our tables
+Shreyes
+Create landing page when entering website
+Robert
+Connect landing page to the server, manager, and customer view with buttons
+Robert
+
+Minutes from Previous Meeting
+All members attended the previous meeting. Our agenda covered project setup and initial task assignments. We discussed status updates from the last meeting, namely things like project setup on laptops, web server functionality, and basic querying. We also went over completed tasks from the last meeting, like setting up GitHub, accessibility guidelines, panel views, etc., all of which were accomplished by various team members. We decided that for this meeting we would have a basic manager and server view, finish our object classes, and create a working search bar. We then assigned tasks to different team members.
+
+

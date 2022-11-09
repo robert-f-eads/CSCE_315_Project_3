@@ -1,0 +1,84 @@
+SCRUM Meeting 3 for Smoothie King GUI
+Prepared by: Emma Ong
+Meeting Date: 11/8/2022
+Meeting Attendees
+ Robert Eads
+ Shreyes Kaliyur
+ Emma Ong
+ Alexia Hassan
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now  
+Any roadblocks we are facing
+What is left before the end of Sprint 1
+Status Update Since Last Meeting
+Accomplishments:
+Setup public hosting for the website and web server
+Setup framework for traversal between server, customer, and manager view
+Added data display functionality for manager view
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Create typeable order name field
+Emma
+yes
+Create typeable rewards member id field
+Emma
+yes
+Create product tiles to display the product search results
+Emma
+yes
+Create product tiles to display the product search results
+Emma
+no
+Have an example table to display inventory status
+Shreyes
+yes
+Create Main View
+Alexia
+no
+Search bar
+Alexia
+yes
+Add cart view entries when clicking cart
+Alexia
+yes
+Create landing page when entering website
+Robert
+yes
+Connect landing page to the server, manager, and customer view with buttons
+Robert
+yes
+Public hosting
+Robert
+yes
+
+Before The Next Meeting
+Plans:
+Integrate manager, server, and customer views into the main page
+Update publicly hosted website with the latest code
+Create GitHub release
+Complete Sprint 1 documentation
+
+Task Assignments:
+Task Description
+Assigned to
+Working Sprint 1 documentation
+Robert
+Manager search bar with products integration
+Shreyes
+Create next sprint on Jira
+Emma
+Finish creating display for product search results
+Emma
+Finish main view (specifically some cart sections)
+Alexia
+Create GitHub release
+Robert
+
+Minutes from Previous Meeting
+We noted that all members were present from our previous meeting. In the meeting, we went over our updates from the previous meeting, namely things like style guide creation, the creation of some manager components, and how we want our customer view to display items. Furthermore, we discussed completed tasks, encompassing finishing object classes and database functions, adding order history viewing affordances on the manager view, and creating different tiles and inputs for the server view. We decided that for the next meeting we would like to convert some html components to React, perform some styling on our views, and connect our backend to our front end. These various tasks were assigned across our team. 
+
+
