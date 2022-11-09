@@ -28,7 +28,7 @@ export default function SideBar() {
             </script>
 
 
-            <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ "width": "20%", "height": "100vh;" }}>
+            <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ "width": "15%", "height": "100vh;" }}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                     <div className="container" style = {{"padding-bottom" : "0px"}}>
                         <div className="row">
@@ -57,6 +57,16 @@ export default function SideBar() {
                             Logout
                         </a>
                     </li>
+                    <li id="customerName">
+                        <input type="text" placeholder="Customer Name" id="customerNameField"></input>
+                    </li>
+                    <li id="customerId">
+                        <input type="text" placeholder="Customer ID" id="customerIdField"></input>
+                    </li>
+                    {/* <div id="customerName">
+                        <input type="text" placeholder="Customer Name" id="customerNameField"></input>
+                        <button type="submit" id="customerNameButton"></button>
+                    </div> */}
                     <li>
                         <a href="www.google.com" className="nav-link link-dark">
                             Cancel
