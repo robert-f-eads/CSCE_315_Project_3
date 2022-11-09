@@ -4,6 +4,7 @@ import SmoothieKingLogo from './logo2.png'
 import SearchBar from './SearchBar'
 import SideBar from './SideBar'
 import { getProductsByName } from '../databaseConnections/sharedFunctions'
+import ProductCard from './ProductCard'
 
 function showProducts(productName) {
     console.log("Showing products");
@@ -19,7 +20,13 @@ export default function MainPanel() {
                 <div id="mainPanel">
                     <img id="logo" alt="Smoothie King Logo" src={SmoothieKingLogo}></img>
                     <SearchBar showProducts={showProducts}></SearchBar>
-                </div>
+                    <div id="products">
+                        <ProductCard productName = {"Strawberry Kiwi Breeze"}></ProductCard>
+                        <ProductCard productName = {"Strawberry Kiwi Breeze"}></ProductCard>
+                        <ProductCard productName = {"Strawberry Kiwi Breeze"}></ProductCard>
+                        <ProductCard productName = {"Strawberry Kiwi Breeze"}></ProductCard>
+
+                    </div>
             // </div>
         // </>
     )
