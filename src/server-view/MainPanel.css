@@ -1,0 +1,27 @@
+
+html,body {
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+#allContent {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+#mainPanel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 80%;
+}
+#logo {
+    max-width:30vw;
+    height:auto;
+    margin: 2vw;
+}
+
