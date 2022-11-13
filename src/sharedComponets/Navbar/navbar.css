@@ -1,0 +1,24 @@
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e31b23;
+    height: 8vh;
+    position: fixed;
+    width: 100vw;
+}
+
+.navbar-container_buttons {
+    margin-right: 2.5rem;
+}
+
+.navbar-container button {
+    border-radius: 1rem;
+    background-color: white;
+    color: maroon;
+    font-size: 1rem;
+    margin: 0 1.25rem;
+    padding: 1rem;
+    cursor: pointer;
+}

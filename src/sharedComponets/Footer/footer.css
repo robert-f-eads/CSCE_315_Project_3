@@ -1,0 +1,24 @@
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: grey;
+    background-color: #dadfe1;
+    padding: .5rem;
+}
+
+.footer-container_login {
+    margin-bottom: 7px;
+    margin-top: 0;
+}
+
+.footer-container_login a {
+    cursor: pointer;
+    text-decoration: none;
+    color: grey;
+}
+
+.footer-container_login a:hover {
+    color: black;
+    text-decoration: underline;
+}

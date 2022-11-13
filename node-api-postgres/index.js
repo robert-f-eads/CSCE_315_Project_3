@@ -28,6 +28,12 @@ app.get('/table/:tableName', db.getTable)
 app.post('/createOrder/ticket', db.insertNewTicket)
 app.post('/createOrder/item', db.insertNewOrderItem)
 
+//TODO:
+app.post('/createOrder/addition', db.insertNewItemAddition)
+app.post('/createOrder/subtraction', db.insertNewOrderSubtraction)
+app.get('/login/verifyEmployee', db.loginEmployee)
+app.get('/login/verifyCustomer', db.loginRewardsMember)
+
 app.listen(port, () => {console.log(`Web server listening at http://localhost:${port}`)})
 
 

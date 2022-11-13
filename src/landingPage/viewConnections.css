@@ -1,0 +1,105 @@
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.button-holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2%;
+}
+
+.button-holder button {
+    background-color: rgb(201, 16, 16);
+    width: 20vw;
+    height: 3vw;
+    margin: 0 1vw;
+    font-size: 2rem;
+    border-radius: 1rem;
+    border-width: .10rem
+}
+
+.button-holder button:hover {
+    background-color: rgb(201, 100, 100);
+    width: 20vw;
+    height: 3vw;
+    margin: 0 1vw;
+    font-size: 2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    border-width: .25rem;
+}
+
+/* Start here */
+.home-page_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5rem;
+}
+
+#longLogo {
+    margin: 3rem;
+    margin-bottom: 5rem;
+    width: 50vw;
+    height: 12.5vh;
+}
+
+.message_title {
+    font-size: 2rem;
+    font-style: italic;
+}
+
+.message_body {
+    font-size: 1.25rem;
+}
+
+.page-change-button {
+    background-color: white;
+    text-decoration: none;
+    color: black;
+    padding: 1rem;
+    border-radius: .5rem;
+    box-shadow: 0 1px 10px 0 rgb(0 0 0 / 15%);
+    font-size: 1.1rem;
+}
+
+.page-change-button:hover {
+    background-color: #e31b23;
+    color: white
+}
+
+.home-page_advertisement-one {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 2rem;
+    margin-bottom: 7rem;
+    background-color: #f3f4f5;
+    padding: 1.5rem;
+}
+
+.home-page_advertisement-one_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 25vw;
+    margin: 0 2rem;
+}
+
+.home-page_advertisement-two {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 5rem;
+}
+
+.home-page_advertisement-two_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 20vw;
+    margin: 0 2rem;
+}

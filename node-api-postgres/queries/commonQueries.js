@@ -48,8 +48,33 @@ const insertNewOrderItem = (request, response) => {
     })
 }
 
+const insertNewItemAddition =(request, response) => {}
+
+const insertNewOrderSubtraction =(request, response) => {}
+
+const loginEmployee =(request, response) => {
+    let Querys = request.query
+    console.log(Querys.id)
+    console.log(Querys.name)
+    
+    //Verifiy employee exist and return permissions
+    let queryString = `SELECT * FROM employees WHERE id=${Querys.id} AND firstname='${Querys.name}'`
+    console.log(queryString)
+    newPool.query(queryString, (error, results) => {
+        if(error) {return false}
+    })
+}
+
+const loginRewardsMember =(request, response) => {}
+
+
+
 module.exports = {
-    searchProducts,
-    insertNewTicket,
-    insertNewOrderItem
+    searchProducts, 
+    insertNewTicket, 
+    insertNewOrderItem, 
+    insertNewItemAddition, 
+    insertNewOrderSubtraction, 
+    loginEmployee,
+    loginRewardsMember,
 }
