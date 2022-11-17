@@ -1,3 +1,4 @@
+const { request, response } = require('express')
 const {newPool} = require('./queryConnections')
 
 //Product search bar
@@ -5,7 +6,17 @@ const searchProducts = (request, response) => {
     let Params = request.params
     let queryString = `SELECT * FROM products WHERE name ILIKE '%${Params.name}%'`
     newPool.query(queryString, (error, results) => {
-        if(error) {throw error}
+        if(error) {throw (error)}
+        response.status(200).json(results.rows)
+    })
+}
+
+//Ingredient search bar
+const searchIngredients = (request, response) => {
+    let Params = request.params
+    let queryString = `SELECT * FROM ingredients WHERE name ILIKE '%${Params.name}%'`
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
         response.status(200).json(results.rows)
     })
 }
@@ -48,33 +59,98 @@ const insertNewOrderItem = (request, response) => {
     })
 }
 
-const insertNewItemAddition =(request, response) => {}
-
-const insertNewOrderSubtraction =(request, response) => {}
-
-const loginEmployee =(request, response) => {
+//Insert addition - Making the assumption everything required will be given
+const insertNewItemAddition = (request, response) => {
     let Querys = request.query
-    console.log(Querys.id)
-    console.log(Querys.name)
-    
-    //Verifiy employee exist and return permissions
-    let queryString = `SELECT * FROM employees WHERE id=${Querys.id} AND firstname='${Querys.name}'`
-    console.log(queryString)
+
+    //Creating new addition
+    let queryString = 'INSERT INTO orderitemadditions (orderid, itemnumberinorder, ingredientid) VALUES '
+    queryString += `(${Querys.orderId}, ${Querys.numberInOrder}, ${Querys.ingredientId})`
     newPool.query(queryString, (error, results) => {
-        if(error) {return false}
+        if(error) {throw (error)}
+        response.status(200).send('Success')
     })
 }
 
-const loginRewardsMember =(request, response) => {}
+//Insert subtraction - Making the assumption everything required will be given
+const insertNewOrderSubtraction = (request, response) => {
+    let Querys = request.query
 
+    //Creating new subtraction
+    let queryString = 'INSERT INTO orderitemsubtractions (orderid, itemnumberinorder, ingredientid) VALUES '
+    queryString += `(${Querys.orderId}, ${Querys.numberInOrder}, ${Querys.ingredientId})`
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        response.status(200).send('Success')
+    })
+}
 
+//Employee login
+const loginEmployee = (request, response) => {
+    let Querys = request.query
+    
+    //Verifiy employee exists, is active, and return data
+    let queryString = `SELECT id, firstname, lastname, isadmin, active FROM employees WHERE id=${Querys.id} AND firstname='${Querys.name}'`
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        
+        //Deciding response based on query results
+        if(results.rows.length == 0) {response.status(200).send('false')}
+        else if(results.rows[0]['active']) {response.status(200).json(results.rows)}
+        else {response.status(200).send('false')}  
+    })
+}
+
+//Customer login
+const loginRewardsMember = (request, response) => {
+    let Querys = request.query
+
+    //Verify rewards member exists and return data
+    let queryString = `SELECT id, firstname, lastname FROM rewardsmembers WHERE id=${Querys.id} AND firstname='${Querys.name}'`
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        
+        //Deciding response based on query results
+        if(results.rows.length == 0) {response.status(200).send('false')}
+        else {response.status(200).json(results.rows)}
+    })
+}
+
+//Decrementing ingredients
+const updateIngredient = async (request, response) => {
+    let Params = request.params
+    let Querys = request.query
+    
+    //Getting current amount
+    let currentAmount
+    let queryString = `SELECT quantityremaining FROM ingredients WHERE id = ${Params.id}`
+    await new Promise((resolve, reject) => {
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}
+            if(results.rows.length == 0) {response.status(200).send('false')}
+            else {
+                currentAmount = parseFloat(results.rows[0]['quantityremaining']) - (1 * Querys.quantity)
+                resolve(currentAmount)
+            }
+        })
+    }) 
+    
+    //Decreasing amount as needed
+    queryString = `UPDATE ingredients SET quantityremaining = ${currentAmount} WHERE id = ${Params.id}`
+    newPool.query(queryString, (error, results) => {
+        if(error) {reject (error)}
+        response.status(200).send('true')
+    })
+}
 
 module.exports = {
     searchProducts, 
+    searchIngredients,
     insertNewTicket, 
     insertNewOrderItem, 
     insertNewItemAddition, 
     insertNewOrderSubtraction, 
     loginEmployee,
     loginRewardsMember,
+    updateIngredient,
 }
