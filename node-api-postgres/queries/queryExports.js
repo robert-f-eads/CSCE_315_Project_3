@@ -1,4 +1,12 @@
-const {getTable, generateSalesReport,} = require('./managerQueries')
+const {
+    getTable, 
+    generateSalesReport,
+    generateRestockReport,
+    addProduct,
+    addProductIngredient,
+    generateExcessReport,
+} = require('./managerQueries')
+
 const {
     searchProducts,
     searchIngredients, 
@@ -24,4 +32,8 @@ module.exports = {
     loginRewardsMember,
     updateIngredient,
     generateSalesReport,
+    generateRestockReport,
+    addProduct,
+    addProductIngredient,
+    generateExcessReport,
 }

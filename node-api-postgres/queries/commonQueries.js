@@ -61,28 +61,32 @@ const insertNewOrderItem = (request, response) => {
 
 //Insert addition - Making the assumption everything required will be given
 const insertNewItemAddition = (request, response) => {
-    let Querys = request.query
+    let BODY = request.body
 
-    //Creating new addition
-    let queryString = 'INSERT INTO orderitemadditions (orderid, itemnumberinorder, ingredientid) VALUES '
-    queryString += `(${Querys.orderId}, ${Querys.numberInOrder}, ${Querys.ingredientId})`
-    newPool.query(queryString, (error, results) => {
-        if(error) {throw (error)}
-        response.status(200).send('Success')
+    //Creating new subtraction
+    BODY.map((item) => {
+        let queryString = 'INSERT INTO orderitemadditions (orderid, itemnumberinorder, ingredientid) VALUES '
+        queryString += `(${item['orderId']}, ${item['numberInOrder']}, ${item['ingredientId']})`
+        newPool.query(queryString, (error, results) => {
+            if(error) {throw (error)}
+        }) 
     })
+    response.status(200).send("Success")
 }
 
 //Insert subtraction - Making the assumption everything required will be given
 const insertNewOrderSubtraction = (request, response) => {
-    let Querys = request.query
+    let BODY = request.body
 
     //Creating new subtraction
-    let queryString = 'INSERT INTO orderitemsubtractions (orderid, itemnumberinorder, ingredientid) VALUES '
-    queryString += `(${Querys.orderId}, ${Querys.numberInOrder}, ${Querys.ingredientId})`
-    newPool.query(queryString, (error, results) => {
-        if(error) {throw (error)}
-        response.status(200).send('Success')
+    BODY.map((item) => {
+        let queryString = 'INSERT INTO orderitemsubtractions (orderid, itemnumberinorder, ingredientid) VALUES '
+        queryString += `(${item['orderId']}, ${item['numberInOrder']}, ${item['ingredientId']})`
+        newPool.query(queryString, (error, results) => {
+            if(error) {throw (error)}
+        }) 
     })
+    response.status(200).send("Success")
 }
 
 //Employee login

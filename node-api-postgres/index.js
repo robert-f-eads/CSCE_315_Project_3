@@ -32,25 +32,19 @@ app.get('/table/:tableName', db.getTable)
 app.get('/login/verifyEmployee', db.loginEmployee)
 app.get('/login/verifyCustomer', db.loginRewardsMember)
 app.get('/generateReport/sales', db.generateSalesReport)
+app.get('/generateReport/restock', db.generateRestockReport)
+app.get('/generateReport/excess', db.generateExcessReport)
 
 //Posts
 app.post('/createOrder/ticket', db.insertNewTicket)
 app.post('/createOrder/item', db.insertNewOrderItem)
 app.post('/createOrder/addition', db.insertNewItemAddition)
 app.post('/createOrder/subtraction', db.insertNewOrderSubtraction)
+app.post('/createProduct/item', db.addProduct)
+app.post('/createProduct/ingredient', db.addProductIngredient)
 
-//Puts
-app.put('/updateIngredient/:id', db.updateIngredient)
-
-//TODO:
-/* Manager View */
-//Generate restock report - how much under target we are
-//New item - ability to add a new product to the database
-//New item - ability to add the ingredients to the bridge table for a new product
-
-//Generate excess report - THIS IS GOING TO BE HARD
+//Patch
+app.patch('/updateIngredient/:id', db.updateIngredient)
 
 
 app.listen(port, () => {console.log(`Web server listening at http://localhost:${port}`)})
-
-
