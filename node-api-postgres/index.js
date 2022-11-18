@@ -22,12 +22,29 @@ app.use(
 )
 
 /*************** http requests ***************/
+//Default
 app.get('/', (request, response) => {response.json({ info: 'Node.js, Express, and Postgres API' })})
+
+//Gets
 app.get('/searchProducts/:name', db.searchProducts)
+app.get('/searchIngredients/:name', db.searchIngredients)
 app.get('/table/:tableName', db.getTable)
+app.get('/login/verifyEmployee', db.loginEmployee)
+app.get('/login/verifyCustomer', db.loginRewardsMember)
+app.get('/generateReport/sales', db.generateSalesReport)
+app.get('/generateReport/restock', db.generateRestockReport)
+app.get('/generateReport/excess', db.generateExcessReport)
+
+//Posts
 app.post('/createOrder/ticket', db.insertNewTicket)
 app.post('/createOrder/item', db.insertNewOrderItem)
+app.post('/createOrder/addition', db.insertNewItemAddition)
+app.post('/createOrder/subtraction', db.insertNewOrderSubtraction)
+app.post('/createProduct/item', db.addProduct)
+app.post('/createProduct/ingredient', db.addProductIngredient)
+
+//Patch
+app.patch('/updateIngredient/:id', db.updateIngredient)
+
 
 app.listen(port, () => {console.log(`Web server listening at http://localhost:${port}`)})
-
-

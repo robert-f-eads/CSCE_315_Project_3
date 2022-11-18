@@ -1,9 +1,39 @@
-const {getTable} = require('./managerQueries')
-const {searchProducts, insertNewTicket, insertNewOrderItem} = require('./commonQueries')
+const {
+    getTable, 
+    generateSalesReport,
+    generateRestockReport,
+    addProduct,
+    addProductIngredient,
+    generateExcessReport,
+} = require('./managerQueries')
+
+const {
+    searchProducts,
+    searchIngredients, 
+    insertNewTicket, 
+    insertNewOrderItem, 
+    insertNewItemAddition, 
+    insertNewOrderSubtraction, 
+    loginEmployee,
+    loginRewardsMember,
+    updateIngredient,
+} = require('./commonQueries')
+
 
 module.exports = {
     getTable,
     searchProducts,
-    insertNewTicket,
-    insertNewOrderItem,
+    searchIngredients, 
+    insertNewTicket, 
+    insertNewOrderItem, 
+    insertNewItemAddition, 
+    insertNewOrderSubtraction, 
+    loginEmployee,
+    loginRewardsMember,
+    updateIngredient,
+    generateSalesReport,
+    generateRestockReport,
+    addProduct,
+    addProductIngredient,
+    generateExcessReport,
 }

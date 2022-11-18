@@ -1,12 +1,12 @@
 import './App.css';
 import { useState } from 'react';
-import DbApp from './databaseConnections/databaseTesting';
-import logo from './logo.svg'
+//import DbApp from './databaseConnections/databaseTesting';
+//import logo from './logo.svg'
 import 'font-awesome/css/font-awesome.min.css';
 import CustomerView from './customer-view/CustomerView.js'
 import SideBar from './server-view/SideBar';
 import MainPanel from './server-view/MainPanel';
-import ViewSwitch from './viewConnections';
+import ViewSwitch from './landingPage/viewConnections';
 import ManagerViewTester from './managerView/src/managerViewTester';
 import HomeButton from './homeButton';
 //import Banner from './banner.png'
