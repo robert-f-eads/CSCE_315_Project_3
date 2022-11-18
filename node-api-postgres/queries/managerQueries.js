@@ -50,7 +50,8 @@ const generateSalesReport = async (request, response) => {
         let productData = {
             'id' : item.id,
             'name' : item.name,
-            'totalSales' : parseFloat((temp_data * item.price).toFixed(2))
+            'totalSales' : parseFloat((temp_data * item.price).toFixed(2)),
+            'category' : item.category
         }
         reportData.push(productData)
     }))
@@ -79,7 +80,7 @@ const addProduct = (request, response) => {
     let Querys = request.query
 
     //Inserting new product
-    let queryString = `INSERT INTO products (name, price) VALUES ('${Querys.name}', ${Querys.price})`
+    let queryString = `INSERT INTO products (name, price, category) VALUES ('${Querys.name}', ${Querys.price}, '${Querys.category}')`
     newPool.query(queryString, (error, results) => {
         if(error) {throw (error)}
     })
