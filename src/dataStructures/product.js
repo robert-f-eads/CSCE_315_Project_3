@@ -6,6 +6,7 @@ class product {
         id = -1
         name = ""
         price = -1
+        category = ""
         ingredients = []
 
     /**
@@ -13,11 +14,13 @@ class product {
      * @param {int} id id of the product
      * @param {string} name name of the product
      * @param {double} price price of the product
+     * @param {string} category category of the product
      */
-    constructor(id, name, price) {
+    constructor(id, name, price, category) {
         this.id = id
         this.name = name
         this.price = price
+        this.category = category
     }
 
     //Getters
@@ -37,10 +40,16 @@ class product {
      */
     get getPrice() {return this.price}
     /**
+     * Gets the category of the product
+     * @return {string} the category of the product
+     */
+    get getCategory() {return this.category}
+    /**
      * Gets the ingredients that make up this product
      * @return {ingredient[]} the ingredients that make up this product
      */
     get getIngredients() {return this.ingredients}
+    
 
 
     //Setters
@@ -59,6 +68,11 @@ class product {
      * @param {double} price the price of the product
      */
     set setPrice(price) {this.price = price}
+    /**
+     * Sets the category of the product
+     * @param {string} category the category of the product
+     */
+    set setCategory(category) {this.category = category}
     /**
      * Sets the ingredients array of this product to a passed in array
      * @param {ingredient[]} ingredients an array of ingredients to use to set the ingredients for this product

@@ -122,28 +122,30 @@ const loginRewardsMember = (request, response) => {
 
 //Decrementing ingredients
 const updateIngredient = async (request, response) => {
-    let Params = request.params
     let Querys = request.query
+    let BODY = request.body
     
-    //Getting current amount
-    let currentAmount
-    let queryString = `SELECT quantityremaining FROM ingredients WHERE id = ${Params.id}`
-    await new Promise((resolve, reject) => {
+    BODY.map(async (item) => {
+        //Getting current amount
+        let currentAmount
+        let queryString = `SELECT quantityremaining FROM ingredients WHERE id = ${item['id']}`
+        await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                if(results.rows.length == 0) {response.status(200).send('false')}
+                else {
+                    currentAmount = parseFloat(results.rows[0]['quantityremaining']) - (1 * Querys.quantity)
+                    resolve(currentAmount)
+                }
+            })
+        }) 
+        
+        //Decreasing amount as needed
+        queryString = `UPDATE ingredients SET quantityremaining = ${currentAmount} WHERE id = ${item['id']}`
         newPool.query(queryString, (error, results) => {
             if(error) {reject (error)}
-            if(results.rows.length == 0) {response.status(200).send('false')}
-            else {
-                currentAmount = parseFloat(results.rows[0]['quantityremaining']) - (1 * Querys.quantity)
-                resolve(currentAmount)
-            }
+            response.status(200).send('true')
         })
-    }) 
-    
-    //Decreasing amount as needed
-    queryString = `UPDATE ingredients SET quantityremaining = ${currentAmount} WHERE id = ${Params.id}`
-    newPool.query(queryString, (error, results) => {
-        if(error) {reject (error)}
-        response.status(200).send('true')
     })
 }
 

@@ -4,7 +4,7 @@ import {getTable} from './managerViewFunctions';
 /**
  * Gets products from the database that contain or equal the given name
  * @param {string} partialName partial name of a product to search for
- * @returns data promise containing results data
+ * @returns {json} data promise containing results data
  */
 async function getProductsByName(partialName) {
     if(partialName === "") {
@@ -18,6 +18,7 @@ async function getProductsByName(partialName) {
 /**
  * Writes the orderTicket to the database
  * @param {orderTicket} ticket orderTicket with order information to write to the database
+ * @returns {string} confirmation the function completed
  */
 async function writeOrderToDb(ticket) {
     //Order ticket infomation
@@ -28,22 +29,109 @@ async function writeOrderToDb(ticket) {
     const newOrderId = await runFetch(queryString, {method: "POST"})
 
     //Order item information
-    ticket.getItems.forEach(async tempItem =>  {
+    await Promise.all (ticket.getItems.map(async (tempItem) =>  {
         queryString = `${apiURL}/createOrder/item?orderId=${newOrderId}&numberInOrder=${tempItem.getItemNumberInOrder}&`
         queryString += `name=${tempItem.getProduct.getName}&amount=${tempItem.getItemAmount}&size=${tempItem.getItemSize}`
 
         // eslint-disable-next-line
         const newItemId = await runFetch(queryString, {method: "POST"})
 
-        //Order item modification
-    })
+        //additions
+        additionsBody = []
+        tempItem.getAdditions.map((mod) => {
+            let tempMod = {
+                "orderId" : newOrderId,
+                "numberInOrder" : tempItem.getItemNumberInOrder,
+                "ingredientId" : mod.getIngredientId,
+            }
+            additionsBody.push(tempMod)
+        })
+        queryString = `${apiURL}/createOrder/addition`
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(additionsBody)})
+
+        //subractions
+        subtractionsBody = []
+        tempItem.getSubtractions.map((mod) => {
+            let tempMod = {
+                "orderId" : newOrderId,
+                "numberInOrder" : tempItem.getItemNumberInOrder,
+                "ingredientId" : mod.getIngredientId,
+            }
+            subtractionsBody.push(tempMod)
+        })
+        queryString = `${apiURL}/createOrder/subtraction`
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(subtractionsBody)})
+
+        
+        //Updating ingredient counts
+        let usedIngredients = []
+
+        //Defaults
+        tempItem.getProduct.getIngredients.map(ingred => {usedIngredients.push(ingred.getId)})
+
+        //Additions
+        tempItem.getAdditions.map(ingred => {usedIngredients.push(ingred.getIngredientId)})
+
+        //Subtractions
+        temp.getSubtractions.map(ingred => {
+            const index = usedIngredients.indexOf(ingred.getIngredientId)
+            if(index > -1) {usedIngredients.splice(index, 1)}
+        })
+
+        //Decreasing amount
+        finalIngredients = []
+        usedIngredients.map(async (ingred) => {
+            let tempIngred = {"id" : ingred}
+            finalIngredients.push(tempIngred)
+        })
+        queryString = `${apiURL}/updateIngredient?quantity=${tempItem.getItemAmount}`
+        await runFetch(queryString, {method: "PUT", body: JSON.stringify(finalIngredients)})
+    }))
+
+    return "Finished"
+}
+
+/**
+ * Gets ingredients from the database that contain or equal the given name
+ * @param {string} partialName partial name of the ingredient to search for
+ * @returns {json} data promise containing results data
+ */
+async function getIngredientsByName(partialName) {
+    if(partialName === "") {}
+    let queryString = `${apiURL}/searchIngredients/${partialName}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Verifies that this person is a rewards member
+ * @param {int} id id of this rewards member's account 
+ * @param {string} firstName first name of this rewards memeber
+ * @returns {*} data promise containing customer information
+ */
+async function loginCustomer(id, firstName) {
+    let queryString = `${apiURL}/login/verifyCustomer?id=${id}&name=${firstName}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Verifies that this person is an employee
+ * @param {int} id id of the emmployee
+ * @param {string} firstName first name of the employee
+ * @returns {*} data promise containing employee information
+ */
+async function loginEmployee(id, firstName) {
+    let queryString = `${apiURL}/login/verifyEmployee?id=${id}&name=${firstName}`
+    const results = await runFetch(queryString)
+    return results
 }
 
 /**
  * Function to run query and allow data access in calling function
  * @param {string} query completed http request as a string 
  * @param {object} options {key: value} for REST method, defaults to {method: "GET"}
- * @returns data from the query
+ * @returns {*} data from the query
  */
 async function runFetch(query, options = {method: "GET"}) {
         const response = await fetch(query, options)
@@ -51,4 +139,4 @@ async function runFetch(query, options = {method: "GET"}) {
         return data
 }
 
-export {getProductsByName, writeOrderToDb, runFetch}
+export {getProductsByName, writeOrderToDb, runFetch, getIngredientsByName, loginCustomer, loginEmployee}
