@@ -1,2 +1,2 @@
-export {getProductsByName, writeOrderToDb} from './sharedFunctions'
-export {getTable} from './managerViewFunctions'
+export {getProductsByName, writeOrderToDb, getIngredientsByName, loginCustomer, loginCustomer} from './sharedFunctions'
+export {getTable, generateSalesReport, generateRestockReport, generateExcessReport, addProduct} from './managerViewFunctions'

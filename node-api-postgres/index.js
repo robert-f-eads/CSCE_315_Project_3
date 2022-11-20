@@ -44,7 +44,7 @@ app.post('/createProduct/item', db.addProduct)
 app.post('/createProduct/ingredient', db.addProductIngredient)
 
 //Patch
-app.patch('/updateIngredient/:id', db.updateIngredient)
+app.patch('/updateIngredient', db.updateIngredient)
 
 
 app.listen(port, () => {console.log(`Web server listening at http://localhost:${port}`)})
