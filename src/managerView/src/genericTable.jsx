@@ -24,10 +24,18 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  let aOrder = a[orderBy];
+  let bOrder = b[orderBy];
+  let aNum = parseFloat(aOrder);
+  let bNum = parseFloat(bOrder);
+  if(!isNaN(aNum) && !isNaN(bNum)) {
+    aOrder = aNum;
+    bOrder = bNum;
+  }
+  if (bOrder < aOrder) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (bOrder > aOrder) {
     return 1;
   }
   return 0;
