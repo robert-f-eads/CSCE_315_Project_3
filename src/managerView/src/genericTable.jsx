@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import '../styles/genericTable.css';
-import { getTable } from '../../databaseConnections/managerViewFunctions';
 
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
@@ -157,7 +156,6 @@ export default function GenericTable(props) {
   const [orderBy, setOrderBy] = React.useState('id');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState();
   const [headCells, setHeadCells] = React.useState();
@@ -169,6 +167,7 @@ export default function GenericTable(props) {
     for(let i = 0; i < resFields.length; i++) {
       tempHeadCells.push({id: resFields[i], label: resFields[i]})
     }
+    setPage(0);
     setHeadCells(tempHeadCells);
     setRows(tableInfo);
   }, [tableInfo])
@@ -215,10 +214,6 @@ export default function GenericTable(props) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;

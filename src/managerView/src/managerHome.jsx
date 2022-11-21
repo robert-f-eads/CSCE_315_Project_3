@@ -11,6 +11,9 @@ import { getProductsByName } from '../../databaseConnections/sharedFunctions';
 function ManagerHome() {
     const [inventoryVisible, setInventoryVisible] = useState(false);
     const [orderHistoryVisible, setOrderHistoryVisible] = useState(false);
+    const [trendsVisible, setTrendsVisible] = useState(false);
+    const [salesVisible, setSalesVisible] = useState(false);
+    const [addVisible, setAddVisible] = useState(false);
     const [products, setProducts] = useState();
     const [orders, setOrders] = useState();
 
@@ -26,7 +29,13 @@ function ManagerHome() {
     return (
         <>
             <div id="managerHomeContainer">
-                <ManagerSideBar setInventoryVisible={setInventoryVisible} setOrderHistoryVisible={setOrderHistoryVisible} />
+                <ManagerSideBar
+                    setInventoryVisible={setInventoryVisible}
+                    setOrderHistoryVisible={setOrderHistoryVisible}
+                    setTrendsVisible={setTrendsVisible}
+                    setSalesVisible={setSalesVisible}
+                    setAddVisible={setAddVisible}
+                />
                 <div id="contentContainer">
                     {
                         inventoryVisible ? 
@@ -43,6 +52,9 @@ function ManagerHome() {
                         : <></>
                     }
                     {orderHistoryVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
+                    {trendsVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
+                    {salesVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
+                    {addVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
                 </div>
             </div>
         </>

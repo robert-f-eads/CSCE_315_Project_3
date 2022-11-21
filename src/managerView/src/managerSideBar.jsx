@@ -1,20 +1,31 @@
 import '../styles/managerSideBar.css'
 
 import SmoothieKingLogo from '../../Logo.png'
-import SearchBar from './SearchBar'
 import InventoryButton from './inventoryButton'
 import ServerViewButton from './serverViewButton'
 import OrderHistoryButton from './orderHistoryButton'
+import TrendsButton from './trendsButton'
+import SalesButton from './salesButton'
+import AddButton from './addButton'
 
 export default function ManagerSideBar(props) {
-    const {setInventoryVisible, setOrderHistoryVisible} = props;
-    const safeSetInventoryVisible = () => {
-        setInventoryVisible(true);
-        setOrderHistoryVisible(false);
-    }
-    const safeSetOrderHistoryVisible = () => {
-        setInventoryVisible(false);
-        setOrderHistoryVisible(true);
+    const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setSalesVisible, setAddVisible} = props;
+    const visibleElements = {
+        'inventory': setInventoryVisible,
+        'orderHistory': setOrderHistoryVisible,
+        'trends': setTrendsVisible,
+        'sales': setSalesVisible,
+        'add': setAddVisible
+    };
+
+    const setSafeVisible = (elementName) => {
+        for(const [key, ] of Object.entries(visibleElements)) {
+            if(key === elementName) {
+                visibleElements[key](true);
+            } else {
+                visibleElements[key](false);
+            }
+        }
     }
 
     return (
@@ -59,10 +70,19 @@ export default function ManagerSideBar(props) {
                         <ServerViewButton />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <OrderHistoryButton setOrderHistoryVisible={safeSetOrderHistoryVisible} />
+                        <OrderHistoryButton setOrderHistoryVisible={() => {setSafeVisible('orderHistory')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <InventoryButton setInventoryVisible={safeSetInventoryVisible} />
+                        <InventoryButton setInventoryVisible={() => {setSafeVisible('inventory')}} />
+                    </li>
+                    <li className="nav-item nav-link link-dark">
+                        <TrendsButton setTrendsVisible={() => {setSafeVisible('trends')}} />
+                    </li>
+                    <li className="nav-item nav-link link-dark">
+                        <SalesButton setSalesVisible={() => {setSafeVisible('sales')}} />
+                    </li>
+                    <li className="nav-item nav-link link-dark">
+                        <AddButton setAddVisible={() => {setSafeVisible('add')}} />
                     </li>
                 </ul>
             </div>
