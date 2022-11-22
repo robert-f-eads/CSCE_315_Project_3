@@ -40,7 +40,7 @@ export function CheckDisplay(props) {
         return <div className="container">
             <div className="row">
                 {props.dataProp && props.dataProp.length > 0 && props.dataProp.map((item) =>
-                    <ProductCard orderTicket={ticket} pId={item.id} pName={item.name} pPrice={item.price}/>
+                    <ProductCard orderTicket={ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory = {item.category}/>
                 )}
             </div>
         </div>
@@ -69,11 +69,11 @@ export default function CustomerView() {
 
                         <div className="container-fluid">
 
-                            <div className="row" style={{ "backgroundImage": "url(banner.png)", "height": "170px", "backgroundSize": "cover", "paddingBottom": "100px" }}>
+                            <div className="row sticky-top" style={{ "backgroundImage": "url(banner.png)", "max-height": "145px", "min-height": "145px", "backgroundSize": "cover", "paddingBottom": "100px" }}>
                             </div>
 
                             <CheckDisplay dataProp={searchResults} hasSearched={showSearch} />
-
+                            {/*<MenuView/>*/}
                             {/*Popup cart view*/}
                             <div className="row" style={{ "paddingTop": "100px" }}>
                                 <CartView orderTicket={ticket} trigger={showCart} func={setshowCart} />
