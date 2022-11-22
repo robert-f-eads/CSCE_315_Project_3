@@ -44,8 +44,10 @@ function AddProductForm(props) {
                     <TextField onChange={(e) => {priceChange(e, setPrice)}} id="createPrice" label="Price" />
                     <TextField onChange={(e) => {categoryChange(e, setCategory)}} id="createCategory" label="Category" />
                 </div>
-                <div id="addProductButtonContainer">
+                <div id="addProductDropdownContainer">
                     <IngredientDropdown ingredientOptions={ingredientOptions} setIngredients={setIngredients} />
+                </div>
+                <div id="addProductButtonContainer">
                     <button id='createProductButton' onClick={() => {createProduct(name, price, category, ingredients)}}>Create Product</button>
                 </div>
             </div>

@@ -41,11 +41,14 @@ export default function IngredientDropdown(props) {
     const {
       target: { value },
     } = event;
-    setName(
-      // On autofill we get a stringified value.
-      typeof value.name === 'string' ? value.name.split(',') : value,
-    );
-    setIngredients(value);
+    setName(typeof value === 'string' ? value.split(',') : value)
+    setIngredients(value.map(val => {
+      for(let i = 0; i < ingredientOptions.length; i++) {
+        if(ingredientOptions[i].name === val) {
+          return new product(ingredientOptions[i].id, ingredientOptions[i].name);
+        }
+      }
+    }));
   };
 
   return (
@@ -62,7 +65,7 @@ export default function IngredientDropdown(props) {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value.name} label={value.name} />
+                <Chip key={value} label={value} />
               ))}
             </Box>
           )}
@@ -71,7 +74,7 @@ export default function IngredientDropdown(props) {
           {ingredientOptions.map((ingredientOption) => (
             <MenuItem
               key={ingredientOption.name}
-              value={new product(ingredientOption.id, ingredientOption.name)}
+              value={ingredientOption.name}
               style={getStyles(ingredientOption.name, name, theme)}
             >
               {ingredientOption.name}

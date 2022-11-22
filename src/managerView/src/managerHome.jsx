@@ -44,7 +44,6 @@ function ManagerHome() {
                 <div id="contentContainer">
                     {inventoryVisible ? 
                         <>
-                            <GenericTable tableName="Ingredients" tableInfo={ingredients} />
                             <SearchBar
                                 onClickFunction={(searchText) => {
                                     getIngredientsByName(searchText).then(res => {
@@ -52,6 +51,7 @@ function ManagerHome() {
                                     });
                                 }}
                             />
+                            <GenericTable tableName="Ingredients" tableInfo={ingredients} />
                         </>
                         : <></>
                     }
@@ -60,7 +60,6 @@ function ManagerHome() {
                     {salesVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
                     {addVisible ? 
                         <>
-                            <GenericTable tableName="Products" tableInfo={products} />
                             <SearchBar
                                 onClickFunction={(searchText) => {
                                     getProductsByName(searchText).then(res => {
@@ -68,6 +67,7 @@ function ManagerHome() {
                                     });
                                 }}
                             />
+                            <GenericTable tableName="Products" tableInfo={products} />
                             <AddProductForm ingredientOptions={ingredients} />
                         </>
                         : <></>

@@ -17,6 +17,13 @@
     padding: 2%;
 }
 
+#addProductDropdownContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2%;
+}
+
 #addProductFormContainer {
     width: 50%;
 }
