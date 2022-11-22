@@ -102,7 +102,7 @@ async function writeOrderToDb(ticket) {
  * @returns {json} data promise containing results data
  */
 async function getIngredientsByName(partialName) {
-    if(partialName === "") {}
+    if(partialName === "") { return getTable('ingredients'); }
     let queryString = `${apiURL}/searchIngredients/${partialName}`
     const results = await runFetch(queryString)
     return results

@@ -69,9 +69,17 @@ async function addProduct(newProduct) {
         ingredientData.push(temp_data)
     })
     queryString = `${apiURL}/createProduct/ingredient`
-    await runFetch(queryString, {method: "POST", body: JSON.stringify(ingredientData)})
-    
-    return "Finished"
+
+    return await runFetch(
+        queryString,
+        {
+            method: "POST",
+            body: JSON.stringify(ingredientData),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            })
+        }
+    );
 }
 
 

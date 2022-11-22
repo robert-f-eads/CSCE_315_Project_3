@@ -170,14 +170,18 @@ export default function GenericTable(props) {
 
   useEffect(() => {
     const firstRes = tableInfo[0];
-    const resFields = Object.keys(firstRes);
-    let tempHeadCells = [];
-    for(let i = 0; i < resFields.length; i++) {
-      tempHeadCells.push({id: resFields[i], label: resFields[i]})
+    if(firstRes) {
+      const resFields = Object.keys(firstRes);
+      let tempHeadCells = [];
+      for(let i = 0; i < resFields.length; i++) {
+        tempHeadCells.push({id: resFields[i], label: resFields[i]})
+      }
+      setPage(0);
+      setHeadCells(tempHeadCells);
+      setRows(tableInfo);
+    } else {
+      alert('No item with given search query');
     }
-    setPage(0);
-    setHeadCells(tempHeadCells);
-    setRows(tableInfo);
   }, [tableInfo])
 
   const handleRequestSort = (event, property) => {
