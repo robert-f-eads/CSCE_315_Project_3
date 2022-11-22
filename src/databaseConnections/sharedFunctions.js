@@ -37,7 +37,8 @@ async function writeOrderToDb(ticket) {
         const newItemId = await runFetch(queryString, {method: "POST"})
 
         //additions
-        additionsBody = []
+        let additionsBody = []
+        // eslint-disable-next-line
         tempItem.getAdditions.map((mod) => {
             let tempMod = {
                 "orderId" : newOrderId,
@@ -50,7 +51,8 @@ async function writeOrderToDb(ticket) {
         await runFetch(queryString, {method: "POST", body: JSON.stringify(additionsBody)})
 
         //subractions
-        subtractionsBody = []
+        let subtractionsBody = []
+        // eslint-disable-next-line
         tempItem.getSubtractions.map((mod) => {
             let tempMod = {
                 "orderId" : newOrderId,
@@ -67,19 +69,23 @@ async function writeOrderToDb(ticket) {
         let usedIngredients = []
 
         //Defaults
+        // eslint-disable-next-line
         tempItem.getProduct.getIngredients.map(ingred => {usedIngredients.push(ingred.getId)})
 
         //Additions
+        // eslint-disable-next-line
         tempItem.getAdditions.map(ingred => {usedIngredients.push(ingred.getIngredientId)})
 
         //Subtractions
-        temp.getSubtractions.map(ingred => {
+        // eslint-disable-next-line
+        tempItem.getSubtractions.map(ingred => {
             const index = usedIngredients.indexOf(ingred.getIngredientId)
             if(index > -1) {usedIngredients.splice(index, 1)}
         })
 
         //Decreasing amount
-        finalIngredients = []
+        let finalIngredients = []
+        // eslint-disable-next-line
         usedIngredients.map(async (ingred) => {
             let tempIngred = {"id" : ingred}
             finalIngredients.push(tempIngred)

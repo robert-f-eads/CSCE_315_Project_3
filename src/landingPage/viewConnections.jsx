@@ -21,7 +21,7 @@ const ViewSwitch = (props) => {
                         <h4 className='message_title'>NEW TO SMOOTHIE KING?</h4>
                         <p className='message_body'>Finding the perfect Smoothie starts with owning your purpose — and we designed a menu 
                             to help you do just that.</p>
-                        <a className='page-change-button' href='www.google.com'>Create an account to get started</a>
+                        <a className='page-change-button' href='www.google.com'>Start finding your smoothie</a>
                     </div>
                 </div>
                 <div className='home-page_advertisement-two'>
@@ -35,11 +35,11 @@ const ViewSwitch = (props) => {
                 </div>
             </div>
 
-            {/*<div class = "button-holder">
+            <div class = "button-holder">
                 <button onClick={() => {setPageNum(1)}} type="button">Customer View</button>
                 <button onClick={() => {setPageNum(2)}} type="button">Server View</button>
                 <button onClick={() => {setPageNum(3)}} type="button">Manager View</button>
-            </div>*/}
+            </div>
             <Footer/>
         </>
     )
