@@ -9,6 +9,7 @@ import MainPanel from './server-view/MainPanel';
 import ViewSwitch from './landingPage/viewConnections';
 import ManagerViewTester from './managerView/src/managerViewTester';
 import HomeButton from './homeButton';
+import Modifications from './customer-view/Modifications';
 //import Banner from './banner.png'
 
 
@@ -17,14 +18,18 @@ function App() {
 
   return (
     <>
-    {pageNum === 0 && <ViewSwitch setPageNum={setPageNum}/>}
-    {pageNum === 1 && <CustomerView />}
-    {pageNum === 2 && <div id="serverViewContainer">
-      <MainPanel />
-      <SideBar />
-    </div>}
-    {pageNum === 3 && <ManagerViewTester />}
-    {pageNum !== 0 && <HomeButton setPageNum={setPageNum} />}
+      {/*
+      {pageNum === 0 && <ViewSwitch setPageNum={setPageNum}/>}
+      {pageNum === 1 && <CustomerView />}
+      {pageNum === 2 && <div id="serverViewContainer">
+        <MainPanel />
+        <SideBar />
+      </div>}
+      {pageNum === 3 && <ManagerViewTester />}
+      {pageNum !== 0 && <HomeButton setPageNum={setPageNum} />}
+      */}
+      <Modifications itemName = "Item Name"></Modifications>
+
     </>
   );
 }

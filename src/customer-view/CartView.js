@@ -33,7 +33,7 @@ export default function CartView(props) {
                                     </button>
                                 </div>
                             </div>
-                            {/*<div class="row top-panel">
+                            <div class="row top-panel">
                                 <div class="col">
                                     <button>
                                         Remove
@@ -44,7 +44,7 @@ export default function CartView(props) {
                                         Edit Item
                                     </button>
                                 </div>
-                            </div>*/}
+                            </div>
 
 
                             {props.orderTicket && props.orderTicket.getItems.map((item) =>
