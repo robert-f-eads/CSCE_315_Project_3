@@ -69,12 +69,17 @@ export default function SideBar() {
                     </div> */}
                     <li>
                         <a href="www.google.com" className="nav-link link-dark">
-                            Cancel
+                            Create Order
                         </a>
                     </li>
                     <li>
                         <a href="www.google.com" className="nav-link link-dark">
-                            Finish and Pay
+                            Cancel Order
+                        </a>
+                    </li>
+                    <li>
+                        <a href="www.google.com" className="nav-link link-dark">
+                            Finish & Pay
                         </a>
                     </li>
                 </ul>
