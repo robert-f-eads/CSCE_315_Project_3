@@ -63,7 +63,7 @@ async function addProduct(newProduct) {
     const newProductId = await runFetch(queryString, {method: "POST"})
 
     //Ingredients
-    ingredientData = []
+    let ingredientData = []
     newProduct.getIngredients.map(ingred => {
         let temp_data = {"productId" : newProductId, "ingredientId" : ingred.getId}
         ingredientData.push(temp_data)

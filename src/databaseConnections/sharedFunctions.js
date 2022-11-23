@@ -37,7 +37,7 @@ async function writeOrderToDb(ticket) {
         const newItemId = await runFetch(queryString, {method: "POST"})
 
         //additions
-        additionsBody = []
+        let additionsBody = []
         tempItem.getAdditions.map((mod) => {
             let tempMod = {
                 "orderId" : newOrderId,
@@ -50,7 +50,7 @@ async function writeOrderToDb(ticket) {
         await runFetch(queryString, {method: "POST", body: JSON.stringify(additionsBody)})
 
         //subractions
-        subtractionsBody = []
+        let subtractionsBody = []
         tempItem.getSubtractions.map((mod) => {
             let tempMod = {
                 "orderId" : newOrderId,
@@ -73,13 +73,13 @@ async function writeOrderToDb(ticket) {
         tempItem.getAdditions.map(ingred => {usedIngredients.push(ingred.getIngredientId)})
 
         //Subtractions
-        temp.getSubtractions.map(ingred => {
+        tempItem.getSubtractions.map(ingred => {
             const index = usedIngredients.indexOf(ingred.getIngredientId)
             if(index > -1) {usedIngredients.splice(index, 1)}
         })
 
         //Decreasing amount
-        finalIngredients = []
+        let finalIngredients = []
         usedIngredients.map(async (ingred) => {
             let tempIngred = {"id" : ingred}
             finalIngredients.push(tempIngred)

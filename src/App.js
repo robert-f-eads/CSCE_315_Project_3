@@ -3,6 +3,7 @@ import DbApp from './databaseConnections/databaseTesting';
 import SearchBar from './server-view/SearchBar';
 import MainPanel from './server-view/MainPanel';
 import SideBar from './server-view/SideBar';
+import { useState } from 'react';
 
 function App() {
   const [pageNum, setPageNum] = useState(0);
