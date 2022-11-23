@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import '../styles/genericTable.css';
-import { getTable } from '../../databaseConnections/managerViewFunctions';
 
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
@@ -25,10 +24,18 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  let aOrder = a[orderBy];
+  let bOrder = b[orderBy];
+  let aNum = parseFloat(aOrder);
+  let bNum = parseFloat(bOrder);
+  if(!isNaN(aNum) && !isNaN(bNum)) {
+    aOrder = aNum;
+    bOrder = bNum;
+  }
+  if (bOrder < aOrder) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (bOrder > aOrder) {
     return 1;
   }
   return 0;
@@ -157,20 +164,24 @@ export default function GenericTable(props) {
   const [orderBy, setOrderBy] = React.useState('id');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState();
   const [headCells, setHeadCells] = React.useState();
 
   useEffect(() => {
     const firstRes = tableInfo[0];
-    const resFields = Object.keys(firstRes);
-    let tempHeadCells = [];
-    for(let i = 0; i < resFields.length; i++) {
-      tempHeadCells.push({id: resFields[i], label: resFields[i]})
+    if(firstRes) {
+      const resFields = Object.keys(firstRes);
+      let tempHeadCells = [];
+      for(let i = 0; i < resFields.length; i++) {
+        tempHeadCells.push({id: resFields[i], label: resFields[i]})
+      }
+      setPage(0);
+      setHeadCells(tempHeadCells);
+      setRows(tableInfo);
+    } else {
+      alert('No item with given search query');
     }
-    setHeadCells(tempHeadCells);
-    setRows(tableInfo);
   }, [tableInfo])
 
   const handleRequestSort = (event, property) => {
@@ -215,10 +226,6 @@ export default function GenericTable(props) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;

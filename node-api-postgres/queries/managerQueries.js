@@ -83,13 +83,12 @@ const addProduct = (request, response) => {
     let queryString = `INSERT INTO products (name, price, category) VALUES ('${Querys.name}', ${Querys.price}, '${Querys.category}')`
     newPool.query(queryString, (error, results) => {
         if(error) {throw (error)}
-    })
-
-    //Returning new product id
-    queryString = `SELECT id FROM products WHERE name = '${Querys.name}'`
-    newPool.query(queryString, (error, results) => {
-        if(error) {throw (error)}
-        response.status(200).json(results.rows[0]['id'])
+        // Returning new product id
+        queryString = `SELECT id FROM products WHERE name = '${Querys.name}'`
+        newPool.query(queryString, (error, results) => {
+            if(error) {throw (error)}
+            response.status(200).json(results?.rows[0]['id'])
+        })
     })
 }
 
@@ -115,7 +114,7 @@ const addProductIngredient = (request, response) => {
             if(error) {throw (error)}
         }) 
     })
-    response.status(200).send("Success")
+    response.status(200).send({'status': 'Success'})
 
 }
 
