@@ -7,6 +7,7 @@ import 'reactjs-popup/dist/index.css';
 import ProductCard from './ProductCard.js';
 import MenuView from './MenuView.js';
 import { getProductsByName } from '../databaseConnections/databaseFunctionExports'
+import Modifications from './Modifications'
 
 var ticket = new orderTicket(0, new dateTime("06-03-2002"), "Alexia", 0, 0, 10);
 
@@ -40,7 +41,7 @@ export function CheckDisplay(props) {
         return <div className="container">
             <div className="row">
                 {props.dataProp && props.dataProp.length > 0 && props.dataProp.map((item) =>
-                    <ProductCard orderTicket={ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory = {item.category}/>
+                    <ProductCard orderTicket={ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory = {item.category} func={props.func} func1={props.func1}/>
                 )}
             </div>
         </div>
@@ -48,7 +49,7 @@ export function CheckDisplay(props) {
     else {
         /*Menu view */
         return <div className="row">
-            <MenuView orderTicket = {ticket}></MenuView>
+            <MenuView orderTicket = {ticket} func={props.func} func1={props.func1}></MenuView>
         </div>
     }
 }
@@ -56,23 +57,26 @@ export function CheckDisplay(props) {
 export default function CustomerView() {
     const [searchResults, setSearchResults] = useState([])
     const [showCart, setshowCart] = useState(false)
+    const [showMod, setShowMod] = useState(false)
+    const [tempItem, setTempItem] = useState()
 
     return (
         <>
             <div className="container-fluid px-0">
                 <div className="row g-0">
                     <div className="col-3">
-                        <SideBar getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
+                        <SideBar searchBarId = "searchBarEntryField" getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
                     </div>
+                    <Modifications currentOrderItem = {tempItem} trigger={showMod} func={setShowMod}/>
                     <div className="col-9">
                         {/*<div className="row" style={{ "background-image": "url(banner.png)", "backgroundSize": "cover", "padding-bottom": "100px" }}>*/}
 
                         <div className="container-fluid">
 
-                            <div className="row sticky-top" style={{ "backgroundImage": "url(banner.png)", "max-height": "145px", "min-height": "145px", "backgroundSize": "cover", "paddingBottom": "100px" }}>
-                            </div>
+                            {/*<div className="row sticky-top" style={{ "backgroundImage": "url(banner.png)", "max-height": "145px", "min-height": "145px", "backgroundSize": "cover", "paddingBottom": "100px" }}>
+                            </div>*/}
 
-                            <CheckDisplay dataProp={searchResults} hasSearched={showSearch} />
+                            <CheckDisplay dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod}/>
                             {/*<MenuView/>*/}
                             {/*Popup cart view*/}
                             <div className="row" style={{ "paddingTop": "100px" }}>

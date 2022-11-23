@@ -1,7 +1,14 @@
 import React from 'react'
-import './TextBox.css'
+import './SearchBar.css'
 
-export default function TextBox() {
+
+export default function TextBox(props) {
+    function updateInformation() {
+        let value = document.getElementById(props.textBoxId).value
+        props.orderTicket.setRewardsMemberId = value
+    }
+
+    const { getSearchResults } = props;
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossOrigin="anonymous"></link>
@@ -17,15 +24,19 @@ export default function TextBox() {
             <script src="https://kit.fontawesome.com/0b9f4346c0.js" crossOrigin="anonymous"></script>
             <script>
                 new WOW().init();
-            </script>
+            </script> 
 
-            <div className="row" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
-                <div className="col">
+            <div className="container">
+                <div className="row g-0" style={{ "alignContent": "left !important" }}>
                     <div className="search">
-                        <input type="text" className="form-control" placeholder="Search for Item" id="" ></input>
-                        <button className="btn btn-primary" type="button">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        </button>
+                        <div className="col">
+                            <input type="text" className="form-control" placeholder={props.hintMessage} id = {props.textBoxId}></input>
+                        </div>
+                        <div className="col">
+                            <button className="btn btn-primary" type="button" onClick = {() => updateInformation()}>
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

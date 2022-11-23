@@ -1,14 +1,24 @@
-import React from 'react'
+import { React } from 'react'
 import './ProductCard.css'
 import TestImage from './ProductImages/strawberry-kiwi-breeze.png'
-import {product, orderItem} from '../dataStructures/dataStructuresExports';
+import {product, orderItem, ingredient} from '../dataStructures/dataStructuresExports';
+import {getProductIngredients} from '../databaseConnections/databaseFunctionExports'
+
 
 /**
  * @param {orderTicket} currentOrderTicket
  */
-function productCardClicked(currentOrderTicket, id, name, price) {
+async function productCardClicked(currentOrderTicket, id, name, price, setTempItem, setShowMod) {
     
     var tempProduct = new product(id, name, price)
+    let ingreds = []
+    await getProductIngredients(id).then((data) => {data.map((element) => {
+        var tempIngred = new ingredient(element.id, element.name, element.expirationDate, element.quantityRemaining, 0, 
+            element.measurementUnits, element.pricePerUnitLastOrder, element.lastOrderDate, element.unitsInLastOrder)
+        ingreds.push(tempIngred)
+    })})
+    
+    tempProduct.setIngredients = ingreds
     var itemNumber
     var currentItems = currentOrderTicket.getItems
     
@@ -16,12 +26,18 @@ function productCardClicked(currentOrderTicket, id, name, price) {
     else {itemNumber = currentItems[currentItems.length-1].getItemNumberInOrder + 1}
     
     let temp_item = new orderItem(0, 0, itemNumber, 1, 20, tempProduct)
+    
+    //Add editted item to order
     currentOrderTicket.addItemToOrder(temp_item)
-    alert("Item added to cart");
+    
+    setTempItem(temp_item)
+    setShowMod(true)
 }
 
 
 export default function ProductCard(props) {
+    
+
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossOrigin="anonymous"></link>
@@ -40,7 +56,7 @@ export default function ProductCard(props) {
             </script>
 
             <div className="card product-card shadow-sm p-3 mb-5" style = {{"height" : "80%"}}>
-                <button type="button" onClick={() => {productCardClicked(props.orderTicket, props.pId, props.pName, props.pPrice)}}>
+                <button type="button" onClick={() => {productCardClicked(props.orderTicket, props.pId, props.pName, props.pPrice, props.func, props.func1)}}>
                     <img className="card-img-top" src={TestImage} alt="Card cap"></img>
                     <div className="card-body">
                         <h4 className="card-title"> {props.pName} </h4>

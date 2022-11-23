@@ -1,4 +1,5 @@
 import React from 'react'
+import { writeOrderToDb } from '../databaseConnections/sharedFunctions';
 import "./CartView.css"
 import CartViewEntry from './CartViewEntry'
 import TextBox from './TextBox'
@@ -23,13 +24,13 @@ export default function CartView(props) {
             </script>
 
             <div className="popup">
-                <div className="popup-inner">
+                <div className="popup-inner" style={{ "min-height": "35vh", "min-width": "65vw" }}>
                     <div class="cart-view">
-                        <div class="container" style={{ "min-height": "35vh" }}>
+                        <div class="container">
                             <div class="row top-panel">
                                 <div class="col">
                                     <button onClick={() => { props.func(false) }} style={{ "backgroundColor": "transparent", "color": "maroon" }}>
-                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -49,21 +50,28 @@ export default function CartView(props) {
 
                             {props.orderTicket && props.orderTicket.getItems.map((item) =>
                                 <div class="row">
-                                    <CartViewEntry name={item.getProduct.getName} size={item.getItemSize} price={item.getProduct.getPrice} quantity={item.getItemAmount}></CartViewEntry>
+                                    <CartViewEntry orderItem={item}></CartViewEntry>
                                 </div>
                             )}
 
-                            {/*<div class="row">
-                                <TextBox></TextBox>
-                            </div>*/}
                             <div class="row">
-                                <div class="col justify-content-end d-flex">
-                                    <button onClick={() => {
-                                        props.orderTicket.setItems = []
-                                        props.func(false)
+                               {/* <div class="col">
+                                    <TextBox textBoxId="customerName" hintMessage="Name"></TextBox>
+                            </div> */}
+
+                                <div class="col">
+                                    <TextBox orderTicket = {props.OrderTicket} textBoxId="rewardsMemberId" hintMessage="Rewards Member ID"></TextBox>
+                                </div>
+                                <div class="row">
+                                    <div class="col justify-content-end d-flex">
+                                        <button onClick={() => {
+                                           writeOrderToDb(props.orderTicket);
+                                           props.func(false);
+                                           //Function to clear order ticket/re-make new one
                                         }}>
-                                        Checkout
-                                    </button>
+                                            Checkout
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

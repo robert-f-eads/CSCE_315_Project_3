@@ -20,16 +20,19 @@ export default function SearchBar(props) {
                 new WOW().init();
             </script>
 
-            <div className= "container">
+            <div className="container">
                 <div className="row g-0" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
-                    <div className="col">
-                        <div className="search">
-                            <input type="text" className="form-control" placeholder="Search for Item" id="searchBarEntryField" ></input>
+                    <div className="search">
+                        <div className="col">
+                            <input type="text" className="form-control" placeholder="Search for Item" id={props.inputId} ></input>
+                        </div>
+                        <div className="col">
                             <button className="btn btn-primary" type="button" onClick={getSearchResults}>
                                 <i className="fa fa-search"></i>
                             </button>
                         </div>
                     </div>
+
                 </div>
             </div>
         </>

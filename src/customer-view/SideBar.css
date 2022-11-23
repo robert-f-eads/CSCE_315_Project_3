@@ -75,3 +75,7 @@ hr {
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+.sticky-top {
+  z-index: 1 !important;
+}

@@ -47,8 +47,8 @@ export default function MenuView(props) {
 
                 <div className="row product-card-row">
                     {menuItems.map((element) => {
-                        return (element.category == "feelEnergized") ? (
-                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price}></ProductCard>
+                        return (element.category === "feelEnergized") ? (
+                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}></ProductCard>
                         )
                             : "";
                     })}
@@ -61,8 +61,8 @@ export default function MenuView(props) {
 
                 <div className="row product-card-row">
                     {menuItems.map((element) => {
-                        return (element.category == "getFit") ? (
-                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price}></ProductCard>
+                        return (element.category === "getFit") ? (
+                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}></ProductCard>
                         )
                             : "";
                     })}
@@ -74,8 +74,8 @@ export default function MenuView(props) {
 
                 <div className="row product-card-row">
                     {menuItems.map((element) => {
-                        return (element.category == "manageWeight") ? (
-                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price}></ProductCard>
+                        return (element.category === "manageWeight") ? (
+                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}></ProductCard>
                         )
                             : "";
                     })}
@@ -87,8 +87,8 @@ export default function MenuView(props) {
 
                 <div className="row product-card-row">
                     {menuItems.map((element) => {
-                        return (element.category == "beWell") ? (
-                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price}></ProductCard>
+                        return (element.category === "beWell") ? (
+                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}></ProductCard>
                         )
                             : "";
                     })}
@@ -100,8 +100,8 @@ export default function MenuView(props) {
 
                 <div className="row product-card-row">
                     {menuItems.map((element) => {
-                        return (element.category == "enjoyATreat") ? (
-                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price}></ProductCard>
+                        return (element.category === "enjoyATreat") ? (
+                            <ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}></ProductCard>
                         )
                             : "";
                     })}

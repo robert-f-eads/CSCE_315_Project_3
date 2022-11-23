@@ -17,6 +17,7 @@ const {
     loginEmployee,
     loginRewardsMember,
     updateIngredient,
+    getIngredinetsForProduct,
 } = require('./commonQueries')
 
 
@@ -36,4 +37,5 @@ module.exports = {
     addProduct,
     addProductIngredient,
     generateExcessReport,
+    getIngredinetsForProduct,
 }

@@ -1,9 +1,24 @@
 import React from 'react'
 import './Modifications.css'
 import SearchBar from './SearchBar'
+import AdditionButton from './AdditionButton'
+import SubtractionButton from './SubtractionButton'
+import { getIngredientsByName, getProductsByName } from '../databaseConnections/databaseFunctionExports'
+import { useState } from 'react'
 
 export default function Modifications(props) {
-    return (true) ? (
+    //const [additionItems, setAdditionItems] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    var showSearch = false;
+
+    function getSearchResults(setSearchResults) {
+        let searchString = document.getElementById('additionEntryField').value
+        if (searchString === "") { getIngredientsByName("-").then((data) => { setSearchResults(data) }) }
+        else { getIngredientsByName(searchString).then((data) => { setSearchResults(data) }) }
+        showSearch = true
+    }
+
+    return (props.trigger) ? (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"></link>
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/animatecss/3.5.2/animate.min.css"></link>
@@ -20,19 +35,19 @@ export default function Modifications(props) {
                 new WOW().init();
             </script>
 
-            <div className="popup">
+            <div className="popup" style={{ "z-index": "100" }}>
                 <div className="popup-inner" style={{ "min-height": "80vh", "min-width": "80vw" }}>
                     <div class="modification-view">
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <button onClick={() => { props.func(false) }} style={{ "backgroundColor": "transparent", "color": "maroon" }}>
+                                    <button onClick={() => { props.func(false) }} style={{ "backgroundColor": "transparent", "color": "maroon", "border": "none" }}>
                                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="row top-panel item-name">
-                                {props.itemName}
+                                {props.currentOrderItem.getProduct.getName}
                             </div>
                         </div>
 
@@ -43,19 +58,19 @@ export default function Modifications(props) {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-2">
-                                    <button>
+                               <div class="col-2">
+                                    <button onClick={() => {props.currentOrderItem.setItemSize = 20}}>
                                         20oz
                                     </button>
 
                                 </div>
                                 <div class="col-2">
-                                    <button>
+                                    <button onClick={() => {props.currentOrderItem.setItemSize = 32}}>
                                         32oz
                                     </button>
                                 </div>
                                 <div class="col-2">
-                                    <button>
+                                    <button onClick={() => {props.currentOrderItem.setItemSize = 40}}>
                                         40oz
                                     </button>
                                 </div>
@@ -70,9 +85,13 @@ export default function Modifications(props) {
                                 </div>
                             </div>
                             <div class="row">
-                               <div class = "container">
-                                    hi there i will have buttons
-                               </div>
+                                <div class="container">
+                                    {props.currentOrderItem.getProduct.getIngredients.map((element) => {
+                                        return (
+                                            <SubtractionButton ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
+                                            )
+                                    })}
+                                </div>
 
                             </div>
                         </div>
@@ -82,16 +101,22 @@ export default function Modifications(props) {
                                 <div class="col header-name">
                                     Additions
                                     <br></br>
-                                    <SearchBar/>
+                                    <SearchBar inputId={"additionEntryField"} getSearchResults={() => { getSearchResults(setSearchResults) }} />
                                 </div>
                             </div>
-                            <div class = "row">
-                               
+                            <div class="row">
+
                             </div>
                             <div class="row">
-                               <div class = "container" style = {{minHeight: "100%"}}>
-                                    hi there i will have buttons
-                               </div>
+                                <div class="container" style={{ minHeight: "100%" }}>
+                                    {searchResults.map((element) => {
+                                        return (
+                                            <AdditionButton ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
+                                        );
+
+                                    })}
+
+                                </div>
 
                             </div>
                         </div>

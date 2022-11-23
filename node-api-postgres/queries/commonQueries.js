@@ -149,6 +149,23 @@ const updateIngredient = async (request, response) => {
     })
 }
 
+//Getting ingredients for a product
+const getIngredinetsForProduct = async (request, response) => {
+    let Params = request.params
+
+    let queryString = 'SELECT ingredients.id, ingredients.name, expirationdate, quantityremaining, measurementunits, priceperunitlastorder, lastorderdate, '
+    queryString += 'unitsinlastorder FROM ingredients INNER JOIN productstoingredients ON productstoingredients.ingredientid=ingredients.id INNER JOIN products on '
+    queryString += `products.id = productstoingredients.productid WHERE products.id=${Params.id}`
+
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        response.status(200).json(results.rows)
+    })
+}
+
+
+
+
 module.exports = {
     searchProducts, 
     searchIngredients,
@@ -159,4 +176,5 @@ module.exports = {
     loginEmployee,
     loginRewardsMember,
     updateIngredient,
+    getIngredinetsForProduct,
 }

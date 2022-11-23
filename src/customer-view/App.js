@@ -27,8 +27,8 @@ function App() {
       </div>}
       {pageNum === 3 && <ManagerViewTester />}
       {pageNum !== 0 && <HomeButton setPageNum={setPageNum} />}
-  */}
-      <CustomerView></CustomerView>
+      */}
+     <CustomerView></CustomerView>
 
     </>
   );

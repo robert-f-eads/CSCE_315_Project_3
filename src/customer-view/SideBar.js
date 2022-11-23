@@ -47,7 +47,7 @@ export default function SideBar(props) {
                             </button>
                         </div>
                     </div>
-                    <SearchBar getSearchResults={getSearchResults}></SearchBar>
+                    <SearchBar inputId = {props.searchBarId} getSearchResults={getSearchResults}></SearchBar>
 
                     <ul className="nav nav-pills flex-column mb-auto" style={{ "paddingTop": "0px" }}>
                         <li className="nav-item">
