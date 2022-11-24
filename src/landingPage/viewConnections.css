@@ -79,6 +79,10 @@
     padding: 1.5rem;
 }
 
+.home-page_advertisement-one img {
+    width: 65vw;
+}
+
 .home-page_advertisement-one_info {
     display: flex;
     flex-direction: column;

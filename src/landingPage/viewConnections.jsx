@@ -21,7 +21,7 @@ const ViewSwitch = (props) => {
                         <h4 className='message_title'>NEW TO SMOOTHIE KING?</h4>
                         <p className='message_body'>Finding the perfect Smoothie starts with owning your purpose — and we designed a menu 
                             to help you do just that.</p>
-                        <a className='page-change-button' href='www.google.com'>Create an account to get started</a>
+                        <a className='page-change-button' href='www.google.com'>Start finding your smoothie</a>
                     </div>
                 </div>
                 <div className='home-page_advertisement-two'>

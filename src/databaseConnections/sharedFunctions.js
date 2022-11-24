@@ -85,6 +85,8 @@ async function writeOrderToDb(ticket) {
 
         //Decreasing amount
         let finalIngredients = []
+
+        // eslint-disable-next-line
         usedIngredients.map(async (ingred) => {
             let tempIngred = {"id" : ingred}
             finalIngredients.push(tempIngred)
