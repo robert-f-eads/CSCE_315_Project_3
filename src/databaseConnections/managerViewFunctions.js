@@ -64,15 +64,24 @@ async function addProduct(newProduct) {
 
     //Ingredients
     let ingredientData = []
+    
     // eslint-disable-next-line
     newProduct.getIngredients.map(ingred => {
         let temp_data = {"productId" : newProductId, "ingredientId" : ingred.getId}
         ingredientData.push(temp_data)
     })
     queryString = `${apiURL}/createProduct/ingredient`
-    await runFetch(queryString, {method: "POST", body: JSON.stringify(ingredientData)})
-    
-    return "Finished"
+
+    return await runFetch(
+        queryString,
+        {
+            method: "POST",
+            body: JSON.stringify(ingredientData),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            })
+        }
+    );
 }
 
 

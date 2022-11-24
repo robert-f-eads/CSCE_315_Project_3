@@ -1,0 +1,29 @@
+#createProductButton {
+    border: 1px solid black;
+}
+
+#addProductInputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#addProductButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+
+#addProductDropdownContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2%;
+}
+
+#addProductFormContainer {
+    width: 50%;
+}

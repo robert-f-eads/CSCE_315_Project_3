@@ -34,6 +34,7 @@ app.get('/login/verifyCustomer', db.loginRewardsMember)
 app.get('/generateReport/sales', db.generateSalesReport)
 app.get('/generateReport/restock', db.generateRestockReport)
 app.get('/generateReport/excess', db.generateExcessReport)
+app.get('/productIngredients/:id', db.getIngredinetsForProduct)
 
 //Posts
 app.post('/createOrder/ticket', db.insertNewTicket)

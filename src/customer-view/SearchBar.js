@@ -2,7 +2,7 @@ import React from 'react'
 import './SearchBar.css'
 
 export default function SearchBar(props) {
-    const {getSearchResults} = props;
+    const { getSearchResults } = props;
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossOrigin="anonymous"></link>
@@ -20,14 +20,19 @@ export default function SearchBar(props) {
                 new WOW().init();
             </script>
 
-            <div className="row" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
-                <div className="col">
+            <div className="container">
+                <div className="row g-0" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
                     <div className="search">
-                        <input type="text" className="form-control" placeholder="Search for Item" id="searchBarEntryField" ></input>
-                        <button className="btn btn-primary" type="button" onClick={getSearchResults}>
-                            <i className="fa fa-search"></i>
-                        </button>
+                        <div className="col">
+                            <input type="text" className="form-control" placeholder="Search for Item" id={props.inputId} ></input>
+                        </div>
+                        <div className="col">
+                            <button className="btn btn-primary" type="button" onClick={getSearchResults}>
+                                <i className="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </>

@@ -85,6 +85,7 @@ async function writeOrderToDb(ticket) {
 
         //Decreasing amount
         let finalIngredients = []
+
         // eslint-disable-next-line
         usedIngredients.map(async (ingred) => {
             let tempIngred = {"id" : ingred}
@@ -103,7 +104,7 @@ async function writeOrderToDb(ticket) {
  * @returns {json} data promise containing results data
  */
 async function getIngredientsByName(partialName) {
-    if(partialName === "") {}
+    if(partialName === "") { return getTable('ingredients'); }
     let queryString = `${apiURL}/searchIngredients/${partialName}`
     const results = await runFetch(queryString)
     return results
@@ -134,6 +135,17 @@ async function loginEmployee(id, firstName) {
 }
 
 /**
+ * Gets all ingredients for a product
+ * @param {int} id id of the product to get ingredients for
+ * @return data promise containing ingredient information
+ */
+async function getProductIngredients(id) {
+    let queryString = `${apiURL}/productIngredients/${id}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
  * Function to run query and allow data access in calling function
  * @param {string} query completed http request as a string 
  * @param {object} options {key: value} for REST method, defaults to {method: "GET"}
@@ -145,4 +157,4 @@ async function runFetch(query, options = {method: "GET"}) {
         return data
 }
 
-export {getProductsByName, writeOrderToDb, runFetch, getIngredientsByName, loginCustomer, loginEmployee}
+export {getProductsByName, writeOrderToDb, runFetch, getIngredientsByName, loginCustomer, loginEmployee, getProductIngredients}

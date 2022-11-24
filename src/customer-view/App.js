@@ -14,10 +14,11 @@ import Modifications from './customer-view/Modifications';
 
 
 function App() {
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
 
   return (
     <>
+      {/*
       {pageNum === 0 && <ViewSwitch setPageNum={setPageNum}/>}
       {pageNum === 1 && <CustomerView />}
       {pageNum === 2 && <div id="serverViewContainer">
@@ -26,6 +27,9 @@ function App() {
       </div>}
       {pageNum === 3 && <ManagerViewTester />}
       {pageNum !== 0 && <HomeButton setPageNum={setPageNum} />}
+      */}
+     <CustomerView></CustomerView>
+
     </>
   );
 }
