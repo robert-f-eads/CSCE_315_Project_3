@@ -11,10 +11,9 @@ const ViewSwitch = (props) => {
 
     return (
         <>
-            <Navbar/>
+            <Navbar display={true}/>
             <div className='home-page_body'>
                 <img src={logoLong} alt='logo header' id='longLogo'/>
-                <hr></hr>
                 <div className='home-page_advertisement-one'>
                     <img src={adv1} alt='advertisement 1' />
                     <div className='home-page_advertisement-one_info'>

@@ -1,0 +1,98 @@
+.mainBody {
+    height: 87.5vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 8vh;
+}
+
+.Login-wrapper {
+    background-color: #f3f4f5;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.mainBody_Login {
+    padding: 2vh 8.5vw;
+}
+
+.mainBody_Login-center {
+    display: flex;
+    flex-direction: column;
+}
+
+.mainBody_Login-center input {
+    width: 20vw;
+    height: 4vh;
+    padding-left: .5rem;
+}
+
+.mainBody_Login-center label {
+    margin-bottom: .25rem;
+    margin-top: .75rem;
+}
+
+.mainBody_Login-center button {
+    background-color: #e31b23;
+    color: white;
+    margin-top: 2.5rem;
+    padding: .5rem 0;
+    cursor: pointer;
+    width: 10rem;
+    font-size: 1rem;
+}
+
+.mainBody_Login-center button:hover {
+    background-color: #b4161b;
+}
+
+#buttonHolder {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    justify-content: center;
+}
+
+.mainBody_Pic {
+    padding-top: 11vh;
+    padding-right: 6vw;
+}
+
+#logo {
+    width: 22.5vw;
+}
+
+.signup-wrapper {
+    margin-top: 3vh;
+    color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+}
+
+.signup-wrapper p {
+    margin: .25rem 0;
+}
+
+.employee-wrapper {
+    margin-top: 10vh;
+    color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+}
+
+a:hover {
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+}
