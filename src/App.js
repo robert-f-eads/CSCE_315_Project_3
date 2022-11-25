@@ -19,15 +19,15 @@ function App() {
 
   return (
     <>
-    <LoginPage/>
-    {/*{pageNum === 0 && <ViewSwitch setPageNum={setPageNum}/>}
+    {/*<LoginPage/>*/}
+    {pageNum === 0 && <ViewSwitch setPageNum={setPageNum}/>}
     {pageNum === 1 && <CustomerView />}
     {pageNum === 2 && <div id="serverViewContainer">
       <MainPanel />
       <SideBar />
     </div>}
     {pageNum === 3 && <ManagerViewTester />}
-    {pageNum !== 0 && <HomeButton setPageNum={setPageNum} />}*/}
+    {pageNum !== 0 && <HomeButton setPageNum={setPageNum} />}
     </>
   );
 }

@@ -43,6 +43,7 @@ app.post('/createOrder/addition', db.insertNewItemAddition)
 app.post('/createOrder/subtraction', db.insertNewOrderSubtraction)
 app.post('/createProduct/item', db.addProduct)
 app.post('/createProduct/ingredient', db.addProductIngredient)
+app.post('/createRewardsMember', db.createRewardsMember)
 
 //Patch
 app.patch('/updateIngredient', db.updateIngredient)

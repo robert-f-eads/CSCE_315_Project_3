@@ -3,11 +3,8 @@ import Navbar from "../sharedComponets/Navbar/navbar"
 import Footer from "../sharedComponets/Footer/footer"
 import adv3 from '../assets/advertisement3.jpg'
 import Logo from '../assets/Logo.png'
-import {loginCustomer, loginEmployee} from '../databaseConnections/databaseFunctionExports'
+import {loginCustomer, loginEmployee, signUpNewMember} from '../databaseConnections/databaseFunctionExports'
 import { useState } from 'react'
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
 
 
 async function handleLogin(loginChooser) {
@@ -38,6 +35,7 @@ async function handleLogin(loginChooser) {
     else {
         //Call the login function
         let response = await (loginEmployee(id, name))
+
         //Display error if not valid
         if(response === false) {document.getElementById('notFoundError').classList.remove("showOnError"); return}
 
@@ -51,9 +49,56 @@ async function handleLogin(loginChooser) {
     document.getElementById('idEntryField').value = ""
 }
 
-function handleSignUp() {
-    alert("Hello")
+async function handleSignUp() {
+    let fields = ["firstNameEntryField", "lastNameEntryField", "emailEntryField", "phoneNumberEntryField", "birthdayEntryField"]
+    let fieldData = {}
 
+    //Change back to black border on entry
+    fields.forEach((field) => {
+        if(document.getElementById(field).style.borderColor === "red") {document.getElementById(field).style.borderColor = "black"}
+    })
+
+    //Collecting data
+    fields.forEach((field) => {
+        if(field === "emailEntryField") {
+            if(!(document.getElementById(field).value.includes("@"))){fieldData[field] = ""}
+            else{fieldData[field] =  document.getElementById(field).value}
+        }
+        else if(field === "phoneNumberEntryField") {
+            if(document.getElementById(field).value.length !== 10){fieldData[field] = ""}
+        }
+        else if(field === "birthdayEntryField") {
+            if((document.getElementById(field).value.indexOf("-") === 4) && (document.getElementById(field).value.indexOf("-", 5) === 7)) {fieldData[field] = document.getElementById(field).value}
+            else {fieldData[field] = ""}
+        }
+        else {fieldData[field] =  document.getElementById(field).value}
+    })
+
+    //Make border red if missed entry
+    let missing = false
+    fields.forEach((field) => {
+        if(fieldData[field] === "") {document.getElementById(field).style.borderColor = "red"; missing=true}
+    })
+    if(missing) {return}  
+
+    //Call the login function
+    let matching = {"firstNameEntryField" : "fname", "lastNameEntryField" : "lname", "emailEntryField" : "email", "phoneNumberEntryField" : "phone", "birthdayEntryField" : "birthday"}
+    let data = {}
+    fields.forEach((field) => {data[matching[field]] = fieldData[field]})
+    let response = await (signUpNewMember(data))
+
+    //Display error if not valid
+    if(response === false) {document.getElementById('errorError').classList.remove("showOnError"); return}
+    
+    //Give this data to the customer view
+    alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+    
+    //Reset to default on sucessfuly entry
+    fields.forEach((field) => {
+        if(document.getElementById(field).style.borderColor === "red") {document.getElementById(field).style.borderColor = "black"}
+        document.getElementById(field).value = ""
+    })
+    document.getElementById('errorError').classList.add("showOnError")
 }
 
 function handleLoginChange(value) {
@@ -64,7 +109,6 @@ function handleLoginChange(value) {
 const LoginPage = () => {
     const [loginChooser, setloginChooser] = useState(true)
     const [viewChooser, setviewChooser] = useState(true)
-    const [startDate, setStartDate] = useState();
 
     return <>
         <Navbar display={false}/>
@@ -116,16 +160,16 @@ const LoginPage = () => {
                     <div className='signup_shared-row'>
                         <div className='entry-stack'>
                             <label>Phone Number</label>
-                            <input id="phoneNumberEntryField" type="text" placeholder="xxx-xxx-xxxx"/>
+                            <input id="phoneNumberEntryField" type="text" placeholder="xxxxxxxxxx"/>
                         </div>
                         <div className='entry-stack'>
                             <label>Birthday</label>
-                            <DatePicker id="birthdayEntryField" selected={startDate} onChange={(date) => setStartDate(date)}/>
+                            <input id="birthdayEntryField" type="text" placeholder="yyyy-mm-dd"/>
                         </div>
                     </div>
-                    
+                    <p id="errorError" className='showOnError'>*There is already an account with that phone number or email</p>
                     <div className='signup-buttons'>
-                        <button onClick={handleSignUp}>Sign Up</button>
+                        <button onClick={() => {handleSignUp()}}>Sign Up</button>
                         <button>OAuth</button>
                     </div>
 
