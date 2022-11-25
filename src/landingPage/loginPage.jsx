@@ -5,6 +5,9 @@ import adv3 from '../assets/advertisement3.jpg'
 import Logo from '../assets/Logo.png'
 import {loginCustomer, loginEmployee} from '../databaseConnections/databaseFunctionExports'
 import { useState } from 'react'
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 
 async function handleLogin(loginChooser) {
@@ -16,9 +19,12 @@ async function handleLogin(loginChooser) {
     if(document.getElementById('idEntryField').style.borderColor === "red") {document.getElementById('idEntryField').style.borderColor = "black"}
     
     //Make border red if missed entry
-    if(name === "") {document.getElementById('nameEntryField').style.borderColor = "red"; return}
-    if(id === "") {document.getElementById('idEntryField').style.borderColor = "red"; return}
-       
+    let missing = false
+    if(name === "") {document.getElementById('nameEntryField').style.borderColor = "red"; missing=true}
+    if(id === "") {document.getElementById('idEntryField').style.borderColor = "red"; missing=true}
+    if(missing) {return}  
+      
+
     if(loginChooser) {
         //Call the login function
         let response = await (loginCustomer(id, name))
@@ -45,6 +51,11 @@ async function handleLogin(loginChooser) {
     document.getElementById('idEntryField').value = ""
 }
 
+function handleSignUp() {
+    alert("Hello")
+
+}
+
 function handleLoginChange(value) {
     if(value) {document.getElementById('signup').classList.add("showOnError")}
     else {document.getElementById('signup').classList.remove("showOnError")}
@@ -53,6 +64,7 @@ function handleLoginChange(value) {
 const LoginPage = () => {
     const [loginChooser, setloginChooser] = useState(true)
     const [viewChooser, setviewChooser] = useState(true)
+    const [startDate, setStartDate] = useState();
 
     return <>
         <Navbar display={false}/>
@@ -69,7 +81,7 @@ const LoginPage = () => {
                         {loginChooser && <label>Rewards ID</label>}
                         <input id="idEntryField" type="text" placeholder="23"/>
                         <p id="notFoundError" className='showOnError'>*No user found</p>
-                        <div id="buttonHolder"><button onClick={() => {handleLogin(loginChooser)}}>Log In</button></div>
+                        <div id="buttonHolder"><button onClick={() => {handleLogin(loginChooser)}}>Login</button></div>
                     </div>
                     <div className='bottom-wrapper'>
                         <div id="signup" className='signup-wrapper'>
@@ -85,18 +97,43 @@ const LoginPage = () => {
 
                 {/* Customer Sign up */}
                 {!viewChooser && <div className='mainBody_Signup'>
-                    <button onClick={() => {setviewChooser(true)}}>Button</button>
-                    <label>First Name</label>
-                    <input id="firstNameEntryField" type="text" placeholder="John"/>
-                    <label>Last Name</label>
-                    <input id="lastNameEntryField" type="text" placeholder="Smith"/>
-                    <label>Email</label>
-                    <input id="emailEntryField" type="text" placeholder="example@mail.com"/>
-                    <label>Phone Number</label>
-                    <input id="phoneNumberEntryField" type="text" placeholder="XXX-XXX-XXXX"/>
-                    <label>Birthday</label>
-                    <input id="birthdayEntryField" type="text" placeholder=""/>
-                    <button>Sign Up</button>
+                    <div className='signup_shared-row'>
+                        <div className='entry-stack'>
+                            <label>First Name</label>
+                            <input id="firstNameEntryField" type="text" placeholder="John"/>
+                        </div>
+                        <div className='entry-stack'>
+                            <label>Last Name</label>
+                            <input id="lastNameEntryField" type="text" placeholder="Smith"/>
+                        </div>
+                    </div>
+
+                    <div className='entry-stack'>
+                        <label>Email</label>
+                        <input id="emailEntryField" type="text" placeholder="example@mail.com"/>
+                    </div>
+
+                    <div className='signup_shared-row'>
+                        <div className='entry-stack'>
+                            <label>Phone Number</label>
+                            <input id="phoneNumberEntryField" type="text" placeholder="xxx-xxx-xxxx"/>
+                        </div>
+                        <div className='entry-stack'>
+                            <label>Birthday</label>
+                            <DatePicker id="birthdayEntryField" selected={startDate} onChange={(date) => setStartDate(date)}/>
+                        </div>
+                    </div>
+                    
+                    <div className='signup-buttons'>
+                        <button onClick={handleSignUp}>Sign Up</button>
+                        <button>OAuth</button>
+                    </div>
+
+                    <div className='signup-footer'>
+                        <p>Already have an account?</p>
+                        <button onClick={() => {setviewChooser(true)}}>Click to Log in</button>
+                    </div>
+                    
                 </div>}
             </div>
             
