@@ -30,6 +30,18 @@
     width: 20vw;
     height: 4vh;
     padding-left: .5rem;
+    border-style: solid;
+    border-width: 1px;
+    font-weight: 400;
+}
+
+.mainBody_Login-center p {
+    align-items: center;
+    color: red;
+}
+
+.showOnError {
+    visibility: hidden;
 }
 
 .mainBody_Login-center label {
@@ -40,7 +52,7 @@
 .mainBody_Login-center button {
     background-color: #e31b23;
     color: white;
-    margin-top: 2.5rem;
+    margin-top: 1rem;
     padding: .5rem 0;
     cursor: pointer;
     width: 10rem;
@@ -91,8 +103,13 @@
     font-size: .9rem;
 }
 
-a:hover {
+.bottom-wrapper button:hover {
     color: black;
     cursor: pointer;
     text-decoration: underline;
+}
+
+.bottom-wrapper button {
+    color: grey;
+    font-size: .9rem;
 }
