@@ -14,7 +14,7 @@ import Modifications from './customer-view/Modifications';
 
 
 function App() {
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
 
   return (
     <>
