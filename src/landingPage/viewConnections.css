@@ -83,6 +83,11 @@
     width: 65vw;
 }
 
+.home-page_advertisement-two img {
+    width: 65vw;
+}
+
+
 .home-page_advertisement-one_info {
     display: flex;
     flex-direction: column;

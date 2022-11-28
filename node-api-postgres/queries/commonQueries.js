@@ -163,7 +163,37 @@ const getIngredinetsForProduct = async (request, response) => {
     })
 }
 
+//New Customer Creation
+const createRewardsMember = async (request, response) => {
+    let BODY = request.body
+    
+    //Check if email or phone has been used previously
+    let queryString = `SELECT * FROM rewardsmembers WHERE email='${BODY.email}' OR phone='${BODY.phone}'`
+    let results = await new Promise((resolve, reject) => {
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}  
+            resolve(results)
+        })
+    })
+    if(results.rows.length != 0) {response.status(200).send('false'); return}
+    
+    //Create entry for new rewards member
+    queryString = 'INSERT INTO rewardsmembers (firstname, lastname, phone, email, birthday, rewardpoints) VALUES '
+    queryString += `('${BODY.fname}', '${BODY.lname}', '${BODY.phone}', '${BODY.email}', '${BODY.birthday}', 0)`
+    results = await new Promise((resolve, reject) => {
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}
+            resolve(results)
+        })
+    })
 
+    //Returning the new data
+    queryString = 'SELECT id, firstname, lastname FROM rewardsmembers ORDER BY id DESC LIMIT 1'
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        response.status(200).json(results.rows)
+    })
+}
 
 
 module.exports = {
@@ -177,4 +207,5 @@ module.exports = {
     loginRewardsMember,
     updateIngredient,
     getIngredinetsForProduct,
+    createRewardsMember,
 }

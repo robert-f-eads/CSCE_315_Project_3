@@ -146,6 +146,18 @@ async function getProductIngredients(id) {
 }
 
 /**
+ * Makes call to add new rewardsmember
+ * @param {*} data dictionary of required data to create new memeber
+ * @return {*} data from the query
+ */
+async function signUpNewMember(data) {
+    let queryString = `${apiURL}/createRewardsMember`
+    const results = await runFetch(queryString, {method: "POST", body: JSON.stringify(data), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
+    return results
+}
+
+
+/**
  * Function to run query and allow data access in calling function
  * @param {string} query completed http request as a string 
  * @param {object} options {key: value} for REST method, defaults to {method: "GET"}
@@ -157,4 +169,4 @@ async function runFetch(query, options = {method: "GET"}) {
         return data
 }
 
-export {getProductsByName, writeOrderToDb, runFetch, getIngredientsByName, loginCustomer, loginEmployee, getProductIngredients}
+export {getProductsByName, writeOrderToDb, runFetch, getIngredientsByName, loginCustomer, loginEmployee, getProductIngredients, signUpNewMember}

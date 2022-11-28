@@ -18,6 +18,7 @@ const {
     loginRewardsMember,
     updateIngredient,
     getIngredinetsForProduct,
+    createRewardsMember,
 } = require('./commonQueries')
 
 
@@ -38,4 +39,5 @@ module.exports = {
     addProductIngredient,
     generateExcessReport,
     getIngredinetsForProduct,
+    createRewardsMember,
 }

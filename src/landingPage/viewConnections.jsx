@@ -1,9 +1,9 @@
 import './viewConnections.css';
 import Footer from '../sharedComponets/Footer/footer'
 import Navbar from '../sharedComponets/Navbar/navbar'
-import adv1 from '../assets/sk-first-time.jpg'
-import adv2 from '../assets/group-smoothie-shot.jpg'
-import logoLong from '../assets/smoothie-king-logo-long.png'
+import adv1 from '../assets/advertisement1.jpg'
+import adv2 from '../assets/advertisement2.jpg'
+import logoLong from '../assets/Logo-Long.png'
 
 const ViewSwitch = (props) => {
     // eslint-disable-next-line
@@ -11,10 +11,9 @@ const ViewSwitch = (props) => {
 
     return (
         <>
-            <Navbar/>
+            <Navbar display={true}/>
             <div className='home-page_body'>
                 <img src={logoLong} alt='logo header' id='longLogo'/>
-                <hr></hr>
                 <div className='home-page_advertisement-one'>
                     <img src={adv1} alt='advertisement 1' />
                     <div className='home-page_advertisement-one_info'>
