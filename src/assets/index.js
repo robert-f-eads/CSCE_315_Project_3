@@ -1,0 +1,7 @@
+export {default as banner} from './banner.png'
+export {default as LongLogo} from './Logo-Long.png'
+export {default as SqaureLogo} from './Logo-Square.png'
+export {default as Logo} from './Logo.png'
+export {default as adv1} from './advertisement1.jpg'
+export {default as adv2} from './advertisement2.jpg'
+export {default as adv3} from './advertisement3.jpg'
