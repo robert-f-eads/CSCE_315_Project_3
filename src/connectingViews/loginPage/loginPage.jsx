@@ -1,13 +1,12 @@
 import './loginPage.css'
-import Navbar from "../sharedComponets/Navbar/navbar"
-import Footer from "../sharedComponets/Footer/footer"
-import adv3 from '../assets/advertisement3.jpg'
-import Logo from '../assets/Logo.png'
-import {loginCustomer, loginEmployee, signUpNewMember} from '../databaseConnections/databaseFunctionExports'
 import { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
+import {Navbar, Footer} from '../../sharedComponets'
+import {adv3, Logo} from '../../assets'
+import {loginCustomer, loginEmployee, signUpNewMember} from '../../databaseConnections/databaseFunctionExports'
 
 
-async function handleLogin(loginChooser) {
+async function handleLogin(loginChooser, navigate) {
     let name = document.getElementById('nameEntryField').value
     let id = document.getElementById('idEntryField').value
 
@@ -31,6 +30,9 @@ async function handleLogin(loginChooser) {
 
         //Give this data to the customer view
         alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+
+        //Go to appropriate page
+        navigate('/order')
     }
     else {
         //Call the login function
@@ -41,6 +43,10 @@ async function handleLogin(loginChooser) {
 
         //Give this data to the server/manager view
         alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id}, admin: ${response[0].isadmin})`)
+
+        //Go to appropriate page
+        if(response[0].isadmin) {navigate('/managerview')}
+        else {navigate('/serverorder')}
     }
 
     //Reset to default on sucessfuly entry
@@ -49,7 +55,7 @@ async function handleLogin(loginChooser) {
     document.getElementById('idEntryField').value = ""
 }
 
-async function handleSignUp() {
+async function handleSignUp(navigate) {
     let fields = ["firstNameEntryField", "lastNameEntryField", "emailEntryField", "phoneNumberEntryField", "birthdayEntryField"]
     let fieldData = {}
 
@@ -99,6 +105,8 @@ async function handleSignUp() {
         document.getElementById(field).value = ""
     })
     document.getElementById('errorError').classList.add("showOnError")
+
+    navigate('/order')
 }
 
 function handleLoginChange(value) {
@@ -109,6 +117,7 @@ function handleLoginChange(value) {
 const LoginPage = () => {
     const [loginChooser, setloginChooser] = useState(true)
     const [viewChooser, setviewChooser] = useState(true)
+    const navigate = useNavigate()
 
     return <>
         <Navbar display={false}/>
@@ -125,12 +134,14 @@ const LoginPage = () => {
                         {loginChooser && <label>Rewards ID</label>}
                         <input id="idEntryField" type="text" placeholder="23"/>
                         <p id="notFoundError" className='showOnError'>*No user found</p>
-                        <div id="buttonHolder"><button onClick={() => {handleLogin(loginChooser)}}>Login</button></div>
+                        <div id="buttonHolder"><button onClick={() => {handleLogin(loginChooser, navigate)}}>Login</button></div>
                     </div>
                     <div className='bottom-wrapper'>
                         <div id="signup" className='signup-wrapper'>
                             <p>Don't have an account?</p>
                             <button onClick={() => {setviewChooser(false)}}>Click to get started</button>
+                            <br/>
+                            <button onClick={() => {navigate('/order')}}>Continue as guest</button>
                         </div>
                         <div className='employee-wrapper'>
                             {loginChooser && <button onClick={() => {setloginChooser(false); handleLoginChange(loginChooser)}}>Employee Login</button>}
@@ -169,7 +180,7 @@ const LoginPage = () => {
                     </div>
                     <p id="errorError" className='showOnError'>*There is already an account with that phone number or email</p>
                     <div className='signup-buttons'>
-                        <button onClick={() => {handleSignUp()}}>Sign Up</button>
+                        <button onClick={() => {handleSignUp(navigate)}}>Sign Up</button>
                         <button>OAuth</button>
                     </div>
 

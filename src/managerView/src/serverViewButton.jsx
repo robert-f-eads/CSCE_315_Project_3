@@ -1,13 +1,11 @@
 import '../styles/serverViewButton.css'
+import {useNavigate} from 'react-router-dom'
 
 function ServerViewButton() {
+    const navigate = useNavigate()
   return (
-    <button id="serverViewButton" onClick={() => {switchToServerView()}}>Server View</button>
+    <button id="serverViewButton" onClick={() => {navigate('/serverorder')}}>Server View</button>
   );
-}
-
-function switchToServerView() {
-  console.log("Switching to server view.");
 }
 
 export default ServerViewButton;
