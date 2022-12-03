@@ -195,6 +195,19 @@ const createRewardsMember = async (request, response) => {
     })
 }
 
+const googleAuth = async (request, response) => {
+    let Querys = request.query
+
+    //Verify rewards member exists and return data
+    let queryString = `SELECT id, firstname, lastname FROM rewardsmembers WHERE email='${Querys.email}'`
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        
+        //Deciding response based on query results
+        if(results.rows.length == 0) {response.status(200).send('false')}
+        else {response.status(200).json(results.rows)}
+    })
+}
 
 module.exports = {
     searchProducts, 
@@ -208,4 +221,5 @@ module.exports = {
     updateIngredient,
     getIngredinetsForProduct,
     createRewardsMember,
+    googleAuth,
 }
