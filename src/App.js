@@ -1,7 +1,7 @@
 import './App.css';
 import 'font-awesome/css/font-awesome.min.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-import {LoginPage, LandingPage} from './connectingViews';
+import {LoginPage, LandingPage, StoreLocate} from './connectingViews';
 import CustomerView from './customer-view/CustomerView.js'
 import ManagerViewTester from './managerView/src/managerViewTester';
 
@@ -25,6 +25,7 @@ function App() {
                 </div>
              )} />
             <Route path='/managerview' element={<ManagerViewTester/>} />
+            <Route path='/maps' element={<StoreLocate/>} />
         </Routes>
     </Router>
   );
