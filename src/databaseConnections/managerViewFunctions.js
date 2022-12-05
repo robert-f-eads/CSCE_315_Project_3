@@ -25,8 +25,6 @@ async function getTable(tableName, limit = 0) {
  * @returns {json} data promise containing product sales data
  */
 async function generateSalesReport(startDate = '2022-09-30 00:00:00', endDate = '2022-11-18 23:59:59') {
-    console.log('s', startDate)
-    console.log('e', endDate)
     let queryString = `${apiURL}/generateReport/sales?start=${startDate}&end=${endDate}`
     const data = await runFetch(queryString)
     return data
@@ -107,6 +105,27 @@ async function increaseIngredientQuantity(id, quantityToAdd) {
     );
 }
 
+// TODO make this function actually work
+/**
+ * Makes API call to update ingredient infromation (useful once restock report is generated)
+ * @param {id} id of the ingredient to be updated
+ * @param {quantityToAdd} quantity to be added to the ingredients total
+ * @returns {string} confirmation the function completed
+ */
+async function translateText(strings, sourceLang, targetLang) {
+    let data = {strings, sourceLang, targetLang};
+    let queryString = `${apiURL}/translateText`
+    return await runFetch(
+        queryString,
+        {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            })
+        }
+    );
+}
 
 
-export {getTable, generateSalesReport, generateRestockReport, generateExcessReport, addProduct, increaseIngredientQuantity}
+export {getTable, generateSalesReport, generateRestockReport, generateExcessReport, addProduct, increaseIngredientQuantity, translateText}

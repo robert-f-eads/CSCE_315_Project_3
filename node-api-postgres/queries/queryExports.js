@@ -6,6 +6,7 @@ const {
     addProductIngredient,
     generateExcessReport,
     increaseIngredientQuantity,
+    translateText,
 } = require('./managerQueries')
 
 const {
@@ -36,6 +37,7 @@ module.exports = {
     loginRewardsMember,
     updateIngredient,
     increaseIngredientQuantity,
+    translateText,
     generateSalesReport,
     generateRestockReport,
     addProduct,

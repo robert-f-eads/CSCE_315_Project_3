@@ -9,11 +9,13 @@ import AddButton from './addButton'
 import ReorderButton from './reorderButton'
 
 export default function ManagerSideBar(props) {
-    const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setAddVisible, setReorderVisible} = props;
+    const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setSalesVisible, setExcessVisible, setAddVisible, setReorderVisible} = props;
     const visibleElements = {
         'inventory': setInventoryVisible,
         'orderHistory': setOrderHistoryVisible,
         'trends': setTrendsVisible,
+        'sales': setSalesVisible,
+        'excess': setExcessVisible,
         'add': setAddVisible,
         'reorder': setReorderVisible
     };

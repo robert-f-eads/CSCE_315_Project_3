@@ -70,6 +70,8 @@ function ManagerHome() {
                     setInventoryVisible={setInventoryVisible}
                     setOrderHistoryVisible={setOrderHistoryVisible}
                     setTrendsVisible={setTrendsVisible}
+                    setSalesVisible={setSalesVisible}
+                    setExcessVisible={setExcessVisible}
                     setAddVisible={setAddVisible}
                     setReorderVisible={setReorderVisible}
                 />

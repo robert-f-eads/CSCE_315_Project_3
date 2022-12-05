@@ -21,6 +21,7 @@ app.use(
   })
 )
 
+
 /*************** http requests ***************/
 //Default
 app.get('/', (request, response) => {response.json({ info: 'Node.js, Express, and Postgres API' })})
@@ -46,6 +47,7 @@ app.post('/createProduct/item', db.addProduct)
 app.post('/createProduct/ingredient', db.addProductIngredient)
 app.post('/createRewardsMember', db.createRewardsMember)
 app.post('/increaseIngredientQuantity', db.increaseIngredientQuantity)
+app.post('/translateText/', db.translateText)
 
 //Patch
 app.patch('/updateIngredient', db.updateIngredient)

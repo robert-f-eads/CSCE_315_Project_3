@@ -1,6 +1,9 @@
 const { request, response } = require('express')
 const {newPool} = require('./queryConnections')
 
+const apiKey = 'AIzaSyCWUjGnZmsrzh6TtsMiOb5NVeUvOJWaZFI';
+const googleTranslate = require("google-translate")(apiKey);
+
 //Get table, with or without limit
 const getTable = (request, response) => {
     let Params = request.params
@@ -149,6 +152,18 @@ const increaseIngredientQuantity = (request, response) => {
     })
 }
 
+// translates into the desired language
+const translateText = (request, response) => {
+    // let Querys = request.query
+    let BODY = request.body
+
+    let item = BODY;
+    googleTranslate.translate(item['strings'], item['sourceLang'], item['targetLang'], function(err, translation) {
+        response.status(200).send({'translatedText': translation.translatedText})
+    });
+    
+}
+
 //Calcuate what ingredient sold less than 10%
 const generateExcessReport = async (request, response) => {
     let Querys = request.query
@@ -241,5 +256,6 @@ module.exports = {
     addProduct,
     addProductIngredient,
     generateExcessReport,
-    increaseIngredientQuantity
+    increaseIngredientQuantity,
+    translateText,
 }
