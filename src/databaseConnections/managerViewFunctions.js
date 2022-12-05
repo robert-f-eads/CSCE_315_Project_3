@@ -25,6 +25,8 @@ async function getTable(tableName, limit = 0) {
  * @returns {json} data promise containing product sales data
  */
 async function generateSalesReport(startDate = '2022-09-30 00:00:00', endDate = '2022-11-18 23:59:59') {
+    console.log('s', startDate)
+    console.log('e', endDate)
     let queryString = `${apiURL}/generateReport/sales?start=${startDate}&end=${endDate}`
     const data = await runFetch(queryString)
     return data

@@ -6,11 +6,19 @@ import AddProductForm from './addProductForm';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
 import { useEffect } from 'react';
-import { generateRestockReport, getTable, increaseIngredientQuantity } from '../../databaseConnections/managerViewFunctions';
+import { generateExcessReport, generateRestockReport, generateSalesReport, getTable, increaseIngredientQuantity } from '../../databaseConnections/managerViewFunctions';
 import { getProductsByName, getIngredientsByName } from '../../databaseConnections/sharedFunctions';
 import SalesButton from './salesButton';
 import ExcessButton from './excessButton';
-import { useRouteLoaderData } from 'react-router-dom';
+import DateSelector from './dateSelector';
+
+function getFormattedDate(date) {
+    const year = date['$y'] 
+    const month = ((Number(date['$M']) + 1) + '').padStart(2, '0')
+    const day = (date['$D'] + '').padStart(2, '0')
+    const formattedDate = year + '-' + month + '-' + day;
+    return formattedDate;
+}
 
 function ManagerHome() {
     const [inventoryVisible, setInventoryVisible] = useState(false);
@@ -20,11 +28,17 @@ function ManagerHome() {
     const [excessVisible, setExcessVisible] = useState(false);
     const [addVisible, setAddVisible] = useState(false);
     const [reorderVisible, setReorderVisible] = useState(false);
+
     const [products, setProducts] = useState();
     const [ingredients, setIngredients] = useState();
     const [orders, setOrders] = useState();
     const [restock, setRestock] = useState();
+    const [sales, setSales] = useState();
+    const [excess, setExcess] = useState();
+
     const [selectedInTable, setSelectedInTable] = useState();
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     const [reloadPage, setReloadPage] = useState(false);
 
@@ -39,10 +53,14 @@ function ManagerHome() {
             setOrders(res);
         });
         generateRestockReport().then(res => {
-            console.log(res);
             setRestock(res);
         });
-        console.log('using effect to load manager home')
+        generateSalesReport().then(res => {
+            setSales(res);
+        });
+        generateExcessReport().then(res => {
+            setExcess(res);
+        });
     }, [reloadPage]);
 
     return (
@@ -79,8 +97,31 @@ function ManagerHome() {
                         </>
                         : <></>
                     }
-                    {salesVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
-                    {excessVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
+                    {salesVisible ?
+                        <>
+                            <div id='managerSalesSelectorContainer'>
+                                <DateSelector label='Start Date' setSelectedDate={setStartDate} />
+                                <DateSelector label='End Date' setSelectedDate={setEndDate} />
+                            </div>
+                            <button onClick={() => {
+                                if (!startDate || !endDate) {
+                                    console.log('using def')
+                                    generateSalesReport().then(res => {
+                                        setSales(res);
+                                    });
+                                } else {
+                                    const formattedStartDate = getFormattedDate(startDate) + ' 00:00:00'
+                                    const formattedEndDate = getFormattedDate(endDate) + ' 23:59:59'
+                                    generateSalesReport(formattedStartDate, formattedEndDate).then(res => {
+                                        console.log(res);
+                                        setSales(res);
+                                    });
+                                }
+                            }}>Generate for Dates</button>
+                            <GenericTable tableName="Sales" tableInfo={sales} />
+                        </>
+                        : <></>}
+                    {excessVisible ? <GenericTable tableName="Excess" tableInfo={excess} /> : <></>}
                     {addVisible ? 
                         <>
                             <SearchBar
