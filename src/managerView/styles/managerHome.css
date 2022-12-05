@@ -4,6 +4,10 @@
     align-items: center;
 }
 
+#managerHomeContainer button {
+    border: 1px solid black;
+}
+
 #contentContainer {
     display: flex;
     flex-direction: column;
@@ -11,4 +15,8 @@
     justify-content: center;
     margin: 1%;
     width: 95%;
+}
+
+#managerTrendsButtonsContainer {
+    width: 50%;
 }

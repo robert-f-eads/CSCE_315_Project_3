@@ -158,7 +158,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function GenericTable(props) {
-  const { tableName, tableInfo } = props;
+  const { tableName, tableInfo, setSelectedInTable } = props;
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('id');
@@ -192,19 +192,21 @@ export default function GenericTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
+      if (setSelectedInTable) {setSelectedInTable(newSelected)};
       return;
     }
     setSelected([]);
+    if (setSelectedInTable) {setSelectedInTable([])};
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -217,6 +219,7 @@ export default function GenericTable(props) {
     }
 
     setSelected(newSelected);
+    if (setSelectedInTable) {setSelectedInTable(newSelected)};
   };
 
   const handleChangePage = (event, newPage) => {
@@ -294,6 +297,7 @@ export default function GenericTable(props) {
                             return (
                               <TableCell key={row.id + fieldName} align="left" padding="none">{row[fieldName]}</TableCell>
                             );
+                          } else {
                           }
                         })
                       }

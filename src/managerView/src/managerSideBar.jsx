@@ -5,17 +5,17 @@ import InventoryButton from './inventoryButton'
 import ServerViewButton from './serverViewButton'
 import OrderHistoryButton from './orderHistoryButton'
 import TrendsButton from './trendsButton'
-import SalesButton from './salesButton'
 import AddButton from './addButton'
+import ReorderButton from './reorderButton'
 
 export default function ManagerSideBar(props) {
-    const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setSalesVisible, setAddVisible} = props;
+    const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setAddVisible, setReorderVisible} = props;
     const visibleElements = {
         'inventory': setInventoryVisible,
         'orderHistory': setOrderHistoryVisible,
         'trends': setTrendsVisible,
-        'sales': setSalesVisible,
-        'add': setAddVisible
+        'add': setAddVisible,
+        'reorder': setReorderVisible
     };
 
     const setSafeVisible = (elementName) => {
@@ -79,10 +79,10 @@ export default function ManagerSideBar(props) {
                         <TrendsButton setTrendsVisible={() => {setSafeVisible('trends')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <SalesButton setSalesVisible={() => {setSafeVisible('sales')}} />
+                        <AddButton setAddVisible={() => {setSafeVisible('add')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <AddButton setAddVisible={() => {setSafeVisible('add')}} />
+                        <ReorderButton setReorderVisible={() => {setSafeVisible('reorder')}} />
                     </li>
                 </ul>
             </div>

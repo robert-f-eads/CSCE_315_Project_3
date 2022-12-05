@@ -84,5 +84,27 @@ async function addProduct(newProduct) {
     );
 }
 
+/**
+ * Makes API call to update ingredient infromation (useful once restock report is generated)
+ * @param {id} id of the ingredient to be updated
+ * @param {quantityToAdd} quantity to be added to the ingredients total
+ * @returns {string} confirmation the function completed
+ */
+async function increaseIngredientQuantity(id, quantityToAdd) {
+    let ingredients = [{"id": id}];
+    let queryString = `${apiURL}/increaseIngredientQuantity?quantity=${quantityToAdd}`
+    return await runFetch(
+        queryString,
+        {
+            method: "POST",
+            body: JSON.stringify(ingredients),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            })
+        }
+    );
+}
 
-export {getTable, generateSalesReport, generateRestockReport, generateExcessReport, addProduct}
+
+
+export {getTable, generateSalesReport, generateRestockReport, generateExcessReport, addProduct, increaseIngredientQuantity}
