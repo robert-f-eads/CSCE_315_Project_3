@@ -25,7 +25,6 @@ function App() {
                 </div>
              )} />
             <Route path='/managerview' element={<ManagerViewTester/>} />
-            <Route path='/maps' element={<StoreLocate/>} />
         </Routes>
     </Router>
   );
