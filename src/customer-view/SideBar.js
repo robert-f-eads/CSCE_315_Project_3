@@ -35,7 +35,7 @@ export default function SideBar(props) {
                     <div className="row" style={{ "paddingBottom": "0px" }}>
                         <div className="col" style={{ "textAlign": "center" }}>
                             <button onClick = {() => {navigate("/login")}}>
-                                <i class="fa fa-sign-out" aria-hidden="true" style={{ "color": "maroon", "fontSize": "27px" }}></i>
+                                <i className="fa fa-sign-out" aria-hidden="true" style={{ "color": "maroon", "fontSize": "27px" }}></i>
                             </button>
                         </div>
                         <div className="col" style={{ "textAlign": "center" }}>

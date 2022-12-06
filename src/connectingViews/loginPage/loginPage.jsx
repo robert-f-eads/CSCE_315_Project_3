@@ -23,7 +23,7 @@ function Login(props) {
                 "fname" : decoded.given_name,
                 "lname" : decoded.family_name,
                 "email" : decoded.email,
-                "phone" : "NULL",
+                "phone" : null,
                 "birthday" : "1900-01-01"
             }
             response = await (signUpNewMember(data))

@@ -20,52 +20,52 @@ export default function CartViewEntry(props) {
 
     return (
         <>
-            <div id={props.orderItem.getItemNumberInOrder} class="container-fluid cart-view-entry" onClick = {() => updateIndex()}>
-                <div class="row order-item">
-                    <div class="col-md-4">
+            <div id={props.orderItem.getItemNumberInOrder} className="container-fluid cart-view-entry" onClick = {() => updateIndex()}>
+                <div className="row order-item">
+                    <div className="col-md-4">
                         <b>{props.orderItem.getProduct.getName}</b>
                     </div>
 
-                    <div class="col-md-1"></div>
+                    <div className="col-md-1"></div>
 
-                    <div class=" col-md-2">
+                    <div className=" col-md-2">
                         {props.orderItem.getItemSize}oz
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="container">
-                            <div class="row g-0">
-                                <div class="col">
+                    <div className="col-md-4">
+                        <div className="container">
+                            <div className="row g-0">
+                                <div className="col">
                                     <button onClick={() => {
                                         if (amount >= 1) {
                                             props.orderItem.setItemAmount = (props.orderItem.getItemAmount - 1); setAmount(amount - 1)
                                         }
-                                    }} class="quantity-button"> <AiOutlineMinus size={20} />
+                                    }} className="quantity-button"> <AiOutlineMinus size={20} />
                                     </button>
                                 </div>
 
-                                <div class="col text-center">
+                                <div className="col text-center">
                                     {amount}
                                 </div>
-                                <div class="col align-content-center">
+                                <div className="col align-content-center">
                                     <button onClick={() => {
                                         props.orderItem.setItemAmount = (props.orderItem.getItemAmount + 1);
                                         setAmount(amount + 1)
                                     }}
-                                        class="quantity-button"><AiOutlinePlus size={20} />
+                                        className="quantity-button"><AiOutlinePlus size={20} />
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-1">
+                    <div className="col-md-1">
                         {props.orderItem.getProduct.getPrice}
                     </div>
                 </div>
                 {props.orderItem.getAdditions.map((element) => {
                     return (
-                        <div class="row order-item-modification">
+                        <div className="row order-item-modification">
                             Addition: {element.getIngredientName}
                         </div>
                     )
@@ -73,7 +73,7 @@ export default function CartViewEntry(props) {
 
                 {props.orderItem.getSubtractions.map((element) => {
                     return (
-                        <div class="row order-item-modification">
+                        <div className="row order-item-modification">
                             Subtraction: {element.getIngredientName}
                         </div>
                     )

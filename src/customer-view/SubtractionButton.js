@@ -20,7 +20,7 @@ export default function SubtractionButton(props) {
 
   return (
     <>
-      <button type="button" style={{ 'backgroundColor': isSelected ? 'maroon' : 'white', 'color': isSelected ? 'white' : 'black' }} class="SubtractionButton" onClick={() => {
+      <button type="button" style={{ 'backgroundColor': isSelected ? 'maroon' : 'white', 'color': isSelected ? 'white' : 'black' }} className="SubtractionButton" onClick={() => {
         removeModificationFromOrder();
         setIsSelected(!isSelected)
       }}> {/* subrract ingredient to order ticket */}

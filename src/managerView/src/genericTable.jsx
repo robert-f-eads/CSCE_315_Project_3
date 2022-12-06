@@ -169,18 +169,20 @@ export default function GenericTable(props) {
   const [headCells, setHeadCells] = React.useState();
 
   useEffect(() => {
-    const firstRes = tableInfo[0];
-    if(firstRes) {
-      const resFields = Object.keys(firstRes);
-      let tempHeadCells = [];
-      for(let i = 0; i < resFields.length; i++) {
-        tempHeadCells.push({id: resFields[i], label: resFields[i]})
+    if(tableInfo) {
+      const firstRes = tableInfo[0];
+      if(firstRes) {
+        const resFields = Object.keys(firstRes);
+        let tempHeadCells = [];
+        for(let i = 0; i < resFields.length; i++) {
+          tempHeadCells.push({id: resFields[i], label: resFields[i]})
+        }
+        setPage(0);
+        setHeadCells(tempHeadCells);
+        setRows(tableInfo);
+      } else {
+        alert('No item with given search query');
       }
-      setPage(0);
-      setHeadCells(tempHeadCells);
-      setRows(tableInfo);
-    } else {
-      alert('No item with given search query');
     }
   }, [tableInfo])
 

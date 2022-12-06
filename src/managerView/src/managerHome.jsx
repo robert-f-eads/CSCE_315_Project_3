@@ -20,7 +20,9 @@ function getFormattedDate(date) {
     return formattedDate;
 }
 
-function ManagerHome() {
+function ManagerHome(props) {
+    const {userData} = props;
+
     const [inventoryVisible, setInventoryVisible] = useState(false);
     const [orderHistoryVisible, setOrderHistoryVisible] = useState(false);
     const [trendsVisible, setTrendsVisible] = useState(false);
@@ -43,24 +45,29 @@ function ManagerHome() {
     const [reloadPage, setReloadPage] = useState(false);
 
     useEffect(() => {
-        getTable("products").then(res => {
-            setProducts(res);
-        });
-        getTable("ingredients").then(res => {
-            setIngredients(res);
-        });
-        getTable("ordertickets").then(res => {
-            setOrders(res);
-        });
-        generateRestockReport().then(res => {
-            setRestock(res);
-        });
-        generateSalesReport().then(res => {
-            setSales(res);
-        });
-        generateExcessReport().then(res => {
-            setExcess(res);
-        });
+        console.log(userData);
+        if(userData[3]) {
+            getTable("products").then(res => {
+                setProducts(res);
+            });
+            getTable("ingredients").then(res => {
+                setIngredients(res);
+            });
+            getTable("ordertickets").then(res => {
+                setOrders(res);
+            });
+            generateRestockReport().then(res => {
+                setRestock(res);
+            });
+            generateSalesReport().then(res => {
+                setSales(res);
+            });
+            generateExcessReport().then(res => {
+                setExcess(res);
+            });
+        } else {
+            alert('Access Not Granted');
+        }
     }, [reloadPage]);
 
     return (

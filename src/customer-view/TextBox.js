@@ -34,7 +34,7 @@ export default function TextBox(props) {
                         </div>
                         <div className="col">
                             <button className="btn btn-primary" type="button" onClick = {() => updateInformation()}>
-                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                <i className="fa fa-angle-right" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>

@@ -38,10 +38,10 @@ export default function Modifications(props) {
 
             <div className="popup" style={{ "z-index": "100" }}>
                 <div className="popup-inner" style={{ "min-height": "80vh", "min-width": "80vw"}}>
-                    <div class="modification-view">
-                        <div class="container" style = {{maxHeight: "50vh", overflowY: "auto"}}>
-                            <div class="row">
-                                <div class="col">
+                    <div className="modification-view">
+                        <div className="container" style = {{maxHeight: "50vh", overflowY: "auto"}}>
+                            <div className="row">
+                                <div className="col">
                                     <button onClick={() => { 
                                             var tempArray = props.orderTicket.getItems;
                                             if (tempArray.length > 1) {
@@ -50,23 +50,23 @@ export default function Modifications(props) {
                                             props.func(false)
                                         }} 
                                         style={{ "backgroundColor": "transparent", "color": "maroon", "border": "none" }}>
-                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        <i className="fa fa-angle-left" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
-                            <div class="row top-panel item-name">
+                            <div className="row top-panel item-name">
                                 {props.currentOrderItem.getProduct.getName}
                             </div>
                         </div>
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="col header-name">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col header-name">
                                     Size
                                 </div>
                             </div>
-                            <div class="row">
-                               <div class="col-2">
+                            <div className="row">
+                               <div className="col-2">
                                     <button id = "size20" onClick={() => {props.currentOrderItem.setItemSize = 20; 
                                         document.getElementById('size20').style.backgroundColor = 'maroon';
                                         document.getElementById('size20').style.color = 'white';
@@ -80,7 +80,7 @@ export default function Modifications(props) {
                                     </button>
 
                                 </div>
-                                <div class="col-2">
+                                <div className="col-2">
                                     <button id = "size32" onClick={() => {props.currentOrderItem.setItemSize = 32;
                                         document.getElementById('size32').style.backgroundColor = 'maroon';
                                         document.getElementById('size32').style.color = 'white';
@@ -93,7 +93,7 @@ export default function Modifications(props) {
                                         32oz
                                     </button>
                                 </div>
-                                <div class="col-2">
+                                <div className="col-2">
                                     <button id = "size40" onClick={() => {props.currentOrderItem.setItemSize = 40;
                                         document.getElementById('size40').style.backgroundColor = 'maroon';
                                         document.getElementById('size40').style.color = 'white';
@@ -110,14 +110,14 @@ export default function Modifications(props) {
                             </div>
                         </div>
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="col header-name">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col header-name">
                                     Subtractions
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="container">
+                            <div className="row">
+                                <div className="container">
                                     {props.currentOrderItem.getProduct.getIngredients.map((element) => {
                                         return (
                                             <SubtractionButton ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
@@ -128,17 +128,17 @@ export default function Modifications(props) {
                             </div>
                         </div>
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="col header-name">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col header-name">
                                     Additions
                                     <br></br>
                                     <SearchBar inputId={"additionEntryField"} getSearchResults={() => { getSearchResults(setSearchResults) }} />
                                 </div>
                             </div>
                            
-                            <div class="row">
-                                <div class="container" style={{ minHeight: "100%" }}>
+                            <div className="row">
+                                <div className="container" style={{ minHeight: "100%" }}>
                                     {searchResults.map((element) => {
                                         return (
                                             <AdditionButton ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />

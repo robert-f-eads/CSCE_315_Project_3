@@ -7,8 +7,12 @@ import OrderHistoryButton from './orderHistoryButton'
 import TrendsButton from './trendsButton'
 import AddButton from './addButton'
 import ReorderButton from './reorderButton'
+import { useNavigate } from 'react-router-dom'
 
 export default function ManagerSideBar(props) {
+
+    const navigate = useNavigate();
+
     const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setSalesVisible, setExcessVisible, setAddVisible, setReorderVisible} = props;
     const visibleElements = {
         'inventory': setInventoryVisible,
@@ -57,11 +61,12 @@ export default function ManagerSideBar(props) {
                     </div>
                 </a>
                 <div className="row" style={{ "paddingBottom": "10px" }}>
-                    <div className="col" style={{ "alignContent": "center" }}>
-                        <i className="fa fa-user" aria-hidden="true" style={{ "paddingLeft": "40px", "color": "maroon", "fontSize": "25px" }}></i>
-                    </div>
-                    <div className="col" style={{ "alignContent": "center" }}>
-                        <i className="fa fa-shopping-cart" aria-hidden="true" style={{ "paddingLeft": "50px", "color": "maroon", "fontSize": "25px" }}></i>
+                    <div className="col" style={{ "alignContent": "center"}}>
+                        <button style={{'border': 'none'}} onClick={() => {
+                            navigate('/login')
+                        }}>
+                            <i className="fa fa-sign-out" aria-hidden="true" style={{ "paddingLeft": "40px", "color": "maroon", "fontSize": "25px" }}></i>
+                        </button>
                     </div>
                 </div>
 

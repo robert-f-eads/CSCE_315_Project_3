@@ -58,7 +58,7 @@ export default function CartView(props) {
 
 
                             {props.orderTicket && props.orderTicket.getItems.map((item) =>
-                                <div class="row">
+                                <div className="row">
                                     <CartViewEntry currentIndex={selectedIndex} setIndex = {setSelectedIndex} orderItem={item}></CartViewEntry>
                                 </div>
                             )}
