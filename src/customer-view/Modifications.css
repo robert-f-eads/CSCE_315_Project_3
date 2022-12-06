@@ -59,3 +59,12 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.modification-view button:hover {
+    background-color: rgb(201, 16, 16);
+    color: white;
+    border: 1px solid rgb(168, 172, 175);
+    padding-left: 15px;
+    padding-right: 15px;
+    transition: 0.2s;
+}

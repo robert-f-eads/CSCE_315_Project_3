@@ -26,20 +26,12 @@ export default function SideBar(props) {
 
             <div className="sidebar sticky-top">
                 <div className="">
-                    <a href="/" className="d-flex mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                        <div className="container" style={{ "paddingBottom": "0px"}}>
-                            <div className="row align-items-center text-center">
-                                <div className="col">
-                                    <img alt="Logo" class="img-responsive" style={{ "max-height": "70px" }} src={SmoothieKingLogo}></img>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
 
-                    <hr></hr> 
+
+                    <hr></hr>
                     <div className="row" style={{ "paddingBottom": "0px" }}>
                         <div className="col" style={{ "textAlign": "center" }}>
-                            <i className="fa fa-user" aria-hidden="true" style={{ "color": "maroon", "fontSize": "25px" }}></i>
+                            <i class="fa fa-sign-out" aria-hidden="true" style={{ "color": "maroon", "fontSize": "27px" }}></i>
                         </div>
                         <div className="col" style={{ "textAlign": "center" }}>
                             <button onClick={() => { props.func(true) }}>
@@ -47,31 +39,32 @@ export default function SideBar(props) {
                             </button>
                         </div>
                     </div>
-                    <SearchBar inputId = {props.searchBarId} getSearchResults={getSearchResults}></SearchBar>
+                    
+                    <SearchBar inputId={props.searchBarId} getSearchResults={getSearchResults}></SearchBar>
 
                     <ul className="nav nav-pills flex-column mb-auto" style={{ "paddingTop": "0px" }}>
                         <li className="nav-item">
-                            <a href="www.google.com" className="nav-link link-dark" aria-current="page">
+                            <a href="#FeelEnergized" className="nav-link link-dark" aria-current="page">
                                 Feel Energized
                             </a>
                         </li>
                         <li>
-                            <a href="www.google.com" className="nav-link link-dark">
+                            <a href="#GetFit" className="nav-link link-dark">
                                 Get Fit
                             </a>
                         </li>
                         <li>
-                            <a href="www.google.com" className="nav-link link-dark">
+                            <a href="#ManageWeight" className="nav-link link-dark">
                                 Manage Weight
                             </a>
                         </li>
                         <li>
-                            <a href="www.google.com" className="nav-link link-dark">
+                            <a href="#BeWell" className="nav-link link-dark">
                                 Be Well
                             </a>
                         </li>
                         <li>
-                            <a href="www.google.com" className="nav-link link-dark">
+                            <a href="#EnjoyATreat" className="nav-link link-dark">
                                 Enjoy A Treat</a>
                         </li>
                     </ul>

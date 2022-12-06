@@ -5,6 +5,7 @@ import AdditionButton from './AdditionButton'
 import SubtractionButton from './SubtractionButton'
 import { getIngredientsByName, getProductsByName } from '../databaseConnections/databaseFunctionExports'
 import { useState } from 'react'
+import orderTicket from '../dataStructures/orderTicket'
 
 export default function Modifications(props) {
     //const [additionItems, setAdditionItems] = useState([]);
@@ -36,12 +37,19 @@ export default function Modifications(props) {
             </script>
 
             <div className="popup" style={{ "z-index": "100" }}>
-                <div className="popup-inner" style={{ "min-height": "80vh", "min-width": "80vw" }}>
+                <div className="popup-inner" style={{ "min-height": "80vh", "min-width": "80vw"}}>
                     <div class="modification-view">
-                        <div class="container">
+                        <div class="container" style = {{maxHeight: "50vh", overflowY: "auto"}}>
                             <div class="row">
                                 <div class="col">
-                                    <button onClick={() => { props.func(false) }} style={{ "backgroundColor": "transparent", "color": "maroon", "border": "none" }}>
+                                    <button onClick={() => { 
+                                            var tempArray = props.orderTicket.getItems;
+                                            if (tempArray.length > 1) {
+                                                props.orderTicket.setItems = tempArray.slice(0, tempArray.length - 1)
+                                            }
+                                            props.func(false)
+                                        }} 
+                                        style={{ "backgroundColor": "transparent", "color": "maroon", "border": "none" }}>
                                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -59,18 +67,42 @@ export default function Modifications(props) {
                             </div>
                             <div class="row">
                                <div class="col-2">
-                                    <button onClick={() => {props.currentOrderItem.setItemSize = 20}}>
+                                    <button id = "size20" onClick={() => {props.currentOrderItem.setItemSize = 20; 
+                                        document.getElementById('size20').style.backgroundColor = 'maroon';
+                                        document.getElementById('size20').style.color = 'white';
+
+                                        document.getElementById('size32').style.backgroundColor = 'white';
+                                        document.getElementById('size32').style.color = 'black';
+                                        document.getElementById('size40').style.backgroundColor = 'white';
+                                        document.getElementById('size40').style.color = 'black';
+                                    }}>
                                         20oz
                                     </button>
 
                                 </div>
                                 <div class="col-2">
-                                    <button onClick={() => {props.currentOrderItem.setItemSize = 32}}>
+                                    <button id = "size32" onClick={() => {props.currentOrderItem.setItemSize = 32;
+                                        document.getElementById('size32').style.backgroundColor = 'maroon';
+                                        document.getElementById('size32').style.color = 'white';
+
+                                        document.getElementById('size20').style.backgroundColor = 'white';
+                                        document.getElementById('size20').style.color = 'black';
+                                        document.getElementById('size40').style.backgroundColor = 'white';
+                                        document.getElementById('size40').style.color = 'black';
+                                    }}>
                                         32oz
                                     </button>
                                 </div>
                                 <div class="col-2">
-                                    <button onClick={() => {props.currentOrderItem.setItemSize = 40}}>
+                                    <button id = "size40" onClick={() => {props.currentOrderItem.setItemSize = 40;
+                                        document.getElementById('size40').style.backgroundColor = 'maroon';
+                                        document.getElementById('size40').style.color = 'white';
+
+                                        document.getElementById('size32').style.backgroundColor = 'white';
+                                        document.getElementById('size32').style.color = 'black';
+                                        document.getElementById('size20').style.backgroundColor = 'white';
+                                        document.getElementById('size20').style.color = 'black';
+                                    }}>
                                         40oz
                                     </button>
                                 </div>
@@ -104,9 +136,7 @@ export default function Modifications(props) {
                                     <SearchBar inputId={"additionEntryField"} getSearchResults={() => { getSearchResults(setSearchResults) }} />
                                 </div>
                             </div>
-                            <div class="row">
-
-                            </div>
+                           
                             <div class="row">
                                 <div class="container" style={{ minHeight: "100%" }}>
                                     {searchResults.map((element) => {
@@ -117,7 +147,12 @@ export default function Modifications(props) {
                                     })}
 
                                 </div>
+                            </div>
 
+                            <div className ="row">
+                                <div className = "col">
+                                    <button className = "float-end" onClick = {() => props.func(false)}> Add to Cart </button>
+                                </div>
                             </div>
                         </div>
 

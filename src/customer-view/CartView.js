@@ -40,11 +40,6 @@ export default function CartView(props) {
                                         Remove
                                     </button>
                                 </div>
-                                <div class="col justify-content-end d-flex">
-                                    <button>
-                                        Edit Item
-                                    </button>
-                                </div>
                             </div>
 
 
@@ -54,31 +49,24 @@ export default function CartView(props) {
                                 </div>
                             )}
 
-                            <div class="row">
-                               {/* <div class="col">
-                                    <TextBox textBoxId="customerName" hintMessage="Name"></TextBox>
-                            </div> */}
 
-                                <div class="col">
-                                    <TextBox orderTicket = {props.OrderTicket} textBoxId="rewardsMemberId" hintMessage="Rewards Member ID"></TextBox>
-                                </div>
-                                <div class="row">
-                                    <div class="col justify-content-end d-flex">
-                                        <button onClick={() => {
-                                           writeOrderToDb(props.orderTicket);
-                                           props.func(false);
-                                           //Function to clear order ticket/re-make new one
-                                        }}>
-                                            Checkout
-                                        </button>
-                                    </div>
+
+
+                            <div class="row">
+                                <div class="col justify-content-end d-flex">
+                                    <button onClick={() => {
+                                        writeOrderToDb(props.orderTicket);
+                                        props.func(false);
+                                        //Function to clear order ticket/re-make new one
+                                    }}>
+                                        Checkout
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </>
     ) : "";
 }

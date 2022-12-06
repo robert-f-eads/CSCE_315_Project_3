@@ -20,6 +20,13 @@ var beWell = [];
 var enjoyATreat = [];
 
 
+{/*function importProductImages(names) {
+    let images = {}
+    names.keys().map((item) => {images[item.replace('./', '')] = names(item);})
+    return images
+}
+const images = importProductImages(require.context('./ProductImages', false, 'png'))*/}
+
 export default function MenuView(props) {
     const [menuItems, setMenuItems] = useState([]);
 
@@ -41,7 +48,7 @@ export default function MenuView(props) {
                 </div> */}
 
                 {/* feel energized */}
-                <div className="row category-title align-middle">
+                <div id = "FeelEnergized" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
                     Feel Energized
                 </div>
 
@@ -55,7 +62,7 @@ export default function MenuView(props) {
                 </div>
 
 
-                <div className="row category-title align-middle">
+                <div id = "GetFit" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
                     Get Fit
                 </div>
 
@@ -68,7 +75,7 @@ export default function MenuView(props) {
                     })}
                 </div>
 
-                <div className="row category-title align-middle">
+                <div id = "ManageWeight" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
                     Manage Weight
                 </div>
 
@@ -81,7 +88,7 @@ export default function MenuView(props) {
                     })}
                 </div>
 
-                <div className="row category-title align-middle">
+                <div id = "BeWell" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
                     Be Well
                 </div>
 
@@ -94,7 +101,7 @@ export default function MenuView(props) {
                     })}
                 </div>
 
-                <div className="row category-title align-middle">
+                <div id = "EnjoyATreat" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
                     Enjoy A Treat
                 </div>
 
