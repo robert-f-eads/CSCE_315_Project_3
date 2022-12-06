@@ -85,9 +85,9 @@ export default function CustomerView(props) {
                 <div className="container-fluid px-0 sticky-top" style={{ backgroundColor: "rgb(248, 249, 250)" }}>
                     <div className="row g-0 px-0">
                         <div className="col-3" style={{ textAlign: "center" }}>
-                            <img alt="Logo" className="img-responsive" style={{ "max-height": "70px", marginTop: "3vh" }} src={SmoothieKingLogo}></img>
+                            <img alt="Logo" className="img-responsive" style={{ "maxHeight": "70px", marginTop: "3vh" }} src={SmoothieKingLogo}></img>
                         </div>
-                        <div className="col" style={{  backgroundImage:`url(${banner})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", "margin-bottom": "0px", minHeight: "13vh", left: "0" }}>
+                        <div className="col" style={{  backgroundImage:`url(${banner})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", "marginBottom": "0px", minHeight: "13vh", left: "0" }}>
                         
                         </div>
                     </div>

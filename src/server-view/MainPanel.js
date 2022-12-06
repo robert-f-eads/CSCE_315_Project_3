@@ -28,7 +28,7 @@ export default function MainPanel() {
                         <CheckDisplay dataProp={products} hasSearched={true}/>
                         {/* {products.map(product => {
                             return (
-                                <div key={product.id} class="productCardContainer">
+                                <div key={product.id} className="productCardContainer">
                                     <ProductCard productName={product.name}/>
                                 </div>
                             )
