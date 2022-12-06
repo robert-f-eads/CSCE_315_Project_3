@@ -141,6 +141,18 @@ class orderItem {
         let index = this.subtractions.indexOf(subtraction)
         if(index > -1) {this.subtractions.splice(index, 1)}
     }
+    /**
+     * Checks if subractions exists in the item
+     * @param {orderItemModification} targetSubraction target subtraction modification to be searched for
+     * @returns {int} index of item if found, if not -1
+     */
+    findSubtraction(targetSubraction) {
+        if(this.subtractions.length === 0) {return -1}
+        for(var i = 0; i < this.subtractions.length; i++) {
+            if(targetSubraction.ingredientId === this.subtractions.at(i).ingredientId) {return i}
+        }
+        return -1
+    }
 }
 
 export default orderItem

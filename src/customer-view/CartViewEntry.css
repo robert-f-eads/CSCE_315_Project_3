@@ -3,17 +3,14 @@
 }
 
 .order-item {
-    /*background-color: rgb(215, 241, 251);*/
-    background-color: rgb(248, 249, 250);
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 20px;
 }
 
+
 .order-item-modification {
     text-indent: 25px;
-    background-color: rgb(248, 249, 250);
-
 }
 
 .row {
@@ -23,8 +20,6 @@
 .quantity-button {
     top: 0px;
     right: 0px;
-    height: 25px !important;
-    width: 25px !important;
     background-color: rgb(201, 16, 16) !important;
     border: none !important;
     border-radius: 0;
@@ -32,14 +27,22 @@
     overflow: hidden;
 }
 
-.quantity-button .fa-plus {
-    margin-top: -20px !important;
-    margin-left: -5px !important;
-    font-size: 20px;
-  }
 
-  .quantity-button .fa-minus {
-    margin-top: -20px !important;
-    margin-left: -5px !important;
-    font-size: 20px;
-  }
+.cart-view-entry{
+    background-color: rgb(248, 249, 250);
+}    
+
+.cart-view-entry:hover {
+    background-color: rgb(212, 212, 212);
+    transition: 0.2s;
+}
+
+.cart-view-entry:active {
+    background-color: rgb(186, 186, 187);
+    transition: 0.2s;
+}
+
+.cart-view-entry:focus {
+    background-color: rgb(186, 186, 187);
+    transition: 0.2s;
+}

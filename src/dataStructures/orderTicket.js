@@ -120,6 +120,17 @@ class orderTicket {
         let index = this.items.indexOf(item)
         if(index > -1) {this.items.splice(index, 1)}
     }
+    /**
+     * Remove an item from the orderTicket by index
+     * @param {int} index the index of the item to be removed from the orderTicket 
+     */
+    removeItemFromOrderByIndex(index) {
+        this.items.splice(index, 1);
+    }
+
+    findIndexOfItem(item) {
+        
+    }
 }
 
 export default orderTicket

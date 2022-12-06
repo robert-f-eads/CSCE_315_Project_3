@@ -1,10 +1,12 @@
-import React from 'react'
+import {React} from 'react'
 import './SideBar.css'
 import SmoothieKingLogo from '../Logo.png'
 import SearchBar from './SearchBar'
+import {Logout} from '../connectingViews'
 
 export default function SideBar(props) {
     const { getSearchResults, showCartView, func } = props;
+
     return (
         <>
 
@@ -31,7 +33,10 @@ export default function SideBar(props) {
                     <hr></hr>
                     <div className="row" style={{ "paddingBottom": "0px" }}>
                         <div className="col" style={{ "textAlign": "center" }}>
-                            <i class="fa fa-sign-out" aria-hidden="true" style={{ "color": "maroon", "fontSize": "27px" }}></i>
+                            {!props.usingGoogle && <button onClick = {() => {}}>
+                                <i class="fa fa-sign-out" aria-hidden="true" style={{ "color": "maroon", "fontSize": "27px" }}></i>
+                            </button>}                            
+                            {props.usingGoogle && <Logout/>}
                         </div>
                         <div className="col" style={{ "textAlign": "center" }}>
                             <button onClick={() => { props.func(true) }}>

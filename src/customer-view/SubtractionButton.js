@@ -11,8 +11,8 @@ export default function SubtractionButton(props) {
     let temp_subtraction = new orderItemModification(0, 0, props.currentOrderItem.getItemNumberInOrder, props.ingredientId, props.ingredientName)
 
     //Add or remove modification
-    const index = props.currentOrderItem.getSubtractions.indexOf(temp_subtraction)
-    if (index > -1) { props.currentOrderItem.getSubtractions.splice(index, 1) }
+    const index = props.currentOrderItem.findSubtraction(temp_subtraction)
+    if (index > -1) {props.currentOrderItem.getSubtractions.splice(index, 1)}
     else {props.currentOrderItem.addSubtraction(temp_subtraction)}
   }
 

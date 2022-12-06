@@ -1,11 +1,16 @@
-import React from 'react'
+import {React, useState} from 'react'
 import { writeOrderToDb } from '../databaseConnections/sharedFunctions';
 import "./CartView.css"
 import CartViewEntry from './CartViewEntry'
 import TextBox from './TextBox'
 
 
+
+
 export default function CartView(props) {
+    const [selectedIndex, setSelectedIndex] = useState(null)
+
+
     return (props.trigger) ? (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"></link>
@@ -36,7 +41,12 @@ export default function CartView(props) {
                             </div>
                             <div class="row top-panel">
                                 <div class="col">
-                                    <button>
+                                    <button onClick={() =>  {
+                                            if (selectedIndex !== null) {
+                                                props.orderTicket.removeItemFromOrderByIndex(selectedIndex)
+                                            }
+                                        }
+                                    }>
                                         Remove
                                     </button>
                                 </div>
@@ -45,7 +55,7 @@ export default function CartView(props) {
 
                             {props.orderTicket && props.orderTicket.getItems.map((item) =>
                                 <div class="row">
-                                    <CartViewEntry orderItem={item}></CartViewEntry>
+                                    <CartViewEntry currentIndex={selectedIndex} setIndex = {setSelectedIndex} orderItem={item}></CartViewEntry>
                                 </div>
                             )}
 

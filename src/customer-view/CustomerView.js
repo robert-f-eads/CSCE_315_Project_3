@@ -55,7 +55,7 @@ export function CheckDisplay(props) {
     }
 }
 
-export default function CustomerView() {
+export default function CustomerView(props) {
     const [searchResults, setSearchResults] = useState([])
     const [showCart, setshowCart] = useState(false)
     const [showMod, setShowMod] = useState(false)
@@ -81,7 +81,7 @@ export default function CustomerView() {
 
                 <div className="row g-0">
                     <div className="col-3">
-                        <SideBar searchBarId="searchBarEntryField" getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
+                        <SideBar usingGoogle = {props.usingGoogle} searchBarId="searchBarEntryField" getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
                     </div>
                     <Modifications orderTicket = {ticket} currentOrderItem={tempItem} trigger={showMod} func={setShowMod} />
                     <div className="col">

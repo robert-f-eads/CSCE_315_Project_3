@@ -1,5 +1,6 @@
 import './App.css';
 import 'font-awesome/css/font-awesome.min.css';
+import {useState} from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import {LoginPage, LandingPage, StoreLocate} from './connectingViews';
 import CustomerView from './customer-view/CustomerView.js'
@@ -12,12 +13,13 @@ import Modifications from './customer-view/Modifications';
 
 
 function App() {
+  const [useGoogle, setUseGoogle] = useState(false)
   return (
     <Router>
         <Routes>
             <Route path='/' element={<LandingPage/>} />
-            <Route path='/login' element={<LoginPage/>} />
-            <Route path='/order' element={<CustomerView/>} />
+            <Route path='/login' element={<LoginPage setUsingGoogle={setUseGoogle}/>} />
+            <Route path='/order' element={<CustomerView usingGoogle={useGoogle}/>} />
             <Route path='/serverorder' element={(
                 <div id="serverViewContainer">
                 <MainPanel />

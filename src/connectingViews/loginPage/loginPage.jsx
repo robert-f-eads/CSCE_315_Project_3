@@ -8,6 +8,20 @@ import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../
 
 const clientId = process.env.REACT_APP_CLIENTID
 
+function Logout(props) {
+
+    const onSuccess = () => {console.log("Log out successfull!")}
+
+    return(
+        <GoogleLogout
+            clientId={clientId}
+            buttonText={"Logout"}
+            onLogoutSuccess={() => onSuccess}
+        />
+    )
+}
+
+
 function Login(props) {
 
     const onSuccess = async (res) => { 
@@ -27,6 +41,7 @@ function Login(props) {
         }
         
         //Give this data to the customer view
+        props.setUsingGoogle(true)
         alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
 
         //Go to appropriate page - passing "using google" as true
@@ -49,18 +64,6 @@ function Login(props) {
     )
 }
 
-export function Logout(props) {
-
-    const onSuccess = () => {console.log("Log out successfull!"); props.data()}
-
-    return(
-        <GoogleLogout
-            clientId={clientId}
-            buttonText={"Logout"}
-            onLogoutSuccess={() => onSuccess}
-        />
-    )
-}
 
 async function handleLogin(loginChooser, navigate) {
     let name = document.getElementById('nameEntryField').value
@@ -263,4 +266,4 @@ const LoginPage = () => {
 
 }
 
-export default LoginPage
+export {LoginPage, Logout}

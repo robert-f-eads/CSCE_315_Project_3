@@ -1,13 +1,31 @@
 import { React, useState } from 'react'
 import './CartViewEntry.css'
 import { orderTicket, dateTime, orderItem, product } from './../dataStructures/dataStructuresExports'
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 
 export default function CartViewEntry(props) {
     const [amount, setAmount] = useState(props.orderItem.getItemAmount)
+    const [isClicked, setIsClicked] = useState(false)
+
+    function updateIndex() {
+        document.getElementById(props.currentIndex).style.backgroundColor = "rgb(248, 249, 250)" 
+        props.setIndex(props.orderItem.getItemNumberInOrder)
+        var reference = document.getElementById(props.orderItem.getItemNumberInOrder)
+        if(isClicked) {
+            reference.style.backgroundColor = "rgb(248, 249, 250)" 
+            setIsClicked(false) 
+        } 
+        else {
+            reference.style.backgroundColor = "rgb(186, 186, 187)" 
+            setIsClicked(true)
+        }
+    }
+
+    
 
     return (
         <>
-            <div class="container-fluid">
+            <div id={props.orderItem.getItemNumberInOrder} class="container-fluid cart-view-entry" onClick = {() => updateIndex()}>
                 <div class="row order-item">
                     <div class="col-md-4">
                         <b>{props.orderItem.getProduct.getName}</b>
@@ -27,11 +45,11 @@ export default function CartViewEntry(props) {
                                         if (amount >= 1) {
                                             props.orderItem.setItemAmount = (props.orderItem.getItemAmount - 1); setAmount(amount - 1)
                                         }
-                                    }} class="quantity-button"><i class="fa fa-minus" aria-hidden="true"></i>
+                                    }} class="quantity-button"> <AiOutlineMinus size={20} />
                                     </button>
                                 </div>
 
-                                <div class="col">
+                                <div class="col text-center">
                                     {amount}
                                 </div>
                                 <div class="col align-content-center">
@@ -39,7 +57,7 @@ export default function CartViewEntry(props) {
                                         props.orderItem.setItemAmount = (props.orderItem.getItemAmount + 1);
                                         setAmount(amount + 1)
                                     }}
-                                        class="quantity-button"><i class="fa fa-plus" aria-hidden="true"></i>
+                                        class="quantity-button"><AiOutlinePlus size={20} />
                                     </button>
                                 </div>
                             </div>
@@ -56,7 +74,7 @@ export default function CartViewEntry(props) {
                             Addition: {element.getIngredientName}
                         </div>
                     )
-                })}    
+                })}
 
                 {props.orderItem.getSubtractions.map((element) => {
                     return (
@@ -64,7 +82,7 @@ export default function CartViewEntry(props) {
                             Subtraction: {element.getIngredientName}
                         </div>
                     )
-                })}     
+                })}
             </div>
         </>
     )
