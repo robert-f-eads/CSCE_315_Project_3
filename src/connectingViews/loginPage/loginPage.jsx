@@ -1,34 +1,16 @@
 import './loginPage.css'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-//import {GoogleLogin, GoogleLogout} from 'react-google-login'
-import {GoogleLogin,  useGoogleOneTapLogin } from '@react-oauth/google'
+import {GoogleLogin} from '@react-oauth/google'
 import jwt_decode from "jwt-decode"
 import {Navbar, Footer} from '../../sharedComponets'
 import {adv3, Logo} from '../../assets'
 import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../../databaseConnections/databaseFunctionExports'
 
-const clientId = process.env.REACT_APP_CLIENTID
-
-function Logout(props) {
-
-    const onSuccess = () => {console.log("Log out successfull!")}
-
-    return(
-        <></>
-        /*<GoogleLogout
-            clientId={clientId}
-            buttonText={"Logout"}
-            onLogoutSuccess={() => onSuccess}
-        />*/
-    )
-}
-
 
 function Login(props) {
-
     const onSuccess = async (res) => {
-        
+    
         //Decoding response 
         var decoded = jwt_decode(res.credential);
 
@@ -50,7 +32,6 @@ function Login(props) {
         //Give this data to the customer view
         //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
         props.setUserData([response[0].firstname, response[0].lastname, response[0].id, 0])
-        props.setUsingGoogle(true)
 
         //Go to appropriate page
         props.navigate('/order')
@@ -67,7 +48,6 @@ function Login(props) {
         </div>
     )
 }
-
 
 async function handleLogin(loginChooser, navigate, func) {
     let name = document.getElementById('nameEntryField').value
@@ -203,7 +183,7 @@ const LoginPage = (props) => {
                         <p id="notFoundError" className='showOnError'>*No user found</p>
                         <div id="buttonHolder">
                             <button onClick={() => {handleLogin(loginChooser, navigate, props.setUserData)}}>Login</button>
-                            {loginChooser && <Login setUsingGoogle={props.setUsingGoogle} navigate={navigate} setUserData={props.setUserData}/>}
+                            {loginChooser && <Login navigate={navigate} setUserData={props.setUserData}/>}
                         </div>
                     </div>
                     <div className='bottom-wrapper'>
@@ -272,4 +252,4 @@ const LoginPage = (props) => {
 
 }
 
-export {LoginPage, Logout}
+export default LoginPage
