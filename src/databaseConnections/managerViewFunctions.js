@@ -105,12 +105,12 @@ async function increaseIngredientQuantity(id, quantityToAdd) {
     );
 }
 
-// TODO make this function actually work
 /**
- * Makes API call to update ingredient infromation (useful once restock report is generated)
- * @param {id} id of the ingredient to be updated
- * @param {quantityToAdd} quantity to be added to the ingredients total
- * @returns {string} confirmation the function completed
+ * Makes API call to translate some text
+ * @param {strings} text to be translated
+ * @param {sourceLang} source language
+ * @param {targetLang} target language
+ * @returns json object containing translated text {translatedText} I think
  */
 async function translateText(strings, sourceLang, targetLang) {
     let data = {strings, sourceLang, targetLang};
