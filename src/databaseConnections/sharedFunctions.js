@@ -48,7 +48,7 @@ async function writeOrderToDb(ticket) {
             additionsBody.push(tempMod)
         })
         queryString = `${apiURL}/createOrder/addition`
-        await runFetch(queryString, {method: "POST", body: JSON.stringify(additionsBody)})
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(additionsBody), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
 
         //subractions
         let subtractionsBody = []
@@ -62,7 +62,7 @@ async function writeOrderToDb(ticket) {
             subtractionsBody.push(tempMod)
         })
         queryString = `${apiURL}/createOrder/subtraction`
-        await runFetch(queryString, {method: "POST", body: JSON.stringify(subtractionsBody)})
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(subtractionsBody), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
 
         
         //Updating ingredient counts
@@ -92,7 +92,7 @@ async function writeOrderToDb(ticket) {
             finalIngredients.push(tempIngred)
         })
         queryString = `${apiURL}/updateIngredient?quantity=${tempItem.getItemAmount}`
-        await runFetch(queryString, {method: "PUT", body: JSON.stringify(finalIngredients)})
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(finalIngredients), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
     }))
 
     return "Finished"

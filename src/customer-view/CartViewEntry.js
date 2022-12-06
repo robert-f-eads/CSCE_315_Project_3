@@ -5,23 +5,18 @@ import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 
 export default function CartViewEntry(props) {
     const [amount, setAmount] = useState(props.orderItem.getItemAmount)
-    const [isClicked, setIsClicked] = useState(false)
 
-    function updateIndex() {
-        document.getElementById(props.currentIndex).style.backgroundColor = "rgb(248, 249, 250)" 
-        props.setIndex(props.orderItem.getItemNumberInOrder)
+    const color1 = "rgb(186, 186, 187)"
+    const color2 = "rgb(248, 249, 250)"
+
+    async function updateIndex() {
+        if(props.currentIndex !== null) {document.getElementById(props.currentIndex).style.backgroundColor = color2}
         var reference = document.getElementById(props.orderItem.getItemNumberInOrder)
-        if(isClicked) {
-            reference.style.backgroundColor = "rgb(248, 249, 250)" 
-            setIsClicked(false) 
-        } 
-        else {
-            reference.style.backgroundColor = "rgb(186, 186, 187)" 
-            setIsClicked(true)
-        }
+        if(reference.style.backgroundColor === color1) {reference.style.backgroundColor = color2} 
+        else {reference.style.backgroundColor = color1}
+        await props.setIndex(props.orderItem.getItemNumberInOrder)
     }
 
-    
 
     return (
         <>

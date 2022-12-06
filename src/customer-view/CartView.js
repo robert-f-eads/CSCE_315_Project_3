@@ -1,5 +1,6 @@
 import {React, useState} from 'react'
 import { writeOrderToDb } from '../databaseConnections/sharedFunctions';
+import orderTicket from '../dataStructures/orderTicket';
 import "./CartView.css"
 import CartViewEntry from './CartViewEntry'
 import TextBox from './TextBox'
@@ -30,20 +31,23 @@ export default function CartView(props) {
 
             <div className="popup">
                 <div className="popup-inner" style={{ "min-height": "35vh", "min-width": "65vw" }}>
-                    <div class="cart-view">
-                        <div class="container">
-                            <div class="row top-panel">
-                                <div class="col">
+                    <div className="cart-view">
+                        <div className="container">
+                            <div className="row top-panel">
+                                <div className="col">
                                     <button onClick={() => { props.func(false) }} style={{ "backgroundColor": "transparent", "color": "maroon" }}>
-                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        <i className="fa fa-angle-left" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
-                            <div class="row top-panel">
-                                <div class="col">
+                            <div className="row top-panel">
+                                <div className="col">
                                     <button onClick={() =>  {
                                             if (selectedIndex !== null) {
                                                 props.orderTicket.removeItemFromOrderByIndex(selectedIndex)
+                                                props.orderTicket.updateIndexs(selectedIndex)
+                                                document.getElementById(selectedIndex).style.backgroundColor = "rgb(248, 249, 250)"
+                                                setSelectedIndex(null)
                                             }
                                         }
                                     }>
@@ -61,14 +65,16 @@ export default function CartView(props) {
 
 
 
-
-                            <div class="row">
-                                <div class="col justify-content-end d-flex">
+                            <div className="row">
+                                <div className="col justify-content-end d-flex">
                                     <button onClick={() => {
-                                        writeOrderToDb(props.orderTicket);
-                                        props.func(false);
-                                        //Function to clear order ticket/re-make new one
-                                    }}>
+                                        if(props.orderTicket.getItems.length <= 0) {}
+                                        else {
+                                            writeOrderToDb(props.orderTicket)
+                                            props.func(false)
+                                            props.ticketRefresh()
+                                        }
+                                    }}> 
                                         Checkout
                                     </button>
                                 </div>

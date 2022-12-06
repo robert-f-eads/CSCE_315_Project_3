@@ -153,6 +153,15 @@ class orderItem {
         }
         return -1
     }
+    /**
+     * Updates the number in order of the item and modifications 
+     * @param {int} newIndex new item number in the order 
+     */
+    updateNumberInOrder(newIndex) {
+        this.itemNumberInOrder = newIndex
+        if(this.additions.length > 0) this.additions.forEach(element => {element.setItemNumberInOrder = newIndex})
+        if(this.subtractions.length > 0) this.subtractions.forEach(element => {element.setItemNumberInOrder = newIndex})
+    }
 }
 
 export default orderItem

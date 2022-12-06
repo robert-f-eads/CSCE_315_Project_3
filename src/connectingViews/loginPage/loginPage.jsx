@@ -26,8 +26,10 @@ function Login(props) {
 
     const onSuccess = async (res) => { 
         //Call login with google
+        console.log("Here")
+        alert("pre call")
         let response = await (authWithGoogle(res.profileObj.email))
-
+        alert("post call")
         //Add new user if not found 
         if(response === false) {
             let data = {
@@ -55,8 +57,8 @@ function Login(props) {
             <GoogleLogin
                 clientId={clientId}
                 buttonText={props.displayText}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
+                onSuccess={() => {alert("Test"); onSuccess()}}
+                onFailure={() => {onFailure()}}
                 cookiePolicy={'single_host_origin'}
                 isSignedIn={false}
             />
@@ -65,7 +67,7 @@ function Login(props) {
 }
 
 
-async function handleLogin(loginChooser, navigate) {
+async function handleLogin(loginChooser, navigate, func) {
     let name = document.getElementById('nameEntryField').value
     let id = document.getElementById('idEntryField').value
 
@@ -88,7 +90,8 @@ async function handleLogin(loginChooser, navigate) {
         if(response === false) {document.getElementById('notFoundError').classList.remove("showOnError"); return}
 
         //Give this data to the customer view
-        alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+        //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+        func([response[0].firstname, response[0].lastname, response[0].id, 0])
 
         //Go to appropriate page
         navigate('/order')
@@ -101,7 +104,8 @@ async function handleLogin(loginChooser, navigate) {
         if(response === false) {document.getElementById('notFoundError').classList.remove("showOnError"); return}
 
         //Give this data to the server/manager view
-        alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id}, admin: ${response[0].isadmin})`)
+        //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id}, admin: ${response[0].isadmin})`)
+        func([response[0].firstname, response[0].lastname, response[0].id, response[0].isadmin])
 
         //Go to appropriate page
         if(response[0].isadmin) {navigate('/managerview')}
@@ -114,7 +118,7 @@ async function handleLogin(loginChooser, navigate) {
     document.getElementById('idEntryField').value = ""
 }
 
-async function handleSignUp(navigate) {
+async function handleSignUp(navigate, func) {
     let fields = ["firstNameEntryField", "lastNameEntryField", "emailEntryField", "phoneNumberEntryField", "birthdayEntryField"]
     let fieldData = {}
 
@@ -156,7 +160,8 @@ async function handleSignUp(navigate) {
     if(response === false) {document.getElementById('errorError').classList.remove("showOnError"); return}
     
     //Give this data to the customer view
-    alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+    //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+    func([response[0].firstname, response[0].lastname, response[0].id, 0])
     
     //Reset to default on sucessfuly entry
     fields.forEach((field) => {
@@ -173,7 +178,7 @@ function handleLoginChange(value) {
     else {document.getElementById('signup').classList.remove("showOnError")}
 }
 
-const LoginPage = () => {
+const LoginPage = (props) => {
     const [loginChooser, setloginChooser] = useState(true)
     const [viewChooser, setviewChooser] = useState(true)
     const navigate = useNavigate()
@@ -196,7 +201,7 @@ const LoginPage = () => {
                         <input id="idEntryField" type="text" placeholder="23"/>
                         <p id="notFoundError" className='showOnError'>*No user found</p>
                         <div id="buttonHolder">
-                            <button onClick={() => {handleLogin(loginChooser, navigate)}}>Login</button>
+                            <button onClick={() => {handleLogin(loginChooser, navigate, props.setUserData)}}>Login</button>
                             {loginChooser && <Login displayText="Login with Google" navigate={navigate}/>}
                         </div>
                     </div>
@@ -244,8 +249,8 @@ const LoginPage = () => {
                     </div>
                     <p id="errorError" className='showOnError'>*There is already an account with that phone number or email</p>
                     <div className='signup-buttons'>
-                        <button onClick={() => {handleSignUp(navigate)}}>Sign Up</button>
-                        <Login displayText="Sign up with Google" navigate={navigate}/>
+                        <button onClick={() => {handleSignUp(navigate, props.setUserData)}}>Sign Up</button>
+                        <Login displayText="Sign up with Google" navigate={navigate} setUsingGoogle={props.setUsingGoogle}/>
                     </div>
 
                     <div className='signup-footer'>

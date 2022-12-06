@@ -64,29 +64,28 @@ const insertNewItemAddition = (request, response) => {
     let BODY = request.body
 
     //Creating new subtraction
-    BODY.map((item) => {
+    BODY.forEach(item => {
         let queryString = 'INSERT INTO orderitemadditions (orderid, itemnumberinorder, ingredientid) VALUES '
         queryString += `(${item['orderId']}, ${item['numberInOrder']}, ${item['ingredientId']})`
         newPool.query(queryString, (error, results) => {
             if(error) {throw (error)}
         }) 
     })
-    response.status(200).send("Success")
+    response.status(200).json({})
 }
 
 //Insert subtraction - Making the assumption everything required will be given
 const insertNewOrderSubtraction = (request, response) => {
     let BODY = request.body
-
     //Creating new subtraction
-    BODY.map((item) => {
+    BODY.forEach(item => {
         let queryString = 'INSERT INTO orderitemsubtractions (orderid, itemnumberinorder, ingredientid) VALUES '
         queryString += `(${item['orderId']}, ${item['numberInOrder']}, ${item['ingredientId']})`
         newPool.query(queryString, (error, results) => {
             if(error) {throw (error)}
         }) 
     })
-    response.status(200).send("Success")
+    response.status(200).json({})
 }
 
 //Employee login
@@ -140,13 +139,15 @@ const updateIngredient = async (request, response) => {
             })
         }) 
         
+        
         //Decreasing amount as needed
         queryString = `UPDATE ingredients SET quantityremaining = ${currentAmount} WHERE id = ${item['id']}`
         newPool.query(queryString, (error, results) => {
             if(error) {reject (error)}
-            response.status(200).send('true')
+            
         })
     })
+    response.status(200).json({})
 }
 
 //Getting ingredients for a product

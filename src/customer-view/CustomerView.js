@@ -10,12 +10,22 @@ import { getProductsByName } from '../databaseConnections/databaseFunctionExport
 import Modifications from './Modifications'
 import SmoothieKingLogo from '../Logo.png'
 
-var ticket = new orderTicket(0, new dateTime("06-03-2002"), "Alexia", 0, 0, 10);
+var name;
+var id;
+var temp_date = new Date().toJSON()
+var yyyy = temp_date.slice(0,4);
+var mm = temp_date.slice(5,7);
+var dd = temp_date.slice(8,10);
+var time = temp_date.slice(11, 19);
+
+var ticket = new orderTicket(0, new dateTime(mm + "-" + dd + "-" + yyyy, time), "Blank", 0, 0, 0) 
 
 //var showCart = false;
 var showSearch = false;
 
-function ShowCartView() {
+function refreshOrderTicket() {ticket = new orderTicket(0, new dateTime(mm + "-" + dd + "-" + yyyy, time), name, id, 0, 0)}
+
+function ShowCartView(ticket) {
     console.log("showing cart");
     return (
         <>
@@ -23,6 +33,7 @@ function ShowCartView() {
         </>
     )
 }
+
 
 /*const getShowCart = (bool) => {
     showCart = bool;
@@ -42,7 +53,7 @@ export function CheckDisplay(props) {
         return <div className="container">
             <div className="row">
                 {props.dataProp && props.dataProp.length > 0 && props.dataProp.map((item) =>
-                    <ProductCard orderTicket={ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory={item.category} func={props.func} func1={props.func1} />
+                    <ProductCard orderTicket={props.ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory={item.category} func={props.func} func1={props.func1} />
                 )}
             </div>
         </div>
@@ -50,7 +61,7 @@ export function CheckDisplay(props) {
     else {
         /*Menu view */
         return <div className="row">
-            <MenuView orderTicket={ticket} func={props.func} func1={props.func1}></MenuView>
+            <MenuView orderTicket={props.ticket} func={props.func} func1={props.func1}></MenuView>
         </div>
     }
 }
@@ -61,12 +72,14 @@ export default function CustomerView(props) {
     const [showMod, setShowMod] = useState(false)
     const [tempItem, setTempItem] = useState()
 
+    ticket.setCustomerFirstName = props.userData[0]
+    ticket.setRewardsMemberId = props.userData[2]
+    name = props.userData[0]
+    id = props.userData[2]
+
     return (
         <>
             <div className="container-fluid px-0">
-
-
-
 
                 <div className="container-fluid px-0 sticky-top" style={{ backgroundColor: "rgb(248, 249, 250)" }}>
                     <div className="row g-0 px-0">
@@ -90,11 +103,11 @@ export default function CustomerView(props) {
                             {/*<div className="row sticky-top" style={{ "backgroundImage": "url(banner.png)", "max-height": "145px", "min-height": "145px", "backgroundSize": "cover", "paddingBottom": "100px" }}>
                             </div>*/}
 
-                            <CheckDisplay dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod} />
+                            <CheckDisplay dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod} ticket={ticket} />
                             {/*<MenuView/>*/}
                             {/*Popup cart view*/}
                             <div className="row" style={{ "paddingTop": "100px" }}>
-                                <CartView orderTicket={ticket} trigger={showCart} func={setshowCart} />
+                                <CartView orderTicket={ticket} trigger={showCart} func={setshowCart} ticketRefresh={()=>refreshOrderTicket()} />
                             </div>
                         </div>
                     </div>

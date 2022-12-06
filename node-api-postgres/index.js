@@ -45,9 +45,7 @@ app.post('/createOrder/subtraction', db.insertNewOrderSubtraction)
 app.post('/createProduct/item', db.addProduct)
 app.post('/createProduct/ingredient', db.addProductIngredient)
 app.post('/createRewardsMember', db.createRewardsMember)
-
-//Patch
-app.patch('/updateIngredient', db.updateIngredient)
+app.post('/updateIngredient', db.updateIngredient)
 
 
 app.listen(port, () => {console.log(`Web server listening at http://localhost:${port}`)})

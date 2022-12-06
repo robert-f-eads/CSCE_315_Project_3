@@ -127,9 +127,15 @@ class orderTicket {
     removeItemFromOrderByIndex(index) {
         this.items.splice(index, 1);
     }
-
-    findIndexOfItem(item) {
-        
+    /**
+     * Updates the order number of items after a deletion
+     * @param {int} removedIndex index removed from the array 
+     */
+    updateIndexs(removedIndex) {
+        if(removedIndex >= this.items.length) {}
+        else {
+            for(var i = removedIndex; i < this.items.length; i++) {this.items.at(i).updateNumberInOrder(i)}
+        }
     }
 }
 
