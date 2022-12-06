@@ -1,10 +1,66 @@
 import './loginPage.css'
-import { useState } from 'react'
+import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import {GoogleLogin, GoogleLogout} from 'react-google-login'
 import {Navbar, Footer} from '../../sharedComponets'
 import {adv3, Logo} from '../../assets'
-import {loginCustomer, loginEmployee, signUpNewMember} from '../../databaseConnections/databaseFunctionExports'
+import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../../databaseConnections/databaseFunctionExports'
 
+const clientId = process.env.REACT_APP_CLIENTID
+
+function Login(props) {
+
+    const onSuccess = async (res) => { 
+        //Call login with google
+        let response = await (authWithGoogle(res.profileObj.email))
+
+        //Add new user if not found 
+        if(response === false) {
+            let data = {
+                "fname" : res.profileObj.givenName,
+                "lname" : res.profileObj.familyName,
+                "email" : res.profileObj.email,
+                "phone" : "xxxxxxxxxx",
+                "birthday" : "1900-01-01"
+            }
+            response = await (signUpNewMember(data))
+        }
+        
+        //Give this data to the customer view
+        alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+
+        //Go to appropriate page - passing "using google" as true
+        props.navigate('/order')
+    }
+
+    const onFailure = (res) => {console.log("Unable to login due to ", res)}
+
+    return (
+        <div id="googleSignInButton">
+            <GoogleLogin
+                clientId={clientId}
+                buttonText={props.displayText}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+                isSignedIn={false}
+            />
+        </div>
+    )
+}
+
+export function Logout(props) {
+
+    const onSuccess = () => {console.log("Log out successfull!"); props.data()}
+
+    return(
+        <GoogleLogout
+            clientId={clientId}
+            buttonText={"Logout"}
+            onLogoutSuccess={() => onSuccess}
+        />
+    )
+}
 
 async function handleLogin(loginChooser, navigate) {
     let name = document.getElementById('nameEntryField').value
@@ -121,7 +177,9 @@ const LoginPage = () => {
 
     return <>
         <Navbar display={false}/>
+        
         <div className="mainBody">
+            {/*<Logout data={settestVariable} />*/}
             <div className='Login-wrapper'>
                 <img id='logo' src={Logo} alt='Logo'/>
 
@@ -134,7 +192,10 @@ const LoginPage = () => {
                         {loginChooser && <label>Rewards ID</label>}
                         <input id="idEntryField" type="text" placeholder="23"/>
                         <p id="notFoundError" className='showOnError'>*No user found</p>
-                        <div id="buttonHolder"><button onClick={() => {handleLogin(loginChooser, navigate)}}>Login</button></div>
+                        <div id="buttonHolder">
+                            <button onClick={() => {handleLogin(loginChooser, navigate)}}>Login</button>
+                            {loginChooser && <Login displayText="Login with Google" navigate={navigate}/>}
+                        </div>
                     </div>
                     <div className='bottom-wrapper'>
                         <div id="signup" className='signup-wrapper'>
@@ -181,7 +242,7 @@ const LoginPage = () => {
                     <p id="errorError" className='showOnError'>*There is already an account with that phone number or email</p>
                     <div className='signup-buttons'>
                         <button onClick={() => {handleSignUp(navigate)}}>Sign Up</button>
-                        <button>OAuth</button>
+                        <Login displayText="Sign up with Google" navigate={navigate}/>
                     </div>
 
                     <div className='signup-footer'>
@@ -196,7 +257,6 @@ const LoginPage = () => {
             <img src={adv3} alt='advertisement 3'/>
             </div>
         </div>
-
 
         <Footer/>
     </>

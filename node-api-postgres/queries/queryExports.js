@@ -19,6 +19,7 @@ const {
     updateIngredient,
     getIngredinetsForProduct,
     createRewardsMember,
+    googleAuth,
 } = require('./commonQueries')
 
 
@@ -40,4 +41,5 @@ module.exports = {
     generateExcessReport,
     getIngredinetsForProduct,
     createRewardsMember,
+    googleAuth,
 }

@@ -156,6 +156,16 @@ async function signUpNewMember(data) {
     return results
 }
 
+/**
+ * Makes call to check if customer signing in with Google is already signed up
+ * @param {string} email email of the customer attempting to sign in
+ * @returns {*} data from the query
+ */
+async function authWithGoogle(email) {
+    let queryString = `${apiURL}/authWithGoogle?email=${email}`
+    const results = await runFetch(queryString)
+    return results
+}
 
 /**
  * Function to run query and allow data access in calling function
@@ -169,4 +179,14 @@ async function runFetch(query, options = {method: "GET"}) {
         return data
 }
 
-export {getProductsByName, writeOrderToDb, runFetch, getIngredientsByName, loginCustomer, loginEmployee, getProductIngredients, signUpNewMember}
+export {
+    getProductsByName, 
+    writeOrderToDb, 
+    runFetch, 
+    getIngredientsByName, 
+    loginCustomer, 
+    loginEmployee, 
+    getProductIngredients, 
+    signUpNewMember,
+    authWithGoogle,
+}
