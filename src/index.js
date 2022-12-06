@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-import ManagerViewTester from './managerView/src/managerViewTester'
+import {GoogleOAuthProvider} from '@react-oauth/google'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-//root.render(
-//  <ManagerViewTester></ManagerViewTester>
-//)
+
  root.render(
    <React.StrictMode>
-     <App />
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENTID}><App /></GoogleOAuthProvider>
    </React.StrictMode>
  );
 

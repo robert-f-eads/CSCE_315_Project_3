@@ -1,3 +1,4 @@
+const e = require('express')
 const { request, response } = require('express')
 const {newPool} = require('./queryConnections')
 
@@ -169,7 +170,7 @@ const createRewardsMember = async (request, response) => {
     let BODY = request.body
     
     //Check if email or phone has been used previously
-    let queryString = `SELECT * FROM rewardsmembers WHERE email='${BODY.email}' OR phone='${BODY.phone}'`
+    let queryString = `SELECT * FROM rewardsmembers WHERE email='${BODY.email}'`
     let results = await new Promise((resolve, reject) => {
         newPool.query(queryString, (error, results) => {
             if(error) {reject (error)}  

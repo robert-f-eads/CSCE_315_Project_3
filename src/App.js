@@ -13,15 +13,14 @@ import Modifications from './customer-view/Modifications';
 
 
 function App() {
-  const [useGoogle, setUseGoogle] = useState(false)
   const [userData, setUserData] = useState([])
 
   return (
     <Router>
         <Routes>
             <Route path='/' element={<LandingPage/>} />
-            <Route path='/login' element={<LoginPage setUsingGoogle={setUseGoogle} setUserData={setUserData}/>} />
-            <Route path='/order' element={<CustomerView usingGoogle={useGoogle} userData={userData}/>} />
+            <Route path='/login' element={<LoginPage setUserData={setUserData}/>} />
+            <Route path='/order' element={<CustomerView userData={userData}/>} />
             <Route path='/serverorder' element={(
                 <div id="serverViewContainer">
                 <MainPanel />
