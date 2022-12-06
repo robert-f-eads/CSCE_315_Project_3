@@ -1,7 +1,9 @@
 import './loginPage.css'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {GoogleLogin, GoogleLogout} from 'react-google-login'
+//import {GoogleLogin, GoogleLogout} from 'react-google-login'
+import {GoogleLogin,  useGoogleOneTapLogin } from '@react-oauth/google'
+import jwt_decode from "jwt-decode"
 import {Navbar, Footer} from '../../sharedComponets'
 import {adv3, Logo} from '../../assets'
 import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../../databaseConnections/databaseFunctionExports'
@@ -13,54 +15,54 @@ function Logout(props) {
     const onSuccess = () => {console.log("Log out successfull!")}
 
     return(
-        <GoogleLogout
+        <></>
+        /*<GoogleLogout
             clientId={clientId}
             buttonText={"Logout"}
             onLogoutSuccess={() => onSuccess}
-        />
+        />*/
     )
 }
 
 
 function Login(props) {
 
-    const onSuccess = async (res) => { 
-        //Call login with google
-        console.log("Here")
-        alert("pre call")
-        let response = await (authWithGoogle(res.profileObj.email))
-        alert("post call")
+    const onSuccess = async (res) => {
+        
+        //Decoding response 
+        var decoded = jwt_decode(res.credential);
+
+        //Call login with google 
+        let response = await (authWithGoogle(decoded.email))
+        
         //Add new user if not found 
         if(response === false) {
             let data = {
-                "fname" : res.profileObj.givenName,
-                "lname" : res.profileObj.familyName,
-                "email" : res.profileObj.email,
-                "phone" : "xxxxxxxxxx",
+                "fname" : decoded.given_name,
+                "lname" : decoded.family_name,
+                "email" : decoded.email,
+                "phone" : "NULL",
                 "birthday" : "1900-01-01"
             }
             response = await (signUpNewMember(data))
         }
         
         //Give this data to the customer view
+        //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+        props.setUserData([response[0].firstname, response[0].lastname, response[0].id, 0])
         props.setUsingGoogle(true)
-        alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
 
-        //Go to appropriate page - passing "using google" as true
+        //Go to appropriate page
         props.navigate('/order')
     }
 
-    const onFailure = (res) => {console.log("Unable to login due to ", res)}
+    const onFailure = () => {console.log("Login Failed")}
 
     return (
         <div id="googleSignInButton">
             <GoogleLogin
-                clientId={clientId}
-                buttonText={props.displayText}
-                onSuccess={() => {alert("Test"); onSuccess()}}
+                onSuccess={credentialResponse => {onSuccess(credentialResponse)}}
                 onFailure={() => {onFailure()}}
-                cookiePolicy={'single_host_origin'}
-                isSignedIn={false}
             />
         </div>
     )
@@ -187,7 +189,6 @@ const LoginPage = (props) => {
         <Navbar display={false}/>
         
         <div className="mainBody">
-            {/*<Logout data={settestVariable} />*/}
             <div className='Login-wrapper'>
                 <img id='logo' src={Logo} alt='Logo'/>
 
@@ -202,7 +203,7 @@ const LoginPage = (props) => {
                         <p id="notFoundError" className='showOnError'>*No user found</p>
                         <div id="buttonHolder">
                             <button onClick={() => {handleLogin(loginChooser, navigate, props.setUserData)}}>Login</button>
-                            {loginChooser && <Login displayText="Login with Google" navigate={navigate}/>}
+                            {loginChooser && <Login setUsingGoogle={props.setUsingGoogle} navigate={navigate} setUserData={props.setUserData}/>}
                         </div>
                     </div>
                     <div className='bottom-wrapper'>
@@ -210,7 +211,7 @@ const LoginPage = (props) => {
                             <p>Don't have an account?</p>
                             <button onClick={() => {setviewChooser(false)}}>Click to get started</button>
                             <br/>
-                            <button onClick={() => {navigate('/order')}}>Continue as guest</button>
+                            <button onClick={() => {props.setUserData(["Guest", "Guest", 0, 0]); navigate('/order')}}>Continue as guest</button>
                         </div>
                         <div className='employee-wrapper'>
                             {loginChooser && <button onClick={() => {setloginChooser(false); handleLoginChange(loginChooser)}}>Employee Login</button>}
