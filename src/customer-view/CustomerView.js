@@ -9,6 +9,7 @@ import MenuView from './MenuView.js';
 import { getProductsByName } from '../databaseConnections/databaseFunctionExports'
 import Modifications from './Modifications'
 import SmoothieKingLogo from '../Logo.png'
+import banner from './banner.png'
 
 var name;
 var id;
@@ -84,9 +85,10 @@ export default function CustomerView(props) {
                 <div className="container-fluid px-0 sticky-top" style={{ backgroundColor: "rgb(248, 249, 250)" }}>
                     <div className="row g-0 px-0">
                         <div className="col-3" style={{ textAlign: "center" }}>
-                            <img alt="Logo" class="img-responsive" style={{ "max-height": "70px" }} src={SmoothieKingLogo}></img>
+                            <img alt="Logo" class="img-responsive" style={{ "max-height": "70px", marginTop: "3vh" }} src={SmoothieKingLogo}></img>
                         </div>
-                        <div className="col" style={{ "background-image": "url(banner.png)", "backgroundSize": "fill", "margin-bottom": "0px", "min-height": "12vh", "left": "0" }}>
+                        <div className="col" style={{  backgroundImage:`url(${banner})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", "margin-bottom": "0px", minHeight: "13vh", left: "0" }}>
+                        
                         </div>
                     </div>
                 </div>
@@ -99,9 +101,6 @@ export default function CustomerView(props) {
                     <Modifications orderTicket = {ticket} currentOrderItem={tempItem} trigger={showMod} func={setShowMod} />
                     <div className="col">
                         <div className="container-fluid">
-
-                            {/*<div className="row sticky-top" style={{ "backgroundImage": "url(banner.png)", "max-height": "145px", "min-height": "145px", "backgroundSize": "cover", "paddingBottom": "100px" }}>
-                            </div>*/}
 
                             <CheckDisplay dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod} ticket={ticket} />
                             {/*<MenuView/>*/}

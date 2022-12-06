@@ -48,7 +48,7 @@ export default function MenuView(props) {
                 </div> */}
 
                 {/* feel energized */}
-                <div id = "FeelEnergized" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
+                <div id = "FeelEnergized" className="row category-title align-middle" style = {{"scroll-margin-top": "6em"}}>
                     Feel Energized
                 </div>
 
@@ -62,7 +62,7 @@ export default function MenuView(props) {
                 </div>
 
 
-                <div id = "GetFit" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
+                <div id = "GetFit" className="row category-title align-middle" style = {{"scroll-margin-top": "6em"}}>
                     Get Fit
                 </div>
 
@@ -75,7 +75,7 @@ export default function MenuView(props) {
                     })}
                 </div>
 
-                <div id = "ManageWeight" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
+                <div id = "ManageWeight" className="row category-title align-middle" style = {{"scroll-margin-top": "6em"}}>
                     Manage Weight
                 </div>
 
@@ -88,7 +88,7 @@ export default function MenuView(props) {
                     })}
                 </div>
 
-                <div id = "BeWell" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
+                <div id = "BeWell" className="row category-title align-middle" style = {{"scroll-margin-top": "6em"}}>
                     Be Well
                 </div>
 
@@ -101,7 +101,7 @@ export default function MenuView(props) {
                     })}
                 </div>
 
-                <div id = "EnjoyATreat" className="row category-title align-middle" style = {{"scroll-margin-top": "5em"}}>
+                <div id = "EnjoyATreat" className="row category-title align-middle" style = {{"scroll-margin-top": "6em"}}>
                     Enjoy A Treat
                 </div>
 
