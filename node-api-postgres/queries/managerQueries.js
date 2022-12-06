@@ -1,6 +1,9 @@
 const { request, response } = require('express')
 const {newPool} = require('./queryConnections')
 
+const apiKey = 'AIzaSyCWUjGnZmsrzh6TtsMiOb5NVeUvOJWaZFI';
+const googleTranslate = require("google-translate")(apiKey);
+
 //Get table, with or without limit
 const getTable = (request, response) => {
     let Params = request.params
@@ -67,8 +70,11 @@ const generateSalesReport = async (request, response) => {
 
 //Calculate what ingredients need to be restocked
 const generateRestockReport = (request, response) => {
-    let queryString = 'SELECT id, name, quantityremaining, quantitytarget, (quantitytarget - quantityremaining) AS \"Amount Under Target\" '
-    queryString += 'FROM ingredients WHERE quantityremaining < quantitytarget AND quantityremaining > 0'
+    // TODO add quantitytarget to our table and remove hard coded value of 100 from our query string which filters by quantity remaining
+    // let queryString = 'SELECT id, name, quantityremaining, quantitytarget, (quantitytarget - quantityremaining) AS \"Amount Under Target\" '
+
+    let queryString = 'SELECT id, name, quantityremaining, (100 - quantityremaining) AS \"Amount Under Target\" '
+    queryString += 'FROM ingredients WHERE quantityremaining <= 100 AND quantityremaining >= 0'
     newPool.query(queryString, (error, results) => {
         if(error) {throw (error)}
         response.status(200).json(results.rows)
@@ -115,7 +121,47 @@ const addProductIngredient = (request, response) => {
         }) 
     })
     response.status(200).send({'status': 'Success'})
+}
 
+// increases the quantity of an ingredient a specified amount
+const increaseIngredientQuantity = (request, response) => {
+    let Querys = request.query
+    let BODY = request.body
+    
+    BODY.map(async (item) => {
+        //Getting current amount
+        let currentAmount
+        let queryString = `SELECT quantityremaining FROM ingredients WHERE id = ${item['id']}`
+        await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                if(results.rows.length == 0) {response.status(200).send('false')}
+                else {
+                    currentAmount = parseFloat(results.rows[0]['quantityremaining']) + (1 * Querys.quantity)
+                    resolve(currentAmount)
+                }
+            })
+        }) 
+        
+        //increasing amount as needed
+        queryString = `UPDATE ingredients SET quantityremaining = ${currentAmount} WHERE id = ${item['id']}`
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}
+            response.status(200).send({'status': 'Success'})
+        })
+    })
+}
+
+// translates into the desired language
+const translateText = (request, response) => {
+    // let Querys = request.query
+    let BODY = request.body
+
+    let item = BODY;
+    googleTranslate.translate(item['strings'], item['sourceLang'], item['targetLang'], function(err, translation) {
+        response.status(200).send({'translatedText': translation.translatedText})
+    });
+    
 }
 
 //Calcuate what ingredient sold less than 10%
@@ -210,4 +256,6 @@ module.exports = {
     addProduct,
     addProductIngredient,
     generateExcessReport,
+    increaseIngredientQuantity,
+    translateText,
 }
