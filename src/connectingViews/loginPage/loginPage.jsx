@@ -1,11 +1,12 @@
 import './loginPage.css'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {GoogleLogin} from '@react-oauth/google'
 import jwt_decode from "jwt-decode"
 import {Navbar, Footer} from '../../sharedComponets'
 import {adv3, Logo} from '../../assets'
 import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../../databaseConnections/databaseFunctionExports'
+import { translateText } from '../../databaseConnections/managerViewFunctions'
 
 /**
  * Handles login through Google OAuth
@@ -187,6 +188,40 @@ function handleLoginChange(value) {
 const LoginPage = (props) => {
     const [loginChooser, setloginChooser] = useState(true)
     const [viewChooser, setviewChooser] = useState(true)
+
+    const text = {
+        'First Name': 'First Name',
+        'Employee ID': 'Employee ID',
+        'Rewards ID': 'Rewards ID',
+        '*No user found': '*No user found',
+        'Login': 'Login',
+        "Don't have an account?": "Don't have an account?",
+        'Click to get started': 'Click to get started',
+        'Continue as guest': 'Continue as guest',
+        'Employee Login': 'Employee Login',
+        'Customer Login': 'Customer Login',
+    }
+    const [translatedText, setTranslatedText] = useState(text);
+    useEffect(() => {
+        let originalText = [];
+        for(const [key, ] of Object.entries(text)) {
+            originalText.push(key);
+        }
+        const originalTextCopy = originalText.slice();
+        Promise.all(originalText.map(async originalTextPiece => {
+            let tt = await translateText(originalTextPiece, 'en', props.language)
+            return tt.translatedText;
+        })).then(translatedText => {
+            let tempTranslatedText = {};
+            for(let i = 0; i < originalTextCopy.length; i++) {
+                let originalTextPiece = originalTextCopy[i];
+                let translatedTextPiece = translatedText[i];
+                tempTranslatedText[originalTextPiece] = translatedTextPiece;
+            }
+            setTranslatedText(tempTranslatedText);
+        });
+    })
+
     const navigate = useNavigate()
 
     return <>
@@ -199,27 +234,27 @@ const LoginPage = (props) => {
                 {/* Customer/Employee Login */}
                 {viewChooser && <div className="mainBody_Login">
                     <div className='mainBody_Login-center'>
-                        <label>First Name</label>
+                        <label>{translatedText['First Name']}</label>
                         <input id="nameEntryField" type="text" placeholder="John"/>
-                        {!loginChooser && <label>Employee ID</label>}
-                        {loginChooser && <label>Rewards ID</label>}
+                        {!loginChooser && <label>{translatedText['Employee ID']}</label>}
+                        {loginChooser && <label>{translatedText['Rewards ID']}</label>}
                         <input id="idEntryField" type="text" placeholder="23"/>
-                        <p id="notFoundError" className='showOnError'>*No user found</p>
+                        <p id="notFoundError" className='showOnError'>{translatedText['*No user found']}</p>
                         <div id="buttonHolder">
-                            <button onClick={() => {handleLogin(loginChooser, navigate, props.setUserData)}}>Login</button>
+                            <button onClick={() => {handleLogin(loginChooser, navigate, props.setUserData)}}>{translatedText['Login']}</button>
                             {loginChooser && <Login navigate={navigate} setUserData={props.setUserData}/>}
                         </div>
                     </div>
                     <div className='bottom-wrapper'>
                         <div id="signup" className='signup-wrapper'>
-                            <p>Don't have an account?</p>
-                            <button onClick={() => {setviewChooser(false)}}>Click to get started</button>
+                            <p>{translatedText["Don't have an account?"]}</p>
+                            <button onClick={() => {setviewChooser(false)}}>{translatedText['Click to get started']}</button>
                             <br/>
-                            <button onClick={() => {props.setUserData(["Guest", "Guest", 0, 0]); navigate('/order')}}>Continue as guest</button>
+                            <button onClick={() => {props.setUserData(["Guest", "Guest", 0, 0]); navigate('/order')}}>{translatedText['Continue as guest']}</button>
                         </div>
                         <div className='employee-wrapper'>
-                            {loginChooser && <button onClick={() => {setloginChooser(false); handleLoginChange(loginChooser)}}>Employee Login</button>}
-                            {!loginChooser && <button onClick={() => {setloginChooser(true); handleLoginChange(loginChooser)}}>Customer Login</button>}
+                            {loginChooser && <button onClick={() => {setloginChooser(false); handleLoginChange(loginChooser)}}>{translatedText['Employee Login']}</button>}
+                            {!loginChooser && <button onClick={() => {setloginChooser(true); handleLoginChange(loginChooser)}}>{translatedText['Customer Login']}</button>}
                         </div>
                     </div>
                 </div>}
