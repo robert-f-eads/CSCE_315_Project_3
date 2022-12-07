@@ -6,6 +6,11 @@ import {TiLocationArrow} from 'react-icons/ti'
 
 const center = {lat: 30.61246388688215, lng: -96.341009273326}
 
+/**
+ * Functions and display for a maps popup
+ * @param {*} props data to use in displaying the page
+ * @returns popup maps element
+ */
 const StoreLocate = (props) => {
 
     const [map, setMap] = useState(/** @type google.maps.Map */ (null))

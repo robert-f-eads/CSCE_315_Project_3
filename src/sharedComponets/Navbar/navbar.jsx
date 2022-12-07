@@ -4,6 +4,11 @@ import {useState} from 'react'
 import {StoreLocate} from '../../connectingViews'
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 
+/**
+ * Functions and display for a navbar
+ * @param {*} props selector for which button to display between Login or Home
+ * @returns navbar element
+ */
 const Navbar = (props) => {
     const [mapDisplay, setMapDisplay] = useState(false)
     const navigate = useNavigate()
