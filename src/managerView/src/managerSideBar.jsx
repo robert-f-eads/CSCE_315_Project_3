@@ -1,19 +1,18 @@
 import '../styles/managerSideBar.css'
 
 import SmoothieKingLogo from '../../Logo.png'
-import InventoryButton from './inventoryButton'
 import ServerViewButton from './serverViewButton'
-import OrderHistoryButton from './orderHistoryButton'
-import TrendsButton from './trendsButton'
-import AddButton from './addButton'
-import ReorderButton from './reorderButton'
 import { useNavigate } from 'react-router-dom'
+import ToggleButton from './toggleButton'
+import { useEffect } from 'react'
+import { translateText } from '../../databaseConnections/managerViewFunctions'
+import { useState } from 'react'
 
 export default function ManagerSideBar(props) {
 
     const navigate = useNavigate();
 
-    const {setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setSalesVisible, setExcessVisible, setAddVisible, setReorderVisible} = props;
+    const {language, setInventoryVisible, setOrderHistoryVisible, setTrendsVisible, setSalesVisible, setExcessVisible, setAddVisible, setReorderVisible} = props;
     const visibleElements = {
         'inventory': setInventoryVisible,
         'orderHistory': setOrderHistoryVisible,
@@ -23,6 +22,27 @@ export default function ManagerSideBar(props) {
         'add': setAddVisible,
         'reorder': setReorderVisible
     };
+    const [names, setNames] = useState({});
+
+    useEffect(() => {
+        let originalNames = [];
+        for(const [key, ] of Object.entries(visibleElements)) {
+            originalNames.push(key);
+        }
+        const originalNamesCopy = originalNames.slice();
+        Promise.all(originalNames.map(async originalName => {
+            let tt = await translateText(originalName, 'en', language)
+            return tt.translatedText;
+        })).then(translatedNames => {
+            let tempNames = {};
+            for(let i = 0; i < originalNamesCopy.length; i++) {
+                let originalName = originalNamesCopy[i];
+                let translatedName = translatedNames[i];
+                tempNames[originalName] = translatedName;
+            }
+            setNames(tempNames);
+        });
+    }, [])
 
     const setSafeVisible = (elementName) => {
         for(const [key, ] of Object.entries(visibleElements)) {
@@ -77,19 +97,19 @@ export default function ManagerSideBar(props) {
                         <ServerViewButton />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <OrderHistoryButton setOrderHistoryVisible={() => {setSafeVisible('orderHistory')}} />
+                        <ToggleButton name={names['orderHistory']} setComponent={() => {setSafeVisible('orderHistory')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <InventoryButton setInventoryVisible={() => {setSafeVisible('inventory')}} />
+                        <ToggleButton name={names['inventory']} setComponent={() => {setSafeVisible('inventory')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <TrendsButton setTrendsVisible={() => {setSafeVisible('trends')}} />
+                        <ToggleButton name={names['trends']} setComponent={() => {setSafeVisible('trends')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <AddButton setAddVisible={() => {setSafeVisible('add')}} />
+                        <ToggleButton name={names['add']} setComponent={() => {setSafeVisible('add')}} />
                     </li>
                     <li className="nav-item nav-link link-dark">
-                        <ReorderButton setReorderVisible={() => {setSafeVisible('reorder')}} />
+                        <ToggleButton name={names['reorder']} setComponent={() => {setSafeVisible('reorder')}} />
                     </li>
                 </ul>
             </div>

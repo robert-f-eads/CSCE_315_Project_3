@@ -73,6 +73,7 @@ function ManagerHome(props) {
         <>
             <div id="managerHomeContainer">
                 <ManagerSideBar
+                    language={language}
                     setInventoryVisible={setInventoryVisible}
                     setOrderHistoryVisible={setOrderHistoryVisible}
                     setTrendsVisible={setTrendsVisible}

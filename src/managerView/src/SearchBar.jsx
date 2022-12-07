@@ -11,7 +11,7 @@ export default function SearchBar(props) {
             <div className="row" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
                 <div className="col">
                     <div className="search">
-                        <input id="itemSearchText" type="text" className="form-control" placeholder="Search for Item"></input>
+                        <input id="itemSearchText" type="text" className="form-control" placeholder=""></input>
                         <button className="btn btn-primary" onClick={() => {onClickFunction(document.getElementById("itemSearchText").value)}}>
                             <i className="fa fa-search"></i>
                         </button>

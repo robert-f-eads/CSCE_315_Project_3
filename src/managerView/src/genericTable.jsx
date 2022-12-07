@@ -161,6 +161,7 @@ EnhancedTableToolbar.propTypes = {
 export default function GenericTable(props) {
   const { tableName, tableInfo, setSelectedInTable, language } = props;
 
+  const [translatedTableName, setTranslatedTableName] = React.useState(tableName);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('id');
   const [selected, setSelected] = React.useState([]);
@@ -170,19 +171,25 @@ export default function GenericTable(props) {
   const [headCells, setHeadCells] = React.useState();
 
   useEffect(() => {
+    if(tableName) {
+      translateText(tableName, 'en', language).then(tt => {
+        setTranslatedTableName(tt.translatedText);
+      });
+    }
+
     if(tableInfo) {
       const firstRes = tableInfo[0];
       if(firstRes) {
         const resFields = Object.keys(firstRes);
-        let tempHeadCells = [];
-        for(let i = 0; i < resFields.length; i++) {
-          tempHeadCells.push({id: resFields[i], label: resFields[i]})
-          console.log(language);
-          translateText('please help', 'en', language).then(tt => {console.log(tt)});
-        }
-        setPage(0);
-        setHeadCells(tempHeadCells);
-        setRows(tableInfo);
+        Promise.all(resFields.map(async resField => {
+          let tt = await translateText(resField, 'en', language);
+          return {id: resField, label: tt.translatedText};
+        })).then(translatedResFields => {
+          console.log(translatedResFields);
+          setPage(0);
+          setHeadCells(translatedResFields);
+          setRows(tableInfo);
+        });
       } else {
         // alert('No item with given search query');
       }
@@ -245,7 +252,7 @@ export default function GenericTable(props) {
   return (
     <Box sx={{ width: '100%'}} className="genericTable">
       <Paper sx={{ width: '100%'}}>
-        <EnhancedTableToolbar numSelected={selected.length} tableName={tableName} />
+        <EnhancedTableToolbar numSelected={selected.length} tableName={translatedTableName} />
         <TableContainer>
           <Table
             sx={{minWidth: 750}}
