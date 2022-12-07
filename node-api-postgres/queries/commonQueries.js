@@ -2,7 +2,11 @@ const e = require('express')
 const { request, response } = require('express')
 const {newPool} = require('./queryConnections')
 
-//Product search bar
+/**
+ * Gets products from database with a pattern matched partial name
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const searchProducts = (request, response) => {
     let Params = request.params
     let queryString = `SELECT * FROM products WHERE name ILIKE '%${Params.name}%'`
@@ -12,7 +16,11 @@ const searchProducts = (request, response) => {
     })
 }
 
-//Ingredient search bar
+/**
+ * Get ingredients from the database with a pattern matched partial name
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const searchIngredients = (request, response) => {
     let Params = request.params
     let queryString = `SELECT * FROM ingredients WHERE name ILIKE '%${Params.name}%'`
@@ -22,7 +30,11 @@ const searchIngredients = (request, response) => {
     })
 }
 
-//Insert orderticket - Making the assumption everything required will be given
+/**
+ * Inserts order ticket data into database
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const insertNewTicket = (request, response) => {
     let Querys = request.query
 
@@ -40,8 +52,11 @@ const insertNewTicket = (request, response) => {
         response.status(200).json(results.rows[0]['id'])
     })
 }
-
-//Insert orderItem - Making the assumption everything required will be given
+/**
+ * Inserts order item into the database
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const insertNewOrderItem = (request, response) => {
     let Querys = request.query
 
@@ -60,7 +75,11 @@ const insertNewOrderItem = (request, response) => {
     })
 }
 
-//Insert addition - Making the assumption everything required will be given
+/**
+ * Inserts order item addition into the database
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const insertNewItemAddition = (request, response) => {
     let BODY = request.body
 
@@ -75,7 +94,11 @@ const insertNewItemAddition = (request, response) => {
     response.status(200).json({})
 }
 
-//Insert subtraction - Making the assumption everything required will be given
+/**
+ * Inserts order item subtraction into the database
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const insertNewOrderSubtraction = (request, response) => {
     let BODY = request.body
     //Creating new subtraction
@@ -89,7 +112,11 @@ const insertNewOrderSubtraction = (request, response) => {
     response.status(200).json({})
 }
 
-//Employee login
+/**
+ * Checks database to log in employee
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const loginEmployee = (request, response) => {
     let Querys = request.query
     
@@ -105,7 +132,11 @@ const loginEmployee = (request, response) => {
     })
 }
 
-//Customer login
+/**
+ * Checks database to log in customer
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const loginRewardsMember = (request, response) => {
     let Querys = request.query
 
@@ -120,7 +151,11 @@ const loginRewardsMember = (request, response) => {
     })
 }
 
-//Decrementing ingredients
+/**
+ * Decrements ingredients when used to make a product in an order
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const updateIngredient = async (request, response) => {
     let Querys = request.query
     let BODY = request.body
@@ -151,7 +186,11 @@ const updateIngredient = async (request, response) => {
     response.status(200).json({})
 }
 
-//Getting ingredients for a product
+/**
+ * Gathers ingredients in a certain product
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const getIngredinetsForProduct = async (request, response) => {
     let Params = request.params
 
@@ -165,7 +204,11 @@ const getIngredinetsForProduct = async (request, response) => {
     })
 }
 
-//New Customer Creation
+/**
+ * Creates a new rewards member if one does not exist
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const createRewardsMember = async (request, response) => {
     let BODY = request.body
     
@@ -197,6 +240,11 @@ const createRewardsMember = async (request, response) => {
     })
 }
 
+/**
+ * Verifies customer in our database when signing in with Google OAuth
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const googleAuth = async (request, response) => {
     let Querys = request.query
 

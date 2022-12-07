@@ -4,7 +4,11 @@ const {newPool} = require('./queryConnections')
 const apiKey = 'AIzaSyCWUjGnZmsrzh6TtsMiOb5NVeUvOJWaZFI';
 const googleTranslate = require("google-translate")(apiKey);
 
-//Get table, with or without limit
+/**
+ * Gets table from database, with or without limit
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const getTable = (request, response) => {
     let Params = request.params
     let Querys = request.query
@@ -22,7 +26,11 @@ const getTable = (request, response) => {
     })
 }
 
-//Get sales and run calculations for report
+/**
+ * Gets data and calculates sales report
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const generateSalesReport = async (request, response) => {
     let Querys = request.query
 
@@ -68,10 +76,12 @@ const generateSalesReport = async (request, response) => {
     response.status(200).json(reportData)
 }
 
-//Calculate what ingredients need to be restocked
+/**
+ * Calculates what ingredients need to be restocked
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const generateRestockReport = (request, response) => {
-    // TODO add quantitytarget to our table and remove hard coded value of 100 from our query string which filters by quantity remaining
-    // let queryString = 'SELECT id, name, quantityremaining, quantitytarget, (quantitytarget - quantityremaining) AS \"Amount Under Target\" '
 
     let queryString = 'SELECT id, name, quantityremaining, (100 - quantityremaining) AS \"Amount Under Target\" '
     queryString += 'FROM ingredients WHERE quantityremaining <= 100 AND quantityremaining >= 0'
@@ -81,7 +91,11 @@ const generateRestockReport = (request, response) => {
     })
 }
 
-//Add product for sale
+/**
+ * Adds a product to sell to the database
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const addProduct = (request, response) => {
     let Querys = request.query
 
@@ -98,7 +112,11 @@ const addProduct = (request, response) => {
     })
 }
 
-//Adds ingredient relations to new product
+/**
+ * Adds ingredients to a product
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const addProductIngredient = (request, response) => {
     let BODY = request.body
     /* Expecting this structure
@@ -123,7 +141,11 @@ const addProductIngredient = (request, response) => {
     response.status(200).send({'status': 'Success'})
 }
 
-// increases the quantity of an ingredient a specified amount
+/**
+ * Increases the quantity of an ingredient by a specified amount
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const increaseIngredientQuantity = (request, response) => {
     let Querys = request.query
     let BODY = request.body
@@ -152,7 +174,11 @@ const increaseIngredientQuantity = (request, response) => {
     })
 }
 
-// translates into the desired language
+/**
+ * Translates text into the desired language
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const translateText = (request, response) => {
     // let Querys = request.query
     let BODY = request.body
@@ -164,7 +190,11 @@ const translateText = (request, response) => {
     
 }
 
-//Calcuate what ingredient sold less than 10%
+/**
+ * Calcuates what ingredients sold less than 10%
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
 const generateExcessReport = async (request, response) => {
     let Querys = request.query
 

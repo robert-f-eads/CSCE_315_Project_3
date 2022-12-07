@@ -7,7 +7,11 @@ import {Navbar, Footer} from '../../sharedComponets'
 import {adv3, Logo} from '../../assets'
 import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../../databaseConnections/databaseFunctionExports'
 
-
+/**
+ * Handles login through Google OAuth
+ * @param {*} props functions and data to use 
+ * @returns sign in with google element
+ */
 function Login(props) {
     const onSuccess = async (res) => {
     
@@ -49,6 +53,12 @@ function Login(props) {
     )
 }
 
+/**
+ * Function to handle logining in both employees and customers
+ * @param {bool} loginChooser whether the login is for customer or employee
+ * @param {*} navigate function to navigate to a new page
+ * @param {*} func function to set user data for later use
+ */
 async function handleLogin(loginChooser, navigate, func) {
     let name = document.getElementById('nameEntryField').value
     let id = document.getElementById('idEntryField').value
@@ -100,6 +110,11 @@ async function handleLogin(loginChooser, navigate, func) {
     document.getElementById('idEntryField').value = ""
 }
 
+/**
+ * Handles signing up a new customer
+ * @param {*} navigate function to navigate to a new page
+ * @param {*} func function to set user data for later use
+ */
 async function handleSignUp(navigate, func) {
     let fields = ["firstNameEntryField", "lastNameEntryField", "emailEntryField", "phoneNumberEntryField", "birthdayEntryField"]
     let fieldData = {}
@@ -155,11 +170,20 @@ async function handleSignUp(navigate, func) {
     navigate('/order')
 }
 
+/**
+ * Handles whether or not a signup options should be available
+ * @param {bool} value whether or not to show sign up option
+ */
 function handleLoginChange(value) {
     if(value) {document.getElementById('signup').classList.add("showOnError")}
     else {document.getElementById('signup').classList.remove("showOnError")}
 }
 
+/**
+ * Functions and display for a login page
+ * @param {*} props data to create page
+ * @returns login page elemen
+ */
 const LoginPage = (props) => {
     const [loginChooser, setloginChooser] = useState(true)
     const [viewChooser, setviewChooser] = useState(true)

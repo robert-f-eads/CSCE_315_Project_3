@@ -11,7 +11,10 @@ import MainPanel from './server-view/MainPanel';
 import HomeButton from './homeButton';
 import Modifications from './customer-view/Modifications';
 
-
+/**
+ * Functions and display for the website
+ * @returns web pages for the website
+ */
 function App() {
   const [userData, setUserData] = useState([])
   const [language, setLanguage] = useState('en');

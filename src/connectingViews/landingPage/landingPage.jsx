@@ -4,7 +4,10 @@ import {Navbar, Footer} from '../../sharedComponets'
 import {adv1, adv2, LongLogo} from '../../assets'
 import { useState } from 'react';
 
-
+/**
+ * Functions and display for the landing page
+ * @returns landing page element
+ */
 const LandingPage = (props) => {
     const navigate = useNavigate()
 
