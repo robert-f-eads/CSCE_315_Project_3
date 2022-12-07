@@ -106,27 +106,42 @@ function ManagerHome(props) {
                         </>
                         : <></>
                     }
-                    {salesVisible ?
+                    {salesVisible || excessVisible ?
                         <>
-                            <div id='managerSalesSelectorContainer'>
+                            <div id='managerDateSelectorContainer'>
                                 <DateSelector label='Start Date' setSelectedDate={setStartDate} />
                                 <DateSelector label='End Date' setSelectedDate={setEndDate} />
                             </div>
                             <button onClick={() => {
                                 if (!startDate || !endDate) {
-                                    console.log('using def')
-                                    generateSalesReport().then(res => {
-                                        setSales(res);
-                                    });
+                                    if(salesVisible) {
+                                        generateSalesReport().then(res => {
+                                            setSales(res);
+                                        });
+                                    } else {
+                                        generateExcessReport().then(res => {
+                                            setExcess(res);
+                                        })
+                                    }
                                 } else {
                                     const formattedStartDate = getFormattedDate(startDate) + ' 00:00:00'
                                     const formattedEndDate = getFormattedDate(endDate) + ' 23:59:59'
-                                    generateSalesReport(formattedStartDate, formattedEndDate).then(res => {
-                                        console.log(res);
-                                        setSales(res);
-                                    });
+                                    if(salesVisible) {
+                                        generateSalesReport(formattedStartDate, formattedEndDate).then(res => {
+                                            setSales(res);
+                                        });
+                                    } else {
+                                        generateExcessReport(formattedStartDate, formattedEndDate).then(res => {
+                                            setExcess(res);
+                                        })
+                                    }
                                 }
                             }}>Generate for Dates</button>
+                        </>
+                        : <></>
+                    }
+                    {salesVisible ?
+                        <>
                             <GenericTable tableName="Sales" tableInfo={sales} />
                         </>
                         : <></>}

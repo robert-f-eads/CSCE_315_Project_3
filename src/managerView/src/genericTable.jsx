@@ -181,7 +181,7 @@ export default function GenericTable(props) {
         setHeadCells(tempHeadCells);
         setRows(tableInfo);
       } else {
-        alert('No item with given search query');
+        // alert('No item with given search query');
       }
     }
   }, [tableInfo])
