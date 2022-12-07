@@ -184,9 +184,13 @@ const translateText = (request, response) => {
     let BODY = request.body
 
     let item = BODY;
-    googleTranslate.translate(item['strings'], item['sourceLang'], item['targetLang'], function(err, translation) {
-        response.status(200).send({'translatedText': translation.translatedText})
-    });
+    if(item['sourceLang'] == item['targetLang']) {
+        response.status(200).send({'translatedText': item['strings']})
+    } else {
+        googleTranslate.translate(item['strings'], item['sourceLang'], item['targetLang'], function(err, translation) {
+            response.status(200).send({'translatedText': translation.translatedText})
+        });
+    }
     
 }
 
