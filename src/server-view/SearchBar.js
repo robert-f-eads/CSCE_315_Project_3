@@ -6,7 +6,16 @@ export default function SearchBar(props) {
 
     return (
         <>
-        <div id="prodSearch">
+        <form class="d-flex" role="search">
+                    <input id="prodSearchBar" class="form-control me-2" type="search" placeholder="Search for a product..." aria-label="Search"/>
+                    <button class="btn btn-outline-danger" onClick={() => {
+                    let inputText = document.getElementById("prodSearchBar").value;
+                    showProducts(inputText);
+                }}
+                type="submit" id="prodSearchButton">Search</button>
+        </form>
+
+        {/* <div id="prodSearch">
             <input type="text" placeholder="Search for Item" id="prodSearchBar"></input>
             <button
                 onClick={() => {
@@ -23,7 +32,7 @@ export default function SearchBar(props) {
             <button type="submit" class="prodSearchButton">Manage Weight</button>
             <button type="submit" class="prodSearchButton">Be Well</button>
 
-        </div>
+        </div> */}
         </>
     )
 }
