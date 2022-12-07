@@ -14,12 +14,13 @@ import Modifications from './customer-view/Modifications';
 
 function App() {
   const [userData, setUserData] = useState([])
+  const [language, setLanguage] = useState('en');
 
   return (
     <Router>
         <Routes>
-            <Route path='/' element={<LandingPage/>} />
-            <Route path='/login' element={<LoginPage setUserData={setUserData}/>} />
+            <Route path='/' element={<LandingPage language={language} setLanguage={setLanguage}/>} />
+            <Route path='/login' element={<LoginPage setUserData={setUserData} language={language} setLanguage={setLanguage}/>} />
             <Route path='/order' element={<CustomerView userData={userData}/>} />
             <Route path='/serverorder' element={(
                 <div id="serverViewContainer">

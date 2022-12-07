@@ -166,7 +166,7 @@ const LoginPage = (props) => {
     const navigate = useNavigate()
 
     return <>
-        <Navbar display={false}/>
+        <Navbar display={false} language={props.language} setLanguage={props.setLanguage}/>
         
         <div className="mainBody">
             <div className='Login-wrapper'>

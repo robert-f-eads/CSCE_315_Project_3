@@ -2,14 +2,15 @@ import './landingPage.css';
 import {useNavigate} from 'react-router-dom'
 import {Navbar, Footer} from '../../sharedComponets'
 import {adv1, adv2, LongLogo} from '../../assets'
+import { useState } from 'react';
 
 
-const LandingPage = () => {
+const LandingPage = (props) => {
     const navigate = useNavigate()
 
     return (
         <>
-            <Navbar display={true}/>
+            <Navbar display={true} language={props.language} setLanguage={props.setLanguage}/>
             <div className='home-page_body'>
                 <img src={LongLogo} alt='logo header' id='longLogo'/>
                 <div className='home-page_advertisement-one'>
