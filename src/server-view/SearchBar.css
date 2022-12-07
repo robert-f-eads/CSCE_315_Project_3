@@ -1,4 +1,4 @@
-#genreBar {
+/* #genreBar {
   margin: 0vw 0vw 0vw 5vw;
 }
 
@@ -8,7 +8,6 @@
 }
 
 #prodSearch {
-    /* box-shadow: 0 0 40px rgba(51, 51, 51, .1); */
     width: auto;
     height:4vw;
     margin: 0vw 0vw 0vw 2vw;
@@ -26,9 +25,6 @@
   padding: 0;
 }
 
-/* #prodSearch input {
-  
-} */
 
 #prodSearchBar:focus {
   box-shadow: none;
@@ -37,7 +33,6 @@
 }
 
 #prodSearchButton {
-  /* margin-top: 10px; */
   height: 86%;
   width: 3.5vw;
   background: rgb(201, 16, 16);
@@ -47,7 +42,10 @@
 
 #prodSearchButton:hover {
   background: maroon;
-}
+} */
+
+
+
 
 
 /* .search button {

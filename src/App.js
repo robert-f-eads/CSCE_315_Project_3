@@ -4,6 +4,9 @@ import SearchBar from './server-view/SearchBar';
 import MainPanel from './server-view/MainPanel';
 import SideBar from './server-view/SideBar';
 import { useState } from 'react';
+import ProductPanel from './server-view/ProductPanel';
+import OrderPanel from './server-view/OrderPanel';
+import AllContent from './server-view/AllContent';
 
 function App() {
   const [pageNum, setPageNum] = useState(0);
@@ -30,12 +33,14 @@ function App() {
       </div> */}
 
     
-      <div id="allContent">
+      {/* <div id="allContent">
         <MainPanel></MainPanel>
         <SideBar></SideBar>
-        {/* <SearchBar></SearchBar> */}
+      </div> */}
 
-      </div>
+      {/* <OrderPanel></OrderPanel>
+      <ProductPanel></ProductPanel> */}
+      <AllContent></AllContent>
 
       
     </>
