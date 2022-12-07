@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/server-view/Modifications.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/server-view/Modifications.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect } from 'react'
+import './Modifications.css'
+import SearchBar from './SearchBar'
+import AdditionButton from './AdditionButton'
+import SubtractionButton from './SubtractionButton'
+import { getIngredientsByName, getProductsByName } from '../databaseConnections/databaseFunctionExports'
+import { useState } from 'react'
+import orderTicket from '../dataStructures/orderTicket'
+import { translateText } from '../databaseConnections/managerViewFunctions'
+
+
+
+/**
+ * @param {*} props data to use in displaying the modifications page
+ * @returns a popup which allows customers to modify their order item's size and ingredients
+ */
+export default function Modifications(props) {
+    //const [additionItems, setAdditionItems] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    const [translatedName, setTranslatedName] = useState(props.currentOrderItem?.getProduct.getName);
+
+    const text = {
+        'Size': 'Size',
+        'Subtractions': 'Subtractions',
+        'Additions': 'Additions',
+        'Add to Cart': 'Add to Cart',
+    }
+    const [translatedText, setTranslatedText] = useState(text);
+    useEffect(() => {
+        let originalText = [];
+        for(const [key, ] of Object.entries(text)) {
+            originalText.push(key);
+        }
+        const originalTextCopy = originalText.slice();
+        Promise.all(originalText.map(async originalTextPiece => {
+            let tt = await translateText(originalTextPiece, 'en', props.language)
+            return tt.translatedText;
+        })).then(translatedText => {
+            let tempTranslatedText = {};
+            for(let i = 0; i &lt; originalTextCopy.length; i++) {
+                let originalTextPiece = originalTextCopy[i];
+                let translatedTextPiece = translatedText[i];
+                tempTranslatedText[originalTextPiece] = translatedTextPiece;
+            }
+            setTranslatedText(tempTranslatedText);
+        });
+    })
+
+
+    useEffect(() => {
+        translateText(props.currentOrderItem?.getProduct.getName, 'en', props.language).then(tt => {
+            setTranslatedName(tt.translatedText);
+        });
+    })
+
+    var showSearch = false;
+
+    
+    /**
+     * @param {*} setSearchResults state information
+     * @returns creates additions based on a search entry
+     */
+    function getSearchResults(setSearchResults) {
+        let searchString = document.getElementById('additionEntryField').value
+        if (searchString === "") { getIngredientsByName("-").then((data) => { setSearchResults(data) }) }
+        else { getIngredientsByName(searchString).then((data) => { setSearchResults(data) }) }
+        showSearch = true
+    }
+
+    return (props.trigger) ? (
+        &lt;>
+            &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">&lt;/link>
+            &lt;link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/animatecss/3.5.2/animate.min.css">&lt;/link>
+            &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">&lt;/link>
+            &lt;link href='https://fonts.googleapis.com/css?family=Parisienne' rel='stylesheet'>&lt;/link>
+
+            &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">&lt;/script>
+            &lt;script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous">&lt;/script>
+
+            &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">&lt;/script>
+            &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js">&lt;/script>
+            &lt;script src="https://kit.fontawesome.com/0b9f4346c0.js" crossorigin="anonymous">&lt;/script>
+            &lt;script>
+                new WOW().init();
+            &lt;/script>
+
+            &lt;div className="popup" style={{ "z-index": "100" }}>
+                &lt;div className="popup-inner" style={{ "min-height": "80vh", "min-width": "80vw"}}>
+                    &lt;div className="modification-view">
+                        &lt;div className="container" style = {{maxHeight: "50vh", overflowY: "auto"}}>
+                            &lt;div className="row">
+                                &lt;div className="col">
+                                    &lt;button onClick={() => { 
+                                            var tempArray = props.orderTicket.getItems;
+                                            if (tempArray.length > 1) {
+                                                props.orderTicket.setItems = tempArray.slice(0, tempArray.length - 1)
+                                            }
+                                            props.func(false)
+                                        }} 
+                                        style={{ "backgroundColor": "transparent", "color": "maroon", "border": "none" }}>
+                                        &lt;i className="fa fa-angle-left" aria-hidden="true">&lt;/i>
+                                    &lt;/button>
+                                &lt;/div>
+                            &lt;/div>
+                            &lt;div className="row top-panel item-name">
+                                {translatedName}
+                            &lt;/div>
+                        &lt;/div>
+
+                        &lt;div className="container">
+                            &lt;div className="row">
+                                &lt;div className="col header-name">
+                                    {translatedText['Size']}
+                                &lt;/div>
+                            &lt;/div>
+                            &lt;div className="row">
+                               &lt;div className="col-2">
+                                    &lt;button id = "size20" onClick={() => {props.currentOrderItem.setItemSize = 20; 
+                                        document.getElementById('size20').style.backgroundColor = 'maroon';
+                                        document.getElementById('size20').style.color = 'white';
+
+                                        document.getElementById('size32').style.backgroundColor = 'white';
+                                        document.getElementById('size32').style.color = 'black';
+                                        document.getElementById('size40').style.backgroundColor = 'white';
+                                        document.getElementById('size40').style.color = 'black';
+                                    }}>
+                                        20oz
+                                    &lt;/button>
+
+                                &lt;/div>
+                                &lt;div className="col-2">
+                                    &lt;button id = "size32" onClick={() => {props.currentOrderItem.setItemSize = 32;
+                                        document.getElementById('size32').style.backgroundColor = 'maroon';
+                                        document.getElementById('size32').style.color = 'white';
+
+                                        document.getElementById('size20').style.backgroundColor = 'white';
+                                        document.getElementById('size20').style.color = 'black';
+                                        document.getElementById('size40').style.backgroundColor = 'white';
+                                        document.getElementById('size40').style.color = 'black';
+                                    }}>
+                                        32oz
+                                    &lt;/button>
+                                &lt;/div>
+                                &lt;div className="col-2">
+                                    &lt;button id = "size40" onClick={() => {props.currentOrderItem.setItemSize = 40;
+                                        document.getElementById('size40').style.backgroundColor = 'maroon';
+                                        document.getElementById('size40').style.color = 'white';
+
+                                        document.getElementById('size32').style.backgroundColor = 'white';
+                                        document.getElementById('size32').style.color = 'black';
+                                        document.getElementById('size20').style.backgroundColor = 'white';
+                                        document.getElementById('size20').style.color = 'black';
+                                    }}>
+                                        40oz
+                                    &lt;/button>
+                                &lt;/div>
+
+                            &lt;/div>
+                        &lt;/div>
+
+                        &lt;div className="container">
+                            &lt;div className="row">
+                                &lt;div className="col header-name">
+                                    {translatedText['Subtractions']}
+                                &lt;/div>
+                            &lt;/div>
+                            &lt;div className="row">
+                                &lt;div className="container">
+                                    {props.currentOrderItem.getProduct.getIngredients.map((element) => {
+                                        return (
+                                            &lt;SubtractionButton language={props.language} ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
+                                            )
+                                    })}
+                                &lt;/div>
+
+                            &lt;/div>
+                        &lt;/div>
+
+                        &lt;div className="container">
+                            &lt;div className="row">
+                                &lt;div className="col header-name">
+                                    {translatedText['Additions']}
+                                    &lt;br>&lt;/br>
+                                    &lt;SearchBar inputId={"additionEntryField"} getSearchResults={() => { getSearchResults(setSearchResults) }} />
+                                &lt;/div>
+                            &lt;/div>
+                           
+                            &lt;div className="row">
+                                &lt;div className="container" style={{ minHeight: "100%" }}>
+                                    {searchResults.map((element) => {
+                                        return (
+                                            &lt;AdditionButton language={props.language} ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
+                                        );
+
+                                    })}
+
+                                &lt;/div>
+                            &lt;/div>
+
+                            &lt;div className ="row">
+                                &lt;div className = "col">
+                                    &lt;button className = "float-end" onClick = {() => props.func(false)}>{translatedText['Add to Cart']}&lt;/button>
+                                &lt;/div>
+                            &lt;/div>
+                        &lt;/div>
+
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+
+        &lt;/>
+    ) : "";
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

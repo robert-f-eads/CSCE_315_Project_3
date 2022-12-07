@@ -32,6 +32,10 @@ function getStyles(name, personName, theme) {
   };
 }
 
+/**
+ * @param {*} props data to use in display
+ * @returns a dropdown to select different ingredients
+ */
 export default function IngredientDropdown(props) {
   const {ingredientOptions, setIngredients} = props;
   const theme = useTheme();

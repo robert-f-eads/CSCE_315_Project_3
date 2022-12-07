@@ -1,0 +1,15 @@
+.category-title {
+    background-color: rgb(248,249,250);
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+    position: sticky;
+}
+
+.menu-view-container {
+    max-width: 100vh;
+}
+
+.row {
+    height: fit-content;
+}
+

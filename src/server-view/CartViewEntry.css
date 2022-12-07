@@ -1,0 +1,48 @@
+.col-md-2 {
+    text-align: left;
+}
+
+.order-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+}
+
+
+.order-item-modification {
+    text-indent: 25px;
+}
+
+.row {
+    padding: 10px;
+}
+
+.quantity-button {
+    top: 0px;
+    right: 0px;
+    background-color: rgb(201, 16, 16) !important;
+    border: none !important;
+    border-radius: 0;
+    color: white;
+    overflow: hidden;
+}
+
+
+.cart-view-entry{
+    background-color: rgb(248, 249, 250);
+}    
+
+.cart-view-entry:hover {
+    background-color: rgb(212, 212, 212);
+    transition: 0.2s;
+}
+
+.cart-view-entry:active {
+    background-color: rgb(186, 186, 187);
+    transition: 0.2s;
+}
+
+.cart-view-entry:focus {
+    background-color: rgb(186, 186, 187);
+    transition: 0.2s;
+}

@@ -1,0 +1,89 @@
+SCRUM Meeting 2 for Smoothie King GUI
+Prepared by: Robert Eads
+Meeting Date: 11/30/2022
+Meeting Attendees
+Alexia Hassan
+Robert Eads
+Shreyes Kaliyur
+Emma Ong
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now
+Any roadblocks we are facing
+Status Update Since Last Meeting
+Accomplishments:
+Set up React router
+Enabled Google OAuth API
+Added ability to cancel item creation
+Added quantity buttons to change quantity in customer view
+Added sales and excess report tables
+Created navbar and order panel for server view
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Install and properly traverse pages with React Router
+Robert
+yes
+Set up account for Google API
+Robert
+yes
+Enable Google OAuth API for our website
+Robert
+yes
+Added remove button and remove button functionality to remove individual items from cart
+Alexia
+yes
+Added quantity buttons to change quantity of item in order in customer view
+Alexia
+yes
+Create navbar with logout and logo for server view
+Emma
+yes
+Create order panel for server view (cancel order button, pay button, table of items)
+Emma
+yes
+Add and properly fill table for sales report
+Shreyes
+yes
+Add and properly fill table for excess report
+Shreyes
+yes
+
+Before The Next Meeting
+Plans:
+Enable Google Maps
+Use maps api to calculate and display driving routes
+Fix sidebar / top banner formatting
+Change banner to better fit with page
+Enable Google Translate API and test its functionality
+
+Task Assignments:
+Task Description
+Assigned to
+Enable Google Maps API
+Robert
+Use Google Maps API to calculate and display routes
+Robert
+Fix sidebar / top banner formatting so that the Logo is separate from the sidebar and belongs to the banner
+Alexia
+Change banner to better fit with the rest of the page
+Alexia
+Create product panels for server view
+Emma
+Connect backend to search bar and smoothie category buttons
+Emma
+Connect backend to cancel order and pay buttons 
+Emma
+Enable the Google Translate API in our project
+Shreyes
+Create drop down to choose between what language to display the page in
+Shreyes
+Test translation of dynamically created elements
+Shreyes
+Test translation of static elements
+Shreyes
+
+Minutes from Previous Meeting
+All members were in attendance for the previous meeting. In the previous meeting, each member discussed their finished items, their in progress items, as well as any roadblocks or difficulties they were having. Some of these completed items included designing and implementing the employee login, as well as the customer and guest login, as well as providing color changes to indicate currently selected options for size, additions, and subtractions. Other finished items included the re-created server view layout, product search bar, and creating a functioning button that “re-orders” ingredients.  Members then discussed their roadblocks, including formatting issues, api limitations, and briefly helped each other brainstorm through these problems. Finally, members set into motion their plans for the next time and the meeting was closed.

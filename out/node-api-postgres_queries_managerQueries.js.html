@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: node-api-postgres/queries/managerQueries.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: node-api-postgres/queries/managerQueries.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { request, response } = require('express')
+const {newPool} = require('./queryConnections')
+
+const apiKey = 'AIzaSyCWUjGnZmsrzh6TtsMiOb5NVeUvOJWaZFI';
+const googleTranslate = require("google-translate")(apiKey);
+
+/**
+ * Gets table from database, with or without limit
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const getTable = (request, response) => {
+    let Params = request.params
+    let Querys = request.query
+
+    let queryString
+    if(Querys.limit != null) {
+        queryString = `SELECT * FROM ${Params.tableName} LIMIT ${parseInt(Querys.limit)}`
+    }
+    else {
+        queryString = `SELECT * FROM ${Params.tableName}`
+    }
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        response.status(200).json(results.rows)
+    })
+}
+
+/**
+ * Gets data and calculates sales report
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const generateSalesReport = async (request, response) => {
+    let Querys = request.query
+
+    //Getting all products
+    let queryString = 'SELECT * FROM products'
+    let results = await new Promise((resolve, reject) => {
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}
+            resolve(results)
+        })
+    }) 
+
+    //Getting amount of each product
+    let reportData = []
+    await Promise.all(results.rows.map(async (item) => {
+        queryString = 'SELECT SUM(itemamount) FROM orderitems INNER JOIN ordertickets ON ordertickets.id = orderitems.orderid WHERE '
+        queryString += `itemname = '${item.name}' AND timestamp BETWEEN '${Querys.start}' AND '${Querys.end}'`
+        
+        //Get Sum
+        let temp_data = await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                resolve(results.rows[0]['sum'])
+            })
+        }) 
+
+        //Format and store data
+        let productData = {
+            'id' : item.id,
+            'name' : item.name,
+            'totalSales' : parseFloat((temp_data * item.price).toFixed(2)),
+            'category' : item.category
+        }
+        reportData.push(productData)
+    }))
+
+    reportData.sort((a,b)=> {
+        if(a['id'] &lt; b['id']) {return -1}
+        else if (a['id'] === b['id']) {return 0}
+        else {return 1}
+    })
+    
+    response.status(200).json(reportData)
+}
+
+/**
+ * Calculates what ingredients need to be restocked
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const generateRestockReport = (request, response) => {
+
+    let queryString = 'SELECT id, name, quantityremaining, (100 - quantityremaining) AS \"Amount Under Target\" '
+    queryString += 'FROM ingredients WHERE quantityremaining &lt;= 100 AND quantityremaining >= 0'
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        response.status(200).json(results.rows)
+    })
+}
+
+/**
+ * Adds a product to sell to the database
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const addProduct = (request, response) => {
+    let Querys = request.query
+
+    //Inserting new product
+    let queryString = `INSERT INTO products (name, price, category) VALUES ('${Querys.name}', ${Querys.price}, '${Querys.category}')`
+    newPool.query(queryString, (error, results) => {
+        if(error) {throw (error)}
+        // Returning new product id
+        queryString = `SELECT id FROM products WHERE name = '${Querys.name}'`
+        newPool.query(queryString, (error, results) => {
+            if(error) {throw (error)}
+            response.status(200).json(results?.rows[0]['id'])
+        })
+    })
+}
+
+/**
+ * Adds ingredients to a product
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const addProductIngredient = (request, response) => {
+    let BODY = request.body
+    /* Expecting this structure
+    [
+        {
+            "productId": 1,
+            "ingredientId" : 2
+        }, 
+        {
+            "productId": 3,
+            "ingredientId" : 4
+        }
+    ]
+    */
+
+    BODY.map((item) => {
+        let queryString = `INSERT INTO productstoingredients (productid, ingredientid) VALUES (${item['productId']}, ${item['ingredientId']})`
+        newPool.query(queryString, (error, results) => {
+            if(error) {throw (error)}
+        }) 
+    })
+    response.status(200).send({'status': 'Success'})
+}
+
+/**
+ * Increases the quantity of an ingredient by a specified amount
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const increaseIngredientQuantity = (request, response) => {
+    let Querys = request.query
+    let BODY = request.body
+    
+    BODY.map(async (item) => {
+        //Getting current amount
+        let currentAmount
+        let queryString = `SELECT quantityremaining FROM ingredients WHERE id = ${item['id']}`
+        await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                if(results.rows.length == 0) {response.status(200).send('false')}
+                else {
+                    currentAmount = parseFloat(results.rows[0]['quantityremaining']) + (1 * Querys.quantity)
+                    resolve(currentAmount)
+                }
+            })
+        }) 
+        
+        //increasing amount as needed
+        queryString = `UPDATE ingredients SET quantityremaining = ${currentAmount} WHERE id = ${item['id']}`
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}
+            response.status(200).send({'status': 'Success'})
+        })
+    })
+}
+
+/**
+ * Translates text into the desired language
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const translateText = (request, response) => {
+    // let Querys = request.query
+    let BODY = request.body
+
+    let item = BODY;
+    if(item['sourceLang'] == item['targetLang']) {
+        response.status(200).send({'translatedText': item['strings']})
+    } else {
+        googleTranslate.translate(item['strings'], item['sourceLang'], item['targetLang'], function(err, translation) {
+            response.status(200).send({'translatedText': translation.translatedText})
+        });
+    }
+    
+}
+
+/**
+ * Calcuates what ingredients sold less than 10%
+ * @param {*} request Request coming from the client
+ * @param {*} response Response going going back to the client
+ */
+const generateExcessReport = async (request, response) => {
+    let Querys = request.query
+
+    //Getting all ingredients
+    let queryString = 'SELECT * FROM ingredients'
+    let data = await new Promise((resolve, reject) => {
+        newPool.query(queryString, (error, results) => {
+            if(error) {reject (error)}
+            resolve(results)
+        })
+    }) 
+
+    let excessIngredients = []
+
+    await Promise.all(data.rows.map(async (item) => {
+        queryString = `SELECT productid FROM productstoingredients WHERE ingredientid = ${item.id}`
+        
+        //Getting all products with each ingredient
+        let results = await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                resolve(results)
+            })
+        }) 
+        
+        let totalAmountUsed = 0
+
+        if(!(results.rows.length === 0)) {
+            //Creating list of products with this ingredient
+            let products = '('
+            results.rows.map((entry) => {products += entry.productid + ','})
+            products = products.substring(0, products.length-1)
+            products += ')'
+
+            //Counting regular use
+            queryString = 'SELECT sum(itemamount) FROM orderitems INNER JOIN products ON products.name = orderitems.itemname INNER JOIN ordertickets ON ordertickets.id = orderitems.orderid '
+            queryString += `WHERE products.id IN ${products} AND timestamp BETWEEN '${Querys.start}' AND '${Querys.end}'`
+            totalAmountUsed += await new Promise((resolve, reject) => {
+                newPool.query(queryString, (error, results) => {
+                    if(error) {reject (error)}
+                    resolve(results.rows[0]['sum'])
+                })
+            }) 
+        
+        }
+        
+        //Additions
+        queryString = 'SELECT COUNT(*) FROM orderitemadditions INNER JOIN ordertickets ON orderitemadditions.orderid = ordertickets.id '
+        queryString += `WHERE ingredientid = ${item.id} AND timestamp BETWEEN '${Querys.start}' AND '${Querys.end}'`
+        totalAmountUsed += await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                resolve(results.rows[0]['count'])
+            })
+        }) 
+
+        //Subtractions
+        queryString = 'SELECT COUNT(*) FROM orderitemsubtractions INNER JOIN ordertickets ON orderitemsubtractions.orderid = ordertickets.id '
+        queryString += `WHERE ingredientid = ${item.id} AND timestamp BETWEEN '${Querys.start}' AND '${Querys.end}'`
+        totalAmountUsed -= await new Promise((resolve, reject) => {
+            newPool.query(queryString, (error, results) => {
+                if(error) {reject (error)}
+                resolve(results.rows[0]['count'])
+            })
+        }) 
+        
+        //Calculating &lt; 10%
+        let perecentUsed = totalAmountUsed / (totalAmountUsed + parseInt(item.quantityremaining))
+        if(perecentUsed &lt; 0.1) {
+            reportEntry = {
+                "id" : item.id,
+                "name" : item.name,
+                "remaining" : parseInt(item.quantityremaining),
+                "used" : totalAmountUsed,
+                "inital" : totalAmountUsed + parseInt(item.quantityremaining),
+                "percent" : parseFloat((perecentUsed * 100).toFixed(2)) 
+            }
+            excessIngredients.push(reportEntry)
+        }
+    }))
+
+    response.status(200).json(excessIngredients)
+}
+
+module.exports = {
+    getTable,
+    generateSalesReport,
+    generateRestockReport,
+    addProduct,
+    addProductIngredient,
+    generateExcessReport,
+    increaseIngredientQuantity,
+    translateText,
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

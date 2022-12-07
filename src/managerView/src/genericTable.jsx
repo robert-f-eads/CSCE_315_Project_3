@@ -158,6 +158,10 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
+/**
+ * @param {*} props data to use in display
+ * @returns a table which can be used to display info for different sets of data
+ */
 export default function GenericTable(props) {
   const { tableName, tableInfo, setSelectedInTable, language } = props;
 

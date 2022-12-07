@@ -20,6 +20,10 @@ function getFormattedDate(date) {
     return formattedDate;
 }
 
+/**
+ * @param {*} props data to use in display
+ * @returns the home page for the manager
+ */
 function ManagerHome(props) {
     const {userData, language} = props;
 

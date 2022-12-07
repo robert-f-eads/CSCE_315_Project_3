@@ -5,6 +5,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+/**
+ * @param {*} props data to use in display
+ * @returns a date selector which can be used to select a date
+ */
 export default function DateSelector(props) {
     // setSelectedDate is for parent component to know what the date is
     const {label, setSelectedDate} = props;

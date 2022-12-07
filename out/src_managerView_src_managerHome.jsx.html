@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/managerView/src/managerHome.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/managerView/src/managerHome.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import '../styles/managerHome.css';
+
+import ManagerSideBar from './managerSideBar';
+import GenericTable from './genericTable';
+import AddProductForm from './addProductForm';
+import { useState } from 'react';
+import SearchBar from './SearchBar';
+import { useEffect } from 'react';
+import { generateExcessReport, generateRestockReport, generateSalesReport, getTable, increaseIngredientQuantity } from '../../databaseConnections/managerViewFunctions';
+import { getProductsByName, getIngredientsByName } from '../../databaseConnections/sharedFunctions';
+import SalesButton from './salesButton';
+import ExcessButton from './excessButton';
+import DateSelector from './dateSelector';
+
+function getFormattedDate(date) {
+    const year = date['$y'] 
+    const month = ((Number(date['$M']) + 1) + '').padStart(2, '0')
+    const day = (date['$D'] + '').padStart(2, '0')
+    const formattedDate = year + '-' + month + '-' + day;
+    return formattedDate;
+}
+
+/**
+ * @param {*} props data to use in display
+ * @returns the home page for the manager
+ */
+function ManagerHome(props) {
+    const {userData, language} = props;
+
+    const [inventoryVisible, setInventoryVisible] = useState(false);
+    const [orderHistoryVisible, setOrderHistoryVisible] = useState(false);
+    const [trendsVisible, setTrendsVisible] = useState(false);
+    const [salesVisible, setSalesVisible] = useState(false);
+    const [excessVisible, setExcessVisible] = useState(false);
+    const [addVisible, setAddVisible] = useState(false);
+    const [reorderVisible, setReorderVisible] = useState(false);
+
+    const [products, setProducts] = useState();
+    const [ingredients, setIngredients] = useState();
+    const [orders, setOrders] = useState();
+    const [restock, setRestock] = useState();
+    const [sales, setSales] = useState();
+    const [excess, setExcess] = useState();
+
+    const [selectedInTable, setSelectedInTable] = useState();
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
+    const [reloadPage, setReloadPage] = useState(false);
+
+    useEffect(() => {
+        if(userData[3]) {
+            getTable("products").then(res => {
+                setProducts(res);
+            });
+            getTable("ingredients").then(res => {
+                setIngredients(res);
+            });
+            getTable("ordertickets").then(res => {
+                setOrders(res);
+            });
+            generateRestockReport().then(res => {
+                setRestock(res);
+            });
+            generateSalesReport().then(res => {
+                setSales(res);
+            });
+            generateExcessReport().then(res => {
+                setExcess(res);
+            });
+        } else {
+            alert('Access Not Granted');
+        }
+    }, [reloadPage]);
+
+    return (
+        &lt;>
+            &lt;div id="managerHomeContainer">
+                &lt;ManagerSideBar
+                    language={language}
+                    setInventoryVisible={setInventoryVisible}
+                    setOrderHistoryVisible={setOrderHistoryVisible}
+                    setTrendsVisible={setTrendsVisible}
+                    setSalesVisible={setSalesVisible}
+                    setExcessVisible={setExcessVisible}
+                    setAddVisible={setAddVisible}
+                    setReorderVisible={setReorderVisible}
+                />
+                &lt;div id="contentContainer">
+                    {inventoryVisible ? 
+                        &lt;>
+                            &lt;SearchBar
+                                onClickFunction={(searchText) => {
+                                    getIngredientsByName(searchText).then(res => {
+                                        setIngredients(res);
+                                    });
+                                }}
+                            />
+                            &lt;GenericTable tableName="Ingredients" tableInfo={ingredients} language={language}/>
+                        &lt;/>
+                        : &lt;>&lt;/>
+                    }
+                    {orderHistoryVisible ? &lt;GenericTable tableName="Order History" tableInfo={orders} language={language}/> : &lt;>&lt;/>}
+                    {trendsVisible ?
+                        &lt;>
+                            &lt;div id='managerTrendsButtonsContainer'>
+                                &lt;SalesButton setSalesVisible={() => {setExcessVisible(false); setSalesVisible(true);}}/>
+                                &lt;ExcessButton setExcessVisible={() => {setSalesVisible(false); setExcessVisible(true);}}/>
+                            &lt;/div>
+                        &lt;/>
+                        : &lt;>&lt;/>
+                    }
+                    {salesVisible || excessVisible ?
+                        &lt;>
+                            &lt;div id='managerDateSelectorContainer'>
+                                &lt;DateSelector label='Start Date' setSelectedDate={setStartDate} />
+                                &lt;DateSelector label='End Date' setSelectedDate={setEndDate} />
+                            &lt;/div>
+                            &lt;button onClick={() => {
+                                if (!startDate || !endDate) {
+                                    if(salesVisible) {
+                                        generateSalesReport().then(res => {
+                                            setSales(res);
+                                        });
+                                    } else {
+                                        generateExcessReport().then(res => {
+                                            setExcess(res);
+                                        })
+                                    }
+                                } else {
+                                    const formattedStartDate = getFormattedDate(startDate) + ' 00:00:00'
+                                    const formattedEndDate = getFormattedDate(endDate) + ' 23:59:59'
+                                    if(salesVisible) {
+                                        generateSalesReport(formattedStartDate, formattedEndDate).then(res => {
+                                            setSales(res);
+                                        });
+                                    } else {
+                                        generateExcessReport(formattedStartDate, formattedEndDate).then(res => {
+                                            setExcess(res);
+                                        })
+                                    }
+                                }
+                            }}>Generate for Dates&lt;/button>
+                        &lt;/>
+                        : &lt;>&lt;/>
+                    }
+                    {salesVisible ?
+                        &lt;>
+                            &lt;GenericTable tableName="Sales" tableInfo={sales} language={language}/>
+                        &lt;/>
+                        : &lt;>&lt;/>}
+                    {excessVisible ? &lt;GenericTable tableName="Excess" tableInfo={excess} language={language}/> : &lt;>&lt;/>}
+                    {addVisible ? 
+                        &lt;>
+                            &lt;SearchBar
+                                onClickFunction={(searchText) => {
+                                    getProductsByName(searchText).then(res => {
+                                        setProducts(res);
+                                    });
+                                }}
+                            />
+                            &lt;GenericTable tableName="Products" tableInfo={products} language={language}/>
+                            &lt;AddProductForm ingredientOptions={ingredients} />
+                        &lt;/>
+                        : &lt;>&lt;/>
+                    }
+                    {reorderVisible ?
+                        &lt;>
+                            &lt;GenericTable tableName="Restock Report" tableInfo={restock} setSelectedInTable={setSelectedInTable} language={language}/>
+                            &lt;button onClick={() => {
+                                let ingredientUpdates = []
+                                for(let i = 0; i &lt; selectedInTable?.length; i++) {
+                                    let id = selectedInTable[i];
+                                    let amountUnderTarget = restock[id]['Amount Under Target'];
+                                    ingredientUpdates.push({'id': id, 'amountUnderTarget': amountUnderTarget});
+                                }
+                                Promise.all(ingredientUpdates.map(async ingredientUpdate => {
+                                    await increaseIngredientQuantity(ingredientUpdate.id, ingredientUpdate.amountUnderTarget)
+                                })).then(() => {
+                                    setReloadPage(!reloadPage);
+                                })
+                            }}>Reorder Selected&lt;/button>
+                        &lt;/>
+                        : &lt;>&lt;/>
+                    }
+                &lt;/div>
+            &lt;/div>
+        &lt;/>
+    )
+}
+
+export default ManagerHome;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

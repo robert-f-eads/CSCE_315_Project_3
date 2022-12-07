@@ -173,6 +173,9 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
+/**
+ * @returns the manager inventory as a table
+ */
 export default function ManagerInventory() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');

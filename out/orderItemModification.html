@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: orderItemModification</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: orderItemModification</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>orderItemModification<span class="signature">(id, orderId, itemNumberInOrder, ingredientId, ingredientName)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="orderItemModification"><span class="type-signature"></span>new orderItemModification<span class="signature">(id, orderId, itemNumberInOrder, ingredientId, ingredientName)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Constructor for orderItemModification class
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of the modification</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>orderId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of the order this modification is a part of</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>itemNumberInOrder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the idex of the item in the order this modification applies to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ingredientId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of the ingredient this modification represents</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ingredientName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">name of the ingredient this modification represents</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Robert Eads</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="getId"><span class="type-signature"></span>getId<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Gets the id of the order item modification
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="getIngredientId"><span class="type-signature"></span>getIngredientId<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Gets the id of the ingredient brepresented in this modification
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="getIngredientName"><span class="type-signature"></span>getIngredientName<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Gets the name of the ingredient represented in this modification
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="getItemNumberInOrder"><span class="type-signature"></span>getItemNumberInOrder<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Gets the index of the item in the order ticket this modification applies to
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="getOrderId"><span class="type-signature"></span>getOrderId<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Gets the id of the order ticket this modification is a part of
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="setId"><span class="type-signature"></span>setId<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Sets the id of the order item modification
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="setIngredientId"><span class="type-signature"></span>setIngredientId<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Sets the id of the ingredient being used to modify the order item
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line75">line 75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="setIngredientName"><span class="type-signature"></span>setIngredientName<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Sets the name of the ingredient being used to modify the order item
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="setItemNumberInOrder"><span class="type-signature"></span>setItemNumberInOrder<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Sets the index of the item in the order ticket this modification applies to
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="setOrderId"><span class="type-signature"></span>setOrderId<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Sets the id of the order this modification is a part of
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="copy"><span class="type-signature"></span>copy<span class="signature">(otherModification)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Copy other modification to this modification
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>otherModification</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="orderItemModification.html">orderItemModification</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">modification to be copied</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(otherModification)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Determine whether this order item modification is that same as another
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>otherModification</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="orderItemModification.html">orderItemModification</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the modification to compare to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_dataStructures_orderItemModification.js.html">src/dataStructures/orderItemModification.js</a>, <a href="src_dataStructures_orderItemModification.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    whether this modification is the same as another
+</div>
+
+
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

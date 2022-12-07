@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/dataStructures/orderTicket.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/dataStructures/orderTicket.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Robert Eads
+ */
+class orderTicket {
+    private
+        id = -1
+        timestamp = null
+        customerFirstName = ""
+        rewardsMemberId = 0
+        employeeId = -1
+        orderPriceTotal = -1
+        items = []
+        
+
+    /**
+     * Constructor for the orderTicket class
+     * @param {int} id id of the order ticket
+     * @param {dateTime} timestamp date and time at which the order ticket was created
+     * @param {string} customerFirstName first name of customer
+     * @param {int} rewardsMemberId rewards id of the customer (if applicable)
+     * @param {int} employeeId id of the employee taking the order
+     * @param {double} orderPriceTotal total cost of the order ticket
+     */
+    constructor(id, timestamp, customerFirstName, rewardsMemberId, employeeId, orderPriceTotal) {
+        this.id = id
+        this.timestamp = timestamp
+        this.customerFirstName = customerFirstName
+        this.rewardsMemberId = rewardsMemberId
+        this.employeeId = employeeId
+        this.orderPriceTotal = orderPriceTotal
+    }
+
+    //Getters
+    /**
+     * Gets the id of the order ticket
+     * @return {int} the id of the order ticket
+     */
+    get getId() {return this.id}
+    /**
+     * Gets the time the order was made
+     * @return {dateTime} the time the order was made
+     */
+    get getTimestamp() {return this.timestamp}
+    /**
+     * Gets the first name of the customer who made the order
+     * @return {string} the first name of the customer who made the order
+     */
+    get getCustomerFirstName() {return this.customerFirstName}
+    /**
+     * Gets the rewards member id associated with the customer
+     * @return {int} the rewards member id associated with the customer
+     */
+    get getRewardsMemberId() {return this.rewardsMemberId}
+     /**
+     * Gets the id of the employee who took the order
+     * @return {int} the id of the employee who took the order
+     */
+    get getEmployeeId() {return this.employeeId}
+     /**
+     * Gets the total price of the order
+     * @return {double} the total price of the order
+     */
+    get getOrderPriceTotal() {return this.orderPriceTotal}
+    /**
+     * Gets an array of orderItem objects which are in the current order ticket
+     * @return {orderItem[]} an array of orderItem objects which are in the current order ticket
+     */
+    get getItems() {return this.items}
+    /**
+     * Gets the numbe of items in the ticket
+     * @return {int} number of items in the order
+     */
+    get getNumItems() {return this.items.length}
+
+    //Setters
+    /**
+     * Sets id for the ticket
+     * @param {int} id orderId for the ticket
+     */
+    set setId(id) {this.id = id}
+    /**
+     * Sets the time which the ticket order was placed
+     * @param {dateTime} timestamp the time which the ticket order was placed
+     */
+    set setTimestamp(timestamp) {this.timestamp = timestamp}
+    /**
+     * Sets the first name of the customer who made the order
+     * @param {string} customerFirstName the first name of the customer who made the order
+     */
+    set setCustomerFirstName(customerFirstName) {this.customerFirstName = customerFirstName}
+    /**
+     * Sets the rewards member id associated with the customer
+     * @param {int} rewardsMemberId the rewards member id associated with the customer
+     */
+    set setRewardsMemberId(rewardsMemberId) {this.rewardsMemberId = rewardsMemberId}
+    /**
+     * Sets the employee id of the employee who took the order
+     * @param {int} employeeId the employee id of the employee who took the order
+     */
+    set setEmployeeId(employeeId) {this.employeeId = employeeId}
+    /**
+     * Sets the total price of the order ticket
+     * @param {double} orderPriceTotal the total price of the order ticket
+     */
+    set setOrderPriceTotal(orderPriceTotal) {this.orderPriceTotal = orderPriceTotal}
+    /**
+     * Sets the items array of this orderTicket to a passed in array 
+     * @param {orderItem[]} items an array of items to set the items to in this orderTicket
+     */
+    set setItems(items) {this.items = items}
+
+    //Methods
+    /**
+     * Adds an item to the orderTicket
+     * @param {orderItem} item the item to be added to this orderTicket 
+     */
+    addItemToOrder(item) {this.items.push(item)}
+    /**
+     * Remove an item from the orderTicket
+     * @param {orderItem} item the item to be removed from the orderTicket 
+     */
+    removeItemFromOrder(item) {
+        let index = this.items.indexOf(item)
+        if(index > -1) {this.items.splice(index, 1)}
+    }
+    /**
+     * Remove an item from the orderTicket by index
+     * @param {int} index the index of the item to be removed from the orderTicket 
+     */
+    removeItemFromOrderByIndex(index) {
+        this.items.splice(index, 1);
+    }
+    /**
+     * Updates the order number of items after a deletion
+     * @param {int} removedIndex index removed from the array 
+     */
+    updateIndexs(removedIndex) {
+        if(removedIndex >= this.items.length) {}
+        else {
+            for(var i = removedIndex; i &lt; this.items.length; i++) {this.items.at(i).updateNumberInOrder(i)}
+        }
+    }
+}
+
+export default orderTicket</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

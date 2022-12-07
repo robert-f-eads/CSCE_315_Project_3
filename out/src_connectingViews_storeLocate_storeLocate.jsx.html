@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/connectingViews/storeLocate/storeLocate.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/connectingViews/storeLocate/storeLocate.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import './storeLocate.css'
+import {useState, useRef} from 'react'
+import {useJsApiLoader, GoogleMap, Autocomplete, DirectionsRenderer, MarkerF} from '@react-google-maps/api'
+import {AiOutlineClose} from 'react-icons/ai';
+import {TiLocationArrow} from 'react-icons/ti'
+
+const center = {lat: 30.61246388688215, lng: -96.341009273326}
+
+/**
+ * Functions and display for a maps popup
+ * @param {*} props data to use in displaying the page
+ * @returns popup maps element
+ */
+const StoreLocate = (props) => {
+
+    const [map, setMap] = useState(/** @type google.maps.Map */ (null))
+    const [directionsResponse, setDirectionsResponse] = useState(/** @type google.maps.DirectionsResult */(null))
+    const [distance, setDistance] = useState('')
+    const [duration, setDuration] = useState('')
+    const [libraries] = useState(['places'])
+
+    const {isLoaded} = useJsApiLoader ({
+        id: 'google-map-script',
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+        libraries
+    })
+
+    /** @type React.MutableRefObject&lt;HTMLInputElement> */
+    const originRef = useRef()
+
+    if(!isLoaded) {return &lt;p>Map is loading...&lt;/p>}
+
+    async function calculateRoute() {
+        
+        if(originRef.current.value === '') {return}
+
+        // eslint-disable-next-line
+        var directionService = new google.maps.DirectionsService()
+        const results = await directionService.route({
+            origin: originRef.current.value,
+            destination: "275 Joe Routt Blvd, College Station, TX 77843",
+            // eslint-disable-next-line
+            travelMode: google.maps.TravelMode.DRIVING
+        })
+
+        setDirectionsResponse(results)
+        setDistance(results.routes[0].legs[0].distance.text)
+        setDuration(results.routes[0].legs[0].duration.text)
+    }
+
+    function clearRoute() {
+        setDistance('')
+        setDuration('')
+        originRef.current.value = ''
+        setDirectionsResponse(null)
+    }
+   
+    return (
+        &lt;>
+            &lt;div className='popup_wrapper'>
+                &lt;div className='popup_inner'>
+                    &lt;div className='popup_data'>
+                        &lt;div className='search_row'>
+                            &lt;Autocomplete>&lt;input id='addressInput' type='text' placeholder='Starting address' ref={originRef}/>&lt;/Autocomplete>
+                            &lt;button id='calcButton' onClick={() => {calculateRoute()}}>Calculate Route&lt;/button>
+                            &lt;button id='clearButton' onClick={() => {clearRoute()}}>&lt;AiOutlineClose size={20}/>&lt;/button>
+                        &lt;/div>
+                        &lt;div className='lower_row'>
+                            &lt;p className='textDisplay'>Distance:  {distance}&lt;/p>
+                            &lt;p className='textDisplay'>Duration:  {duration}&lt;/p>
+                            &lt;button id='centerButton' onClick={() => {map.setZoom(17); map.panTo(center)}}>&lt;TiLocationArrow size={30}/>&lt;/button>
+                        &lt;/div>
+                    &lt;/div>
+                    &lt;div className='popup_display'>
+                        &lt;GoogleMap
+                            center={center}
+                            zoom={17}
+                            options={{zoomControl: true, streetViewControl: false, mapTypeControl: false, fullscreenControl: true}}
+                            mapContainerClassName='mapContainer'
+                            onLoad={map=>setMap(map)}
+                        >
+                            {!directionsResponse &amp;&amp; &lt;MarkerF position={center}/>}
+                            {directionsResponse &amp;&amp; &lt;DirectionsRenderer directions={directionsResponse}/>}
+                        &lt;/GoogleMap>
+                    &lt;/div>
+                    &lt;div className='popup_exit'>
+                        &lt;button onClick={() => {props.mapFunc(false)}}>&lt;AiOutlineClose size={30}/>&lt;/button>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+            
+        
+           
+        &lt;/>
+    )
+}
+
+export default StoreLocate</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

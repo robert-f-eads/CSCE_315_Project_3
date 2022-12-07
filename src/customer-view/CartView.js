@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import {React, useState, useEffect} from 'react'
 import { writeOrderToDb } from '../databaseConnections/sharedFunctions';
 import orderTicket from '../dataStructures/orderTicket';
 import "./CartView.css"
@@ -14,7 +14,17 @@ import TextBox from './TextBox'
 
 export default function CartView(props) {
     const [selectedIndex, setSelectedIndex] = useState(null)
+    const [orderTotal, setOrderTotal] = useState(0)
 
+    function calcTotal() {
+        var total = 0
+        props.orderTicket.getItems.forEach(element => {
+            total += (element.getProduct.getPrice * element.getItemAmount)
+        })
+        setOrderTotal(total.toFixed(2))
+    }
+
+    useEffect(() => {calcTotal()})
 
     return (props.trigger) ? (
         <>
@@ -70,10 +80,14 @@ export default function CartView(props) {
 
 
                             <div className="row">
+                                <div>
+                                    <h3>Order Total: ${orderTotal}</h3>
+                                </div>
                                 <div className="col justify-content-end d-flex">
                                     <button onClick={() => {
                                         if(props.orderTicket.getItems.length <= 0) {}
                                         else {
+                                            props.orderTicket.setOrderTotal = orderTotal
                                             writeOrderToDb(props.orderTicket)
                                             props.func(false)
                                             props.ticketRefresh()

@@ -2,6 +2,10 @@ import React from 'react'
 
 import '../styles/SearchBar.css'
 
+/**
+ * @param {*} props data to use in display
+ * @returns a search bar to look through our database
+ */
 export default function SearchBar(props) {
     const {onClickFunction} = props;
 

@@ -1,0 +1,84 @@
+SCRUM Meeting 3 for Smoothie King GUI
+Prepared by: Emma Ong
+Meeting Date: 11/19/2022
+Meeting Attendees
+ Alexia Hassan
+ Shreyes Kaliyur
+ Emma Ong
+ Robert Eads
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now
+Any roadblocks we are facing
+Focus items before the end of sprint 2
+Status Update Since Last Meeting
+Accomplishments:
+ Finished front-end function for web server connection
+Finished add product functionality in the manager view
+Added visual selection and indicators for customer view
+Add ability to cancel carts in server view
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Finish function to write the order to database
+Robert
+Yes
+Create functions to run the generation of manager view reports
+Robert
+Yes
+Connect text field inputs for product page to backend
+Shreyes
+Yes
+Add a select ingredient panel to the add product page
+Shreyes
+Yes
+Connect select ingredients to backend to create new product
+Shreyes
+Yes
+Crete visual selector for currently selected order item
+Alexia
+Yes
+Create typeable rewards member id field
+Alexia
+No
+Create duplicate button to duplicate selected order item
+Emma
+No
+Connect cancel order to clear items in cart
+Emma
+Yes
+
+Before The Next Meeting
+Plans:
+Merge remaining branches into main
+Complete Sprint 2 documentation 
+Update publicly hosted sites with the latest code
+Create GitHub release
+Expand functions of manager view to include new trends
+Add typable fields in server view
+Create more search elements for customer view
+
+Task Assignments:
+Task Description
+Assigned to
+Create GitHub release
+Robert
+Update publicly hosted sites with the latest code
+Robert
+Add restock button to ingredients page
+Shreyes
+Add visual indicators to select product ingredients in add product page
+Shreyes
+Create trend reports
+Shreyes
+Create typeable rewards member id field
+Alexia
+Create Typeable search bar for additions
+Emma
+Create search bar connected to additions search bar
+Emma
+
+Minutes from Previous Meeting
+We noted that all members were present from our previous meeting. In the meeting, we went over our updates from the previous meeting, namely things like completed visual aspects of our landing page, finished web server expansion, and text fields for needed product info. Furthermore, we discussed completed tasks, encompassing adding a navbar to our landing page, showing ingredient stocks, and creating a search button connected to our products. We decided that for the next meeting we would like to add easier modification abilities for the server view, complete the add product functionality in manager view, and finish our write order to database method. These various tasks were assigned across our team. 

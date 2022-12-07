@@ -5,6 +5,11 @@ import SmoothieKingLogo from '../Logo.png'
 import SearchBar from './SearchBar'
 import { translateText } from '../databaseConnections/managerViewFunctions'
 
+
+/**
+ * @param {*} props data to use in displaying the sidebar and its text fields
+ * @returns a side navbar
+ */
 export default function SideBar(props) {
     const { language, getSearchResults, showCartView} = props;
     const navigate = useNavigate()

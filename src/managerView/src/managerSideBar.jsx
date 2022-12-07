@@ -8,6 +8,10 @@ import { useEffect } from 'react'
 import { translateText } from '../../databaseConnections/managerViewFunctions'
 import { useState } from 'react'
 
+/**
+ * @param {*} props data to use in display
+ * @returns a sidebar used for navigating across and through the manager view
+ */
 export default function ManagerSideBar(props) {
 
     const navigate = useNavigate();

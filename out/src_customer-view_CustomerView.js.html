@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/customer-view/CustomerView.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/customer-view/CustomerView.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { React, useState } from 'react'
+import SideBar from './SideBar.js'
+import CartView from './CartView.js'
+import 'font-awesome/css/font-awesome.min.css';
+import { orderTicket, dateTime, orderItem, product } from './../dataStructures/dataStructuresExports'
+import 'reactjs-popup/dist/index.css';
+import ProductCard from './ProductCard.js';
+import MenuView from './MenuView.js';
+import { getProductsByName } from '../databaseConnections/databaseFunctionExports'
+import Modifications from './Modifications'
+import SmoothieKingLogo from '../Logo.png'
+import banner from './banner.png'
+
+var name;
+var id;
+var temp_date = new Date().toJSON()
+var yyyy = temp_date.slice(0,4);
+var mm = temp_date.slice(5,7);
+var dd = temp_date.slice(8,10);
+var time = temp_date.slice(11, 19);
+
+var ticket = new orderTicket(0, new dateTime(mm + "-" + dd + "-" + yyyy, time), "Blank", 0, 0, 0) 
+
+//var showCart = false;
+var showSearch = false;
+
+
+
+/**
+ * @param {*} props resets the order ticket when an order is done
+ */
+function refreshOrderTicket() {ticket = new orderTicket(0, new dateTime(mm + "-" + dd + "-" + yyyy, time), name, id, 0, 0)}
+
+
+
+/**
+ * @param {*} props the order ticket to pass to the cart view
+ * @returns a popup of the cart view 
+ */
+function ShowCartView(ticket) {
+    console.log("showing cart");
+    return (
+        &lt;>
+            &lt;CartView orderTicket={ticket} />
+        &lt;/>
+    )
+}
+
+
+
+/**
+ * @param {*} props gets all of the search results from using the search bar in the sidebar
+ * @returns search bar
+ */
+function getSearchResults(setSearchResults) {
+    let searchString = document.getElementById('searchBarEntryField').value
+    if (searchString === "") { getProductsByName("-").then((data) => { setSearchResults(data) }) }
+    else { getProductsByName(searchString).then((data) => { setSearchResults(data) }) }
+    showSearch = true
+}
+
+
+/**
+ * @param {*} props data to use in display
+ * @returns either renders a menu view component or a series of product cards if something specific is searched
+ * 
+ */
+export function CheckDisplay(props) {
+    if (props.hasSearched) {
+        /*Search bar results*/
+        return &lt;div className="container">
+            &lt;div className="row">
+                {props.dataProp &amp;&amp; props.dataProp.length > 0 &amp;&amp; props.dataProp.map((item) =>
+                    &lt;ProductCard language={props.language} orderTicket={props.ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory={item.category} func={props.func} func1={props.func1} />
+                )}
+            &lt;/div>
+        &lt;/div>
+    }
+    else {
+        /*Menu view */
+        return &lt;div className="row">
+            &lt;MenuView language={props.language} orderTicket={props.ticket} func={props.func} func1={props.func1}>&lt;/MenuView>
+        &lt;/div>
+    }
+}
+
+
+/**
+ * @param {*} props data to use in displaying the customer view page
+ * @returns customer view home
+ */
+export default function CustomerView(props) {
+    const [searchResults, setSearchResults] = useState([])
+    const [showCart, setshowCart] = useState(false)
+    const [showMod, setShowMod] = useState(false)
+    const [tempItem, setTempItem] = useState()
+
+    ticket.setCustomerFirstName = props.userData[0]
+    ticket.setRewardsMemberId = props.userData[2]
+    name = props.userData[0]
+    id = props.userData[2]
+
+    return (
+        &lt;>
+            &lt;div className="container-fluid px-0">
+
+                &lt;div className="container-fluid px-0 sticky-top" style={{ backgroundColor: "rgb(248, 249, 250)" }}>
+                    &lt;div className="row g-0 px-0">
+                        &lt;div className="col-3" style={{ textAlign: "center" }}>
+                            &lt;img alt="Logo" className="img-responsive" style={{ "maxHeight": "70px", marginTop: "3vh" }} src={SmoothieKingLogo}>&lt;/img>
+                        &lt;/div>
+                        &lt;div className="col" style={{  backgroundImage:`url(${banner})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", "marginBottom": "0px", minHeight: "13vh", left: "0" }}>
+                        
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+
+
+                &lt;div className="row g-0">
+                    &lt;div className="col-3">
+                        &lt;SideBar language={props.language} usingGoogle = {props.usingGoogle} searchBarId="searchBarEntryField" getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
+                    &lt;/div>
+                    &lt;Modifications language={props.language} orderTicket = {ticket} currentOrderItem={tempItem} trigger={showMod} func={setShowMod} />
+                    &lt;div className="col">
+                        &lt;div className="container-fluid">
+
+                            &lt;CheckDisplay language={props.language} dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod} ticket={ticket} />
+                            {/*&lt;MenuView/>*/}
+                            {/*Popup cart view*/}
+                            &lt;div className="row" style={{ "paddingTop": "100px" }}>
+                                &lt;CartView orderTicket={ticket} trigger={showCart} func={setshowCart} ticketRefresh={()=>refreshOrderTicket()} />
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/>
+    )
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

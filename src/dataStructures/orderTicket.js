@@ -66,7 +66,10 @@ class orderTicket {
      * @return {orderItem[]} an array of orderItem objects which are in the current order ticket
      */
     get getItems() {return this.items}
-
+    /**
+     * Gets the numbe of items in the ticket
+     * @return {int} number of items in the order
+     */
     get getNumItems() {return this.items.length}
 
     //Setters

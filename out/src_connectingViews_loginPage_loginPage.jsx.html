@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/connectingViews/loginPage/loginPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/connectingViews/loginPage/loginPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import './loginPage.css'
+import {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
+import {GoogleLogin} from '@react-oauth/google'
+import jwt_decode from "jwt-decode"
+import {Navbar, Footer} from '../../sharedComponets'
+import {adv3, Logo} from '../../assets'
+import {loginCustomer, loginEmployee, signUpNewMember, authWithGoogle} from '../../databaseConnections/databaseFunctionExports'
+import { translateText } from '../../databaseConnections/managerViewFunctions'
+
+/**
+ * Handles login through Google OAuth
+ * @param {*} props functions and data to use 
+ * @returns sign in with google element
+ */
+function Login(props) {
+    const onSuccess = async (res) => {
+    
+        //Decoding response 
+        var decoded = jwt_decode(res.credential);
+
+        //Call login with google 
+        let response = await (authWithGoogle(decoded.email))
+        
+        //Add new user if not found 
+        if(response === false) {
+            let data = {
+                "fname" : decoded.given_name,
+                "lname" : decoded.family_name,
+                "email" : decoded.email,
+                "phone" : null,
+                "birthday" : "1900-01-01"
+            }
+            response = await (signUpNewMember(data))
+        }
+        
+        //Give this data to the customer view
+        //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+        props.setUserData([response[0].firstname, response[0].lastname, response[0].id, 0])
+
+        //Go to appropriate page
+        props.navigate('/order')
+    }
+
+    const onFailure = () => {console.log("Login Failed")}
+
+    return (
+        &lt;div id="googleSignInButton">
+            &lt;GoogleLogin
+                onSuccess={credentialResponse => {onSuccess(credentialResponse)}}
+                onFailure={() => {onFailure()}}
+            />
+        &lt;/div>
+    )
+}
+
+/**
+ * Function to handle logining in both employees and customers
+ * @param {bool} loginChooser whether the login is for customer or employee
+ * @param {*} navigate function to navigate to a new page
+ * @param {*} func function to set user data for later use
+ */
+async function handleLogin(loginChooser, navigate, func) {
+    let name = document.getElementById('nameEntryField').value
+    let id = document.getElementById('idEntryField').value
+
+    //Change back to black border on successful entry
+    if(document.getElementById('nameEntryField').style.borderColor === "red") {document.getElementById('nameEntryField').style.borderColor = "black"}
+    if(document.getElementById('idEntryField').style.borderColor === "red") {document.getElementById('idEntryField').style.borderColor = "black"}
+    
+    //Make border red if missed entry
+    let missing = false
+    if(name === "") {document.getElementById('nameEntryField').style.borderColor = "red"; missing=true}
+    if(id === "") {document.getElementById('idEntryField').style.borderColor = "red"; missing=true}
+    if(missing) {return}  
+      
+
+    if(loginChooser) {
+        //Call the login function
+        let response = await (loginCustomer(id, name))
+
+        //Display error if not valid
+        if(response === false) {document.getElementById('notFoundError').classList.remove("showOnError"); return}
+
+        //Give this data to the customer view
+        //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+        func([response[0].firstname, response[0].lastname, response[0].id, 0])
+
+        //Go to appropriate page
+        navigate('/order')
+    }
+    else {
+        //Call the login function
+        let response = await (loginEmployee(id, name))
+
+        //Display error if not valid
+        if(response === false) {document.getElementById('notFoundError').classList.remove("showOnError"); return}
+
+        //Give this data to the server/manager view
+        //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id}, admin: ${response[0].isadmin})`)
+        func([response[0].firstname, response[0].lastname, response[0].id, response[0].isadmin])
+
+        //Go to appropriate page
+        if(response[0].isadmin) {navigate('/managerview')}
+        else {navigate('/serverorder')}
+    }
+
+    //Reset to default on sucessfuly entry
+    document.getElementById('notFoundError').classList.add("showOnError")
+    document.getElementById('nameEntryField').value = ""
+    document.getElementById('idEntryField').value = ""
+}
+
+/**
+ * Handles signing up a new customer
+ * @param {*} navigate function to navigate to a new page
+ * @param {*} func function to set user data for later use
+ */
+async function handleSignUp(navigate, func) {
+    let fields = ["firstNameEntryField", "lastNameEntryField", "emailEntryField", "phoneNumberEntryField", "birthdayEntryField"]
+    let fieldData = {}
+
+    //Change back to black border on entry
+    fields.forEach((field) => {
+        if(document.getElementById(field).style.borderColor === "red") {document.getElementById(field).style.borderColor = "black"}
+    })
+
+    //Collecting data
+    fields.forEach((field) => {
+        if(field === "emailEntryField") {
+            if(!(document.getElementById(field).value.includes("@"))){fieldData[field] = ""}
+            else{fieldData[field] =  document.getElementById(field).value}
+        }
+        else if(field === "phoneNumberEntryField") {
+            if(document.getElementById(field).value.length !== 10){fieldData[field] = ""}
+        }
+        else if(field === "birthdayEntryField") {
+            if((document.getElementById(field).value.indexOf("-") === 4) &amp;&amp; (document.getElementById(field).value.indexOf("-", 5) === 7)) {fieldData[field] = document.getElementById(field).value}
+            else {fieldData[field] = ""}
+        }
+        else {fieldData[field] =  document.getElementById(field).value}
+    })
+
+    //Make border red if missed entry
+    let missing = false
+    fields.forEach((field) => {
+        if(fieldData[field] === "") {document.getElementById(field).style.borderColor = "red"; missing=true}
+    })
+    if(missing) {return}  
+
+    //Call the login function
+    let matching = {"firstNameEntryField" : "fname", "lastNameEntryField" : "lname", "emailEntryField" : "email", "phoneNumberEntryField" : "phone", "birthdayEntryField" : "birthday"}
+    let data = {}
+    fields.forEach((field) => {data[matching[field]] = fieldData[field]})
+    let response = await (signUpNewMember(data))
+
+    //Display error if not valid
+    if(response === false) {document.getElementById('errorError').classList.remove("showOnError"); return}
+    
+    //Give this data to the customer view
+    //alert(`Welcome ${response[0].firstname} ${response[0].lastname} (id: ${response[0].id})`)
+    func([response[0].firstname, response[0].lastname, response[0].id, 0])
+    
+    //Reset to default on sucessfuly entry
+    fields.forEach((field) => {
+        if(document.getElementById(field).style.borderColor === "red") {document.getElementById(field).style.borderColor = "black"}
+        document.getElementById(field).value = ""
+    })
+    document.getElementById('errorError').classList.add("showOnError")
+
+    navigate('/order')
+}
+
+/**
+ * Handles whether or not a signup options should be available
+ * @param {bool} value whether or not to show sign up option
+ */
+function handleLoginChange(value) {
+    if(value) {document.getElementById('signup').classList.add("showOnError")}
+    else {document.getElementById('signup').classList.remove("showOnError")}
+}
+
+/**
+ * Functions and display for a login page
+ * @param {*} props data to create page
+ * @returns login page elemen
+ */
+const LoginPage = (props) => {
+    const [loginChooser, setloginChooser] = useState(true)
+    const [viewChooser, setviewChooser] = useState(true)
+
+    const text = {
+        'First Name': 'First Name',
+        'Employee ID': 'Employee ID',
+        'Rewards ID': 'Rewards ID',
+        '*No user found': '*No user found',
+        'Login': 'Login',
+        "Don't have an account?": "Don't have an account?",
+        'Click to get started': 'Click to get started',
+        'Continue as guest': 'Continue as guest',
+        'Employee Login': 'Employee Login',
+        'Customer Login': 'Customer Login',
+    }
+    const [translatedText, setTranslatedText] = useState(text);
+    useEffect(() => {
+        let originalText = [];
+        for(const [key, ] of Object.entries(text)) {
+            originalText.push(key);
+        }
+        const originalTextCopy = originalText.slice();
+        Promise.all(originalText.map(async originalTextPiece => {
+            let tt = await translateText(originalTextPiece, 'en', props.language)
+            return tt.translatedText;
+        })).then(translatedText => {
+            let tempTranslatedText = {};
+            for(let i = 0; i &lt; originalTextCopy.length; i++) {
+                let originalTextPiece = originalTextCopy[i];
+                let translatedTextPiece = translatedText[i];
+                tempTranslatedText[originalTextPiece] = translatedTextPiece;
+            }
+            setTranslatedText(tempTranslatedText);
+        });
+    })
+
+    const navigate = useNavigate()
+
+    return &lt;>
+        &lt;Navbar display={false} language={props.language} setLanguage={props.setLanguage}/>
+        
+        &lt;div className="mainBody">
+            &lt;div className='Login-wrapper'>
+                &lt;img id='logo' src={Logo} alt='Logo'/>
+
+                {/* Customer/Employee Login */}
+                {viewChooser &amp;&amp; &lt;div className="mainBody_Login">
+                    &lt;div className='mainBody_Login-center'>
+                        &lt;label>{translatedText['First Name']}&lt;/label>
+                        &lt;input id="nameEntryField" type="text" placeholder="John"/>
+                        {!loginChooser &amp;&amp; &lt;label>{translatedText['Employee ID']}&lt;/label>}
+                        {loginChooser &amp;&amp; &lt;label>{translatedText['Rewards ID']}&lt;/label>}
+                        &lt;input id="idEntryField" type="text" placeholder="23"/>
+                        &lt;p id="notFoundError" className='showOnError'>{translatedText['*No user found']}&lt;/p>
+                        &lt;div id="buttonHolder">
+                            &lt;button onClick={() => {handleLogin(loginChooser, navigate, props.setUserData)}}>{translatedText['Login']}&lt;/button>
+                            {loginChooser &amp;&amp; &lt;Login navigate={navigate} setUserData={props.setUserData}/>}
+                        &lt;/div>
+                    &lt;/div>
+                    &lt;div className='bottom-wrapper'>
+                        &lt;div id="signup" className='signup-wrapper'>
+                            &lt;p>{translatedText["Don't have an account?"]}&lt;/p>
+                            &lt;button onClick={() => {setviewChooser(false)}}>{translatedText['Click to get started']}&lt;/button>
+                            &lt;br/>
+                            &lt;button onClick={() => {props.setUserData(["Guest", "Guest", 0, 0]); navigate('/order')}}>{translatedText['Continue as guest']}&lt;/button>
+                        &lt;/div>
+                        &lt;div className='employee-wrapper'>
+                            {loginChooser &amp;&amp; &lt;button onClick={() => {setloginChooser(false); handleLoginChange(loginChooser)}}>{translatedText['Employee Login']}&lt;/button>}
+                            {!loginChooser &amp;&amp; &lt;button onClick={() => {setloginChooser(true); handleLoginChange(loginChooser)}}>{translatedText['Customer Login']}&lt;/button>}
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>}
+
+                {/* Customer Sign up */}
+                {!viewChooser &amp;&amp; &lt;div className='mainBody_Signup'>
+                    &lt;div className='signup_shared-row'>
+                        &lt;div className='entry-stack'>
+                            &lt;label>First Name&lt;/label>
+                            &lt;input id="firstNameEntryField" type="text" placeholder="John"/>
+                        &lt;/div>
+                        &lt;div className='entry-stack'>
+                            &lt;label>Last Name&lt;/label>
+                            &lt;input id="lastNameEntryField" type="text" placeholder="Smith"/>
+                        &lt;/div>
+                    &lt;/div>
+
+                    &lt;div className='entry-stack'>
+                        &lt;label>Email&lt;/label>
+                        &lt;input id="emailEntryField" type="text" placeholder="example@mail.com"/>
+                    &lt;/div>
+
+                    &lt;div className='signup_shared-row'>
+                        &lt;div className='entry-stack'>
+                            &lt;label>Phone Number&lt;/label>
+                            &lt;input id="phoneNumberEntryField" type="text" placeholder="xxxxxxxxxx"/>
+                        &lt;/div>
+                        &lt;div className='entry-stack'>
+                            &lt;label>Birthday&lt;/label>
+                            &lt;input id="birthdayEntryField" type="text" placeholder="yyyy-mm-dd"/>
+                        &lt;/div>
+                    &lt;/div>
+                    &lt;p id="errorError" className='showOnError'>*There is already an account with that phone number or email&lt;/p>
+                    &lt;div className='signup-buttons'>
+                        &lt;button onClick={() => {handleSignUp(navigate, props.setUserData)}}>Sign Up&lt;/button>
+                        &lt;Login displayText="Sign up with Google" navigate={navigate} setUsingGoogle={props.setUsingGoogle}/>
+                    &lt;/div>
+
+                    &lt;div className='signup-footer'>
+                        &lt;p>Already have an account?&lt;/p>
+                        &lt;button onClick={() => {setviewChooser(true)}}>Click to Log in&lt;/button>
+                    &lt;/div>
+                    
+                &lt;/div>}
+            &lt;/div>
+            
+            &lt;div className="mainBody_Pic">
+            &lt;img src={adv3} alt='advertisement 3'/>
+            &lt;/div>
+        &lt;/div>
+
+        &lt;Footer/>
+    &lt;/>
+
+}
+
+export default LoginPage</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

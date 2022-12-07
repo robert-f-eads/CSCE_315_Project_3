@@ -1,0 +1,64 @@
+SCRUM Meeting 3 for Smoothie King GUI
+Prepared by: Robert Eads
+Meeting Date: 12/5/2022
+Meeting Attendees
+Emma Ong
+Shreyes Kaliyur
+Alexia Hassan
+Robert Eads
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now
+Any roadblocks we are facing
+Any last-minute changes needed before final submission
+Status Update Since Last Meeting
+Accomplishments:
+Enabled Google Maps API
+Created map display and routing
+ Fix sidebar / top banner formatting
+Change banner to better fit theme
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Setting up Google Maps API to work with our website
+Robert
+yes
+Use maps API to calculate and display driving routes
+Robert
+yes
+Fix sidebar / top banner formatting so that the Logo is separate from the sidebar and belongs to the banner
+Alexia
+yes
+Change banner to better fit with the rest of the page
+Alexia
+yes
+Use Google Translate API to translate data displayed in tables returned from database
+Shreyes
+yes
+Connect manager view to be able to navigate to the server view
+Shreyes
+yes
+Connect manager view to be able to navigate to the login page
+Shreyes
+yes
+
+Before The Next Meeting
+Plans:
+Complete and publish official documentation
+Complete Sprint 3 materials
+Push final site to publicly hosted location
+
+Task Assignments:
+Task Description
+Assigned to
+Push final site to public host
+Robert
+Complete Sprint 3 materials
+All
+Complete and publish official documentation
+All
+
+Minutes from Previous Meeting
+All group members attended the previous meeting. During the meeting, members discussed their completed items, then their in progress items, and finally any difficulties they were having throughout the time between meetings. There were several things to report as being finished, for example, installing the React router for page traversal, setting up API accounts as needed, and adding remove buttons to the cart functionality. Other completed tasks included creating a navbar and order panel for server view as well as adding & filling tables for the sales & excess reports.  Afterwards, team members discussed what needed to be done before the next meeting. These included implementing google maps API, as well as calculating the driving routes, and changing the side banner and top banner to be better formatted and easier to navigate. Other tasks to complete included enabling the Google Translate API, testing translation of dynamic and static elements, connecting the backend to the server view buttons, and creating product cards. At the end, the final assignments were divided up and the meeted ended. 

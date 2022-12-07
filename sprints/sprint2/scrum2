@@ -1,0 +1,111 @@
+SCRUM Meeting 2 for Smoothie King GUI
+Prepared by: Emma Ong
+Meeting Date: 11/14/2022
+Meeting Attendees
+ Robert Eads
+ Shreyes Kaliyur
+ Alexia Hassan
+ Emma Ong
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now
+Any roadblocks we are facing
+Take aways from our presentation during lab
+Status Update Since Last Meeting
+Accomplishments:
+Completed the visual aspects for home/landing page
+Finished web server functionality expansion 
+Added placeholder elements for different functionality in manager view
+Put text fields for needed product info in manager view
+Added functionality for editing the cart for the customer view
+Created display for addition search results
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Create landing page framework
+Robert
+Yes
+Add navbar to landing page
+Robert
+Yes
+Add body graphics to landing page
+Robert
+Yes
+Expand web server functionality for advanced manager functions
+Robert
+Yes
+Expand web server functionality for customer and server view needs
+Robert
+Yes
+Add buttons for accessing different options (trends, sales, report, etc.)
+Shreyes
+Yes
+Add text fields for inputting new product information
+Shreyes
+Yes
+Show ingredient stock as well as product information
+Shreyes
+Yes
+Add functionality to clear cart
+Alexia
+Yes
+Button to edit item quantity in cart
+Alexia
+Yes
+Use checkers to check website colors and fonts
+Alexia
+Yes
+Create typeable rewards member id field
+Alexia
+No
+Connect finish and pay button to write order to database for server view
+Emma
+Yes
+Create Search button connected with product search bar
+Emma
+Yes
+Create display for addition search results
+Emma
+No
+Develop 2nd wireframe for server view based on user studies 
+Emma
+Yes
+
+Before The Next Meeting
+Plans:
+Finish write order to database function
+Create functions for manager view reports
+Complete add product functionality in manager view
+Add typable fields for members
+Add easier modifications for server view
+
+Task Assignments:
+Task Description
+Assigned to
+Finish write order to database function
+Robert
+Create functions to generate reports as needed by manager view
+Robert
+Connect text field inputs for product page to backend
+Shreyes
+Add a select ingredient panel to the add product page
+Shreyes
+Connect select ingredients to backend to create new product
+Shreyes
+Crete visual selector for currently selected order item
+Alexia
+Create typeable rewards member id field
+Alexia
+Create duplicate button to duplicate selected order item
+Emma
+Connect cancel order to clear items in cart
+Emma
+Create display for addition search results
+Emma
+
+Minutes from Previous Meeting
+We noted that all members were present from our previous meeting. In the meeting, we went over our updates from the previous meeting, namely things like layout frameworks for web server functionality, a new layout for the manager view, and added abilities for customers and servers. Furthermore, we discussed completed tasks, encompassing adding buttons for accessing different options, creating finish and pay functionality, and creating a display for product search results. We decided that for the next meeting we would like to finish expanding our web server endpoint, add more placeholders for the manager view, and create search results for additions in our server view. These various tasks were assigned across our team. 
+
+

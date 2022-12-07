@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/customer-view/MenuView.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/customer-view/MenuView.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { React, useState, useEffect } from 'react'
+import './MenuView.css'
+import ProductCard from './ProductCard'
+import { getProductsByName } from '../databaseConnections/databaseFunctionExports'
+import { product } from '../dataStructures/dataStructuresExports'
+import { translateText } from '../databaseConnections/managerViewFunctions'
+
+
+
+
+
+var feelEnergized = [];
+var getFit = [];
+var manageWeight = [];
+var beWell = [];
+var enjoyATreat = [];
+
+
+/**
+ * @param {*} props data to use in displaying the menu
+ * @returns an organized table of all of the products displayed in their categories or alone depending on if the user has searched for a specific item
+ */
+
+export default function MenuView(props) {
+    const [menuItems, setMenuItems] = useState([]);
+
+    const text = {
+        'Feel Energized': 'Feel Energized',
+        'Get Fit': 'Get Fit',
+        'Manage Weight': 'Manage Weight',
+        'Be Well': 'Be Well',
+        'Enjoy A Treat': 'Enjoy A Treat',
+    }
+    const [translatedText, setTranslatedText] = useState(text);
+    useEffect(() => {
+        let originalText = [];
+        for(const [key, ] of Object.entries(text)) {
+            originalText.push(key);
+        }
+        const originalTextCopy = originalText.slice();
+        Promise.all(originalText.map(async originalTextPiece => {
+            let tt = await translateText(originalTextPiece, 'en', props.language)
+            return tt.translatedText;
+        })).then(translatedText => {
+            let tempTranslatedText = {};
+            for(let i = 0; i &lt; originalTextCopy.length; i++) {
+                let originalTextPiece = originalTextCopy[i];
+                let translatedTextPiece = translatedText[i];
+                tempTranslatedText[originalTextPiece] = translatedTextPiece;
+            }
+            setTranslatedText(tempTranslatedText);
+        });
+    }, [])
+
+
+    function getdata() {
+        getProductsByName("-").then((data) => { setMenuItems(data) })
+    }
+
+    useEffect(() => { getdata() }, [])
+
+    return (
+        &lt;>
+            &lt;div className="container menu-view-container">
+              {/*  &lt;div className="row product-card-row">
+                    {menuItems.map((element) => {
+                        return (
+                            &lt;ProductCard orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price}>&lt;/ProductCard>
+                        );
+                    })}
+                &lt;/div> */}
+
+                {/* feel energized */}
+                &lt;div id = "FeelEnergized" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
+                    {translatedText['Feel Energized']}
+                &lt;/div>
+
+                &lt;div className="row product-card-row">
+                    {menuItems.map((element) => {
+                        return (element.category === "feelEnergized") ? (
+                            &lt;ProductCard language={props.language} orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}>&lt;/ProductCard>
+                        )
+                            : "";
+                    })}
+                &lt;/div>
+
+
+                &lt;div id = "GetFit" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
+                    {translatedText['Get Fit']}
+                &lt;/div>
+
+                &lt;div className="row product-card-row">
+                    {menuItems.map((element) => {
+                        return (element.category === "getFit") ? (
+                            &lt;ProductCard language={props.language} orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}>&lt;/ProductCard>
+                        )
+                            : "";
+                    })}
+                &lt;/div>
+
+                &lt;div id = "ManageWeight" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
+                    {translatedText['Manage Weight']}
+                &lt;/div>
+
+                &lt;div className="row product-card-row">
+                    {menuItems.map((element) => {
+                        return (element.category === "manageWeight") ? (
+                            &lt;ProductCard language={props.language} orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}>&lt;/ProductCard>
+                        )
+                            : "";
+                    })}
+                &lt;/div>
+
+                &lt;div id = "BeWell" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
+                    {translatedText['Be Well']}
+                &lt;/div>
+
+                &lt;div className="row product-card-row">
+                    {menuItems.map((element) => {
+                        return (element.category === "beWell") ? (
+                            &lt;ProductCard language={props.language} orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}>&lt;/ProductCard>
+                        )
+                            : "";
+                    })}
+                &lt;/div>
+
+                &lt;div id = "EnjoyATreat" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
+                    {translatedText['Enjoy A Treat']}
+                &lt;/div>
+
+                &lt;div className="row product-card-row">
+                    {menuItems.map((element) => {
+                        return (element.category === "enjoyATreat") ? (
+                            &lt;ProductCard language={props.language} orderTicket={props.orderTicket} key={element.name} pName={element.name} pId={element.id} pPrice={element.price} func={props.func} func1={props.func1}>&lt;/ProductCard>
+                        )
+                            : "";
+                    })}
+                &lt;/div>
+            &lt;/div>
+
+        &lt;/>
+    )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

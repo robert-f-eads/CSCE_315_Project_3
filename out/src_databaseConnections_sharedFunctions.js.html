@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/databaseConnections/sharedFunctions.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/databaseConnections/sharedFunctions.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import apiURL from './sharedInfo'
+import {getTable} from './managerViewFunctions';
+
+/**
+ * Gets products from the database that contain or equal the given name
+ * @param {string} partialName partial name of a product to search for
+ * @returns {json} data promise containing results data
+ */
+async function getProductsByName(partialName) {
+    if(partialName === "") {
+        return getTable("products");
+    }
+    let queryString = `${apiURL}/searchProducts/${partialName}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Writes the orderTicket to the database
+ * @param {orderTicket} ticket orderTicket with order information to write to the database
+ * @returns {string} confirmation the function completed
+ */
+async function writeOrderToDb(ticket) {
+    //Order ticket infomation
+    let queryString = `${apiURL}/createOrder/ticket?timestamp=${ticket.getTimestamp.formatDateTime()}`
+    queryString += `&amp;firstName=${ticket.getCustomerFirstName}&amp;memberId=${ticket.getRewardsMemberId}&amp;employeeId=${ticket.getEmployeeId}`
+    queryString += `&amp;orderTotal=${ticket.getOrderPriceTotal}`
+    
+    const newOrderId = await runFetch(queryString, {method: "POST"})
+
+    //Order item information
+    await Promise.all (ticket.getItems.map(async (tempItem) =>  {
+        queryString = `${apiURL}/createOrder/item?orderId=${newOrderId}&amp;numberInOrder=${tempItem.getItemNumberInOrder}&amp;`
+        queryString += `name=${tempItem.getProduct.getName}&amp;amount=${tempItem.getItemAmount}&amp;size=${tempItem.getItemSize}`
+
+        // eslint-disable-next-line
+        const newItemId = await runFetch(queryString, {method: "POST"})
+
+        //additions
+        let additionsBody = []
+        // eslint-disable-next-line
+        tempItem.getAdditions.map((mod) => {
+            let tempMod = {
+                "orderId" : newOrderId,
+                "numberInOrder" : tempItem.getItemNumberInOrder,
+                "ingredientId" : mod.getIngredientId,
+            }
+            additionsBody.push(tempMod)
+        })
+        queryString = `${apiURL}/createOrder/addition`
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(additionsBody), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
+
+        //subractions
+        let subtractionsBody = []
+        // eslint-disable-next-line
+        tempItem.getSubtractions.map((mod) => {
+            let tempMod = {
+                "orderId" : newOrderId,
+                "numberInOrder" : tempItem.getItemNumberInOrder,
+                "ingredientId" : mod.getIngredientId,
+            }
+            subtractionsBody.push(tempMod)
+        })
+        queryString = `${apiURL}/createOrder/subtraction`
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(subtractionsBody), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
+
+        
+        //Updating ingredient counts
+        let usedIngredients = []
+
+        //Defaults
+        // eslint-disable-next-line
+        tempItem.getProduct.getIngredients.map(ingred => {usedIngredients.push(ingred.getId)})
+
+        //Additions
+        // eslint-disable-next-line
+        tempItem.getAdditions.map(ingred => {usedIngredients.push(ingred.getIngredientId)})
+
+        //Subtractions
+        // eslint-disable-next-line
+        tempItem.getSubtractions.map(ingred => {
+            const index = usedIngredients.indexOf(ingred.getIngredientId)
+            if(index > -1) {usedIngredients.splice(index, 1)}
+        })
+
+        //Decreasing amount
+        let finalIngredients = []
+
+        // eslint-disable-next-line
+        usedIngredients.map(async (ingred) => {
+            let tempIngred = {"id" : ingred}
+            finalIngredients.push(tempIngred)
+        })
+        queryString = `${apiURL}/updateIngredient?quantity=${tempItem.getItemAmount}`
+        await runFetch(queryString, {method: "POST", body: JSON.stringify(finalIngredients), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
+    }))
+
+    return "Finished"
+}
+
+/**
+ * Gets ingredients from the database that contain or equal the given name
+ * @param {string} partialName partial name of the ingredient to search for
+ * @returns {json} data promise containing results data
+ */
+async function getIngredientsByName(partialName) {
+    if(partialName === "") { return getTable('ingredients'); }
+    let queryString = `${apiURL}/searchIngredients/${partialName}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Verifies that this person is a rewards member
+ * @param {int} id id of this rewards member's account 
+ * @param {string} firstName first name of this rewards memeber
+ * @returns {*} data promise containing customer information
+ */
+async function loginCustomer(id, firstName) {
+    let queryString = `${apiURL}/login/verifyCustomer?id=${id}&amp;name=${firstName}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Verifies that this person is an employee
+ * @param {int} id id of the emmployee
+ * @param {string} firstName first name of the employee
+ * @returns {*} data promise containing employee information
+ */
+async function loginEmployee(id, firstName) {
+    let queryString = `${apiURL}/login/verifyEmployee?id=${id}&amp;name=${firstName}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Gets all ingredients for a product
+ * @param {int} id id of the product to get ingredients for
+ * @return data promise containing ingredient information
+ */
+async function getProductIngredients(id) {
+    let queryString = `${apiURL}/productIngredients/${id}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Makes call to add new rewardsmember
+ * @param {*} data dictionary of required data to create new memeber
+ * @return {*} data from the query
+ */
+async function signUpNewMember(data) {
+    let queryString = `${apiURL}/createRewardsMember`
+    const results = await runFetch(queryString, {method: "POST", body: JSON.stringify(data), headers: { 'Content-type': 'application/json; charset=UTF-8' }})
+    return results
+}
+
+/**
+ * Makes call to check if customer signing in with Google is already signed up
+ * @param {string} email email of the customer attempting to sign in
+ * @returns {*} data from the query
+ */
+async function authWithGoogle(email) {
+    let queryString = `${apiURL}/authWithGoogle?email=${email}`
+    const results = await runFetch(queryString)
+    return results
+}
+
+/**
+ * Function to run query and allow data access in calling function
+ * @param {string} query completed http request as a string 
+ * @param {object} options {key: value} for REST method, defaults to {method: "GET"}
+ * @returns {*} data from the query
+ */
+async function runFetch(query, options = {method: "GET"}) {
+        const response = await fetch(query, options)
+        const data = await response.json()
+        return data
+}
+
+export {
+    getProductsByName, 
+    writeOrderToDb, 
+    runFetch, 
+    getIngredientsByName, 
+    loginCustomer, 
+    loginEmployee, 
+    getProductIngredients, 
+    signUpNewMember,
+    authWithGoogle,
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

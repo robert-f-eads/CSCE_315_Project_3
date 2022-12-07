@@ -28,6 +28,10 @@ function categoryChange(e, setCategory) {
     setCategory(e.target.value)
 }
 
+/**
+ * @param {*} props data to use in display
+ * @returns a form for adding a new product
+ */
 function AddProductForm(props) {
     const {ingredientOptions} = props;
 

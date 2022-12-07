@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/dataStructures/orderItem.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/dataStructures/orderItem.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Robert Eads
+ */
+class orderItem {
+    private
+        id = -1
+        orderId = -1
+        itemNumberInOrder = -1
+        itemAmount = -1
+        itemSize = -1
+        additions = []
+        subtractions = []
+        product = null
+
+    /**
+     * Constructor for orderItem class
+     * @param {int} id id of the item on the order ticket
+     * @param {int} orderId id of ther order this item is part of
+     * @param {int} itemNumberInOrder the index of this item in the order ticket
+     * @param {int} itemAmount number of this specific item in the order ticket
+     * @param {int} itemSize size of the item (20, 32, 40s)
+     * @param {product} product the product that this item represents
+     */
+    constructor(id, orderId, itemNumberInOrder, itemAmount, itemSize, product) {
+        this.id = id
+        this.orderId = orderId
+        this.itemNumberInOrder = itemNumberInOrder
+        this.itemAmount = itemAmount
+        this.itemSize = itemSize
+        this.product = product
+    }
+
+    //Getters
+    /**
+     * Gets the id of the order item
+     * @return {int} the id of the order item
+     */
+    get getId() {return this.id}
+    /**
+     * Gets the order id of the order ticket this item is a part of 
+     * @return {int} the order id of the order ticket this item is a part of 
+     */
+    get getOrderId() {return this.orderId}
+    /**
+     * Gets the index of the item in the order ticket
+     * @return {int} the index of the item in the order ticket
+     */
+    get getItemNumberInOrder() {return this.itemNumberInOrder}
+    /**
+     * Gets the count of this specific item in the order ticket
+     * @return {int} the count of this specific item in the order ticket
+     */
+    get getItemAmount() {return this.itemAmount}
+    /**
+     * Gets the size of the item
+     * @return {int} the size of the item
+     */
+    get getItemSize() {return this.itemSize}
+    /**
+     * Gets the additions to the default item
+     * @return {orderItemModification[]} the additions to the default item
+     */
+    get getAdditions() {return this.additions}
+     /**
+     * Gets the subtractions from the default item
+     * @return {orderItemModification[]} the subtractions from the default item
+     */
+    get getSubtractions() {return this.subtractions}
+    /**
+     * Gets the product represented by this item
+     * @return {product} product object that this item represents
+     */
+    get getProduct() {return this.product}
+
+    //Setters
+    /**
+     * Sets the id of the order item
+     * @param {int} id the id of the order item
+     */
+    set setId(id) {this.id = id}
+    /**
+     * Sets the order id of the order ticket this item is a part of 
+     * @param {int} orderId the order id of the order ticket this item is a part of 
+     */
+    set setOrderId(orderId) {this.orderId = orderId}
+    /**
+     * Sets the index of the item in the order
+     * @param {int} itemNumberInOrder the index of the item in the order
+     */
+    set setItemNumberInOrder(itemNumberInOrder) {this.itemNumberInOrder = itemNumberInOrder}
+    /**
+     * Sets the count of the item in the order ticket
+     * @param {int} itemAmount the count of the item in the order ticket
+     */
+    set setItemAmount(itemAmount) {this.itemAmount = itemAmount}
+     /**
+     * Sets the size of the item
+     * @param {int} itemSize the size of the item
+     */
+    set setItemSize(itemSize) {this.itemSize = itemSize}
+    /**
+     * Sets the additions for this orderItem
+     * @param {orderItemModification[]} additions array of additions for this product
+     */
+    set setAdditions(additions) {this.additions = additions}
+    /**
+     * Sets the subtractions for this orderItem
+     * @param {orderItemModification[]} subtractions array of subtractions for this product
+     */
+    set setSubtractions(subtractions) {this.subtractions = subtractions}
+    /**
+     * Sets the product that this item is representing
+     * @param {product} product the new product this item represents
+     */
+    set setProduct(product) {this.product = product}
+
+    //Methods
+    /**
+     * Adds an addition to the item
+     * @param {orderItemModification} addition addition modification to be added to this item
+     */
+    addAddition(addition) {this.additions.push(addition)}
+    /**
+     * Removes an addition from the item
+     * @param {orderItemModification} addition addition modification to be removed from this item
+     */
+    removeAddition(addition) {
+        let index = this.additions.indexOf(addition)
+        if(index > -1) {this.additions.splice(index, 1)}
+    }
+    /**
+     * Adds a subtraction to the item
+     * @param {orderItemModification} subtraction subtraction modification to be added to this item 
+     */
+    addSubtraction(subtraction) {this.subtractions.push(subtraction)}
+    /**
+     * Removes a subtraction from the item
+     * @param {orderItemModification} subtraction subtraction modification to be removed from this item 
+     */
+    removeSubtraction(subtraction) {
+        let index = this.subtractions.indexOf(subtraction)
+        if(index > -1) {this.subtractions.splice(index, 1)}
+    }
+    /**
+     * Checks if subractions exists in the item
+     * @param {orderItemModification} targetSubraction target subtraction modification to be searched for
+     * @returns {int} index of item if found, if not -1
+     */
+    findSubtraction(targetSubraction) {
+        if(this.subtractions.length === 0) {return -1}
+        for(var i = 0; i &lt; this.subtractions.length; i++) {
+            if(targetSubraction.ingredientId === this.subtractions.at(i).ingredientId) {return i}
+        }
+        return -1
+    }
+    /**
+     * Updates the number in order of the item and modifications 
+     * @param {int} newIndex new item number in the order 
+     */
+    updateNumberInOrder(newIndex) {
+        this.itemNumberInOrder = newIndex
+        if(this.additions.length > 0) this.additions.forEach(element => {element.setItemNumberInOrder = newIndex})
+        if(this.subtractions.length > 0) this.subtractions.forEach(element => {element.setItemNumberInOrder = newIndex})
+    }
+}
+
+export default orderItem</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="dateTime.html">dateTime</a></li><li><a href="ingredient.html">ingredient</a></li><li><a href="orderItem.html">orderItem</a></li><li><a href="orderItemModification.html">orderItemModification</a></li><li><a href="orderTicket.html">orderTicket</a></li><li><a href="product.html">product</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddButton">AddButton</a></li><li><a href="global.html#AddProductForm">AddProductForm</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CheckDisplay">CheckDisplay</a></li><li><a href="global.html#ExcessButton">ExcessButton</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#InventoryButton">InventoryButton</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ManagerHome">ManagerHome</a></li><li><a href="global.html#ManagerViewTester">ManagerViewTester</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderHistoryButton">OrderHistoryButton</a></li><li><a href="global.html#ReorderButton">ReorderButton</a></li><li><a href="global.html#SalesButton">SalesButton</a></li><li><a href="global.html#ServerViewButton">ServerViewButton</a></li><li><a href="global.html#ShowCartView">ShowCartView</a></li><li><a href="global.html#StoreLocate">StoreLocate</a></li><li><a href="global.html#ToggleButton">ToggleButton</a></li><li><a href="global.html#TrendsButton">TrendsButton</a></li><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#addProductIngredient">addProductIngredient</a></li><li><a href="global.html#authWithGoogle">authWithGoogle</a></li><li><a href="global.html#createRewardsMember">createRewardsMember</a></li><li><a href="global.html#generateExcessReport">generateExcessReport</a></li><li><a href="global.html#generateRestockReport">generateRestockReport</a></li><li><a href="global.html#generateSalesReport">generateSalesReport</a></li><li><a href="global.html#getIngredientsByName">getIngredientsByName</a></li><li><a href="global.html#getIngredinetsForProduct">getIngredinetsForProduct</a></li><li><a href="global.html#getProductIngredients">getProductIngredients</a></li><li><a href="global.html#getProductsByName">getProductsByName</a></li><li><a href="global.html#getSearchResults">getSearchResults</a></li><li><a href="global.html#getTable">getTable</a></li><li><a href="global.html#googleAuth">googleAuth</a></li><li><a href="global.html#handleLogin">handleLogin</a></li><li><a href="global.html#handleLoginChange">handleLoginChange</a></li><li><a href="global.html#handleSignUp">handleSignUp</a></li><li><a href="global.html#increaseIngredientQuantity">increaseIngredientQuantity</a></li><li><a href="global.html#insertNewItemAddition">insertNewItemAddition</a></li><li><a href="global.html#insertNewOrderItem">insertNewOrderItem</a></li><li><a href="global.html#insertNewOrderSubtraction">insertNewOrderSubtraction</a></li><li><a href="global.html#insertNewTicket">insertNewTicket</a></li><li><a href="global.html#loginCustomer">loginCustomer</a></li><li><a href="global.html#loginEmployee">loginEmployee</a></li><li><a href="global.html#loginRewardsMember">loginRewardsMember</a></li><li><a href="global.html#productCardClicked">productCardClicked</a></li><li><a href="global.html#refreshOrderTicket">refreshOrderTicket</a></li><li><a href="global.html#runFetch">runFetch</a></li><li><a href="global.html#searchIngredients">searchIngredients</a></li><li><a href="global.html#searchProducts">searchProducts</a></li><li><a href="global.html#showAdd">showAdd</a></li><li><a href="global.html#showComponent">showComponent</a></li><li><a href="global.html#showExcess">showExcess</a></li><li><a href="global.html#showInventory">showInventory</a></li><li><a href="global.html#showOrderHistory">showOrderHistory</a></li><li><a href="global.html#showReorder">showReorder</a></li><li><a href="global.html#showSales">showSales</a></li><li><a href="global.html#showTrends">showTrends</a></li><li><a href="global.html#signUpNewMember">signUpNewMember</a></li><li><a href="global.html#translateText">translateText</a></li><li><a href="global.html#updateIngredient">updateIngredient</a></li><li><a href="global.html#writeOrderToDb">writeOrderToDb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Dec 06 2022 23:41:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

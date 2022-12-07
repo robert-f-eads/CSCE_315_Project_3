@@ -1,0 +1,83 @@
+SCRUM Meeting 1 for Smoothie King GUI
+Prepared by: Robert Eads
+Meeting Date: 11/25/2022
+Meeting Attendees
+Robert Eads
+Emma Ong
+Alexia Hassan
+Shreyes Kaliyur
+Meeting Agenda Items
+What we got done since the last meeting
+What we are working on now
+Any roadblocks we are facing
+Moving forward with the knowledge from our expert panelists report
+Status Update Since Last Meeting
+Accomplishments:
+Created employee and customer login
+Cart page has remove item
+Modifications page provides visual indicators for currently selected options\
+Server page has begun to be reworked based on user studies 
+Connected refill button to successfully “re-order” ingredients
+
+
+Tasks Completed:
+Task Description
+Assigned to
+Completed? (yes/no)
+Designed and implemented employee login
+Robert
+yes
+Designed and implemented customer & guest login
+Robert
+yes
+Added color changes to currently selected options (size, additions, subtractions)
+Alexia
+yes
+Re-created server view layout based upon results from User Studies
+Emma
+yes
+Re-created product search bar and smoothie category buttons
+Emma
+yes
+Add visual elements (button for automatically refilling level of needed inventory items) 
+Shreyes
+yes
+Connect refill button to successfully “re-order” ingredients
+Shreyes
+yes
+
+
+Before The Next Meeting
+Plans:
+Better page traversal
+Google OAuth API
+Added ability to cancel item creation
+Added quantity buttons to change quantity in customer view
+Add and fill tables for sales and excess report
+Create navbar and order panel for server view
+
+Task Assignments:
+Task Description
+Assigned to
+Setup React Router
+Robert
+Enable page navigation with proper data passed along
+Robert
+Set up account for Google OAuth
+Robert
+Enable Google OAuth to sign in to our site
+Robert
+Adjust format of banner and sidebar
+Alexia 
+Create order panel for server view (cancel order button, pay button, table of items)
+Emma
+Create navbar with logout and logo for server view
+Emma
+Add and properly fill table for sales report
+Shreyes
+Add and properly fill table for excess report
+Shreyes
+
+Minutes from Previous Meeting
+It was first noted that all members were in attendance for the previous meeting. First discussed was what was completed since the last meeting, this included tasks such as connecting text fields to capture user input, completing backend functions, and adding visual indicators on selection of buttons. Next up was current works items and any roadblocks for each group member. This included expanding manager view functions and creating ingredient search functionality in the server view. Finally, important items to complete before the end of sprint 2 were discussed and these included completing reports, creating a Git release, and pushing the site to be publicly hosted. These tasks were divided up appropriately and the meeting was closed. 
+
