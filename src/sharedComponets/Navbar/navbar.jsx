@@ -28,8 +28,11 @@ const Navbar = (props) => {
                         variant='standard'
                         autoWidth
                     >
-                        <MenuItem value={'en'}>en</MenuItem>
-                        <MenuItem value={'es'}>es</MenuItem>
+                        <MenuItem value={'de'}>German</MenuItem>
+                        <MenuItem value={'en'}>English</MenuItem>
+                        <MenuItem value={'es'}>Spanish</MenuItem>
+                        <MenuItem value={'fr'}>French</MenuItem>
+                        <MenuItem value={'ru'}>Russian</MenuItem>
                     </Select>
                 </FormControl>
             </div>

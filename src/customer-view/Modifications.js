@@ -19,6 +19,34 @@ export default function Modifications(props) {
     const [searchResults, setSearchResults] = useState([]);
     const [translatedName, setTranslatedName] = useState(props.currentOrderItem?.getProduct.getName);
 
+    const text = {
+        'Size': 'Size',
+        'Subtractions': 'Subtractions',
+        'Additions': 'Additions',
+        'Add to Cart': 'Add to Cart',
+    }
+    const [translatedText, setTranslatedText] = useState(text);
+    useEffect(() => {
+        let originalText = [];
+        for(const [key, ] of Object.entries(text)) {
+            originalText.push(key);
+        }
+        const originalTextCopy = originalText.slice();
+        Promise.all(originalText.map(async originalTextPiece => {
+            let tt = await translateText(originalTextPiece, 'en', props.language)
+            return tt.translatedText;
+        })).then(translatedText => {
+            let tempTranslatedText = {};
+            for(let i = 0; i < originalTextCopy.length; i++) {
+                let originalTextPiece = originalTextCopy[i];
+                let translatedTextPiece = translatedText[i];
+                tempTranslatedText[originalTextPiece] = translatedTextPiece;
+            }
+            setTranslatedText(tempTranslatedText);
+        });
+    })
+
+
     useEffect(() => {
         translateText(props.currentOrderItem?.getProduct.getName, 'en', props.language).then(tt => {
             setTranslatedName(tt.translatedText);
@@ -82,7 +110,7 @@ export default function Modifications(props) {
                         <div className="container">
                             <div className="row">
                                 <div className="col header-name">
-                                    Size
+                                    {translatedText['Size']}
                                 </div>
                             </div>
                             <div className="row">
@@ -133,7 +161,7 @@ export default function Modifications(props) {
                         <div className="container">
                             <div className="row">
                                 <div className="col header-name">
-                                    Subtractions
+                                    {translatedText['Subtractions']}
                                 </div>
                             </div>
                             <div className="row">
@@ -151,7 +179,7 @@ export default function Modifications(props) {
                         <div className="container">
                             <div className="row">
                                 <div className="col header-name">
-                                    Additions
+                                    {translatedText['Additions']}
                                     <br></br>
                                     <SearchBar inputId={"additionEntryField"} getSearchResults={() => { getSearchResults(setSearchResults) }} />
                                 </div>
@@ -171,7 +199,7 @@ export default function Modifications(props) {
 
                             <div className ="row">
                                 <div className = "col">
-                                    <button className = "float-end" onClick = {() => props.func(false)}> Add to Cart </button>
+                                    <button className = "float-end" onClick = {() => props.func(false)}>{translatedText['Add to Cart']}</button>
                                 </div>
                             </div>
                         </div>

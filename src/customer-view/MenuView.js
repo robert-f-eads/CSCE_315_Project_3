@@ -3,6 +3,7 @@ import './MenuView.css'
 import ProductCard from './ProductCard'
 import { getProductsByName } from '../databaseConnections/databaseFunctionExports'
 import { product } from '../dataStructures/dataStructuresExports'
+import { translateText } from '../databaseConnections/managerViewFunctions'
 
 
 
@@ -23,6 +24,35 @@ var enjoyATreat = [];
 export default function MenuView(props) {
     const [menuItems, setMenuItems] = useState([]);
 
+    const text = {
+        'Feel Energized': 'Feel Energized',
+        'Get Fit': 'Get Fit',
+        'Manage Weight': 'Manage Weight',
+        'Be Well': 'Be Well',
+        'Enjoy A Treat': 'Enjoy A Treat',
+    }
+    const [translatedText, setTranslatedText] = useState(text);
+    useEffect(() => {
+        let originalText = [];
+        for(const [key, ] of Object.entries(text)) {
+            originalText.push(key);
+        }
+        const originalTextCopy = originalText.slice();
+        Promise.all(originalText.map(async originalTextPiece => {
+            let tt = await translateText(originalTextPiece, 'en', props.language)
+            return tt.translatedText;
+        })).then(translatedText => {
+            let tempTranslatedText = {};
+            for(let i = 0; i < originalTextCopy.length; i++) {
+                let originalTextPiece = originalTextCopy[i];
+                let translatedTextPiece = translatedText[i];
+                tempTranslatedText[originalTextPiece] = translatedTextPiece;
+            }
+            setTranslatedText(tempTranslatedText);
+        });
+    }, [])
+
+
     function getdata() {
         getProductsByName("-").then((data) => { setMenuItems(data) })
     }
@@ -42,7 +72,7 @@ export default function MenuView(props) {
 
                 {/* feel energized */}
                 <div id = "FeelEnergized" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
-                    Feel Energized
+                    {translatedText['Feel Energized']}
                 </div>
 
                 <div className="row product-card-row">
@@ -56,7 +86,7 @@ export default function MenuView(props) {
 
 
                 <div id = "GetFit" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
-                    Get Fit
+                    {translatedText['Get Fit']}
                 </div>
 
                 <div className="row product-card-row">
@@ -69,7 +99,7 @@ export default function MenuView(props) {
                 </div>
 
                 <div id = "ManageWeight" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
-                    Manage Weight
+                    {translatedText['Manage Weight']}
                 </div>
 
                 <div className="row product-card-row">
@@ -82,7 +112,7 @@ export default function MenuView(props) {
                 </div>
 
                 <div id = "BeWell" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
-                    Be Well
+                    {translatedText['Be Well']}
                 </div>
 
                 <div className="row product-card-row">
@@ -95,7 +125,7 @@ export default function MenuView(props) {
                 </div>
 
                 <div id = "EnjoyATreat" className="row category-title align-middle" style = {{"scrollMarginTop": "6em"}}>
-                    Enjoy A Treat
+                    {translatedText['Enjoy A Treat']}
                 </div>
 
                 <div className="row product-card-row">
