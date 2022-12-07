@@ -22,6 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { translateText } from '../../databaseConnections/managerViewFunctions';
 
 function descendingComparator(a, b, orderBy) {
   let aOrder = a[orderBy];
@@ -158,7 +159,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function GenericTable(props) {
-  const { tableName, tableInfo, setSelectedInTable } = props;
+  const { tableName, tableInfo, setSelectedInTable, language } = props;
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('id');
@@ -176,6 +177,8 @@ export default function GenericTable(props) {
         let tempHeadCells = [];
         for(let i = 0; i < resFields.length; i++) {
           tempHeadCells.push({id: resFields[i], label: resFields[i]})
+          console.log(language);
+          translateText('please help', 'en', language).then(tt => {console.log(tt)});
         }
         setPage(0);
         setHeadCells(tempHeadCells);

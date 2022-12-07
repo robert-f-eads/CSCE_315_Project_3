@@ -28,7 +28,7 @@ function App() {
                 <SideBar />
                 </div>
              )} />
-            <Route path='/managerview' element={<ManagerViewTester userData={userData}/>} />
+            <Route path='/managerview' element={<ManagerViewTester userData={userData} language={language}/>} />
         </Routes>
     </Router>
   );

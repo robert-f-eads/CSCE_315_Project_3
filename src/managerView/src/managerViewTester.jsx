@@ -2,13 +2,10 @@ import { translateText } from "../../databaseConnections/managerViewFunctions";
 import ManagerHome from "./managerHome";
 
 function ManagerViewTester(props) {
-  const {userData} = props;
-  translateText('please translate this fast', 'en', 'es').then(res => {
-    // console.log(res)
-  });
+  const {userData, language} = props;
   return (
     <>
-      <ManagerHome userData={userData}/>
+      <ManagerHome userData={userData} language={language}/>
     </>
   );
 }

@@ -21,7 +21,7 @@ function getFormattedDate(date) {
 }
 
 function ManagerHome(props) {
-    const {userData} = props;
+    const {userData, language} = props;
 
     const [inventoryVisible, setInventoryVisible] = useState(false);
     const [orderHistoryVisible, setOrderHistoryVisible] = useState(false);
@@ -45,7 +45,6 @@ function ManagerHome(props) {
     const [reloadPage, setReloadPage] = useState(false);
 
     useEffect(() => {
-        console.log(userData);
         if(userData[3]) {
             getTable("products").then(res => {
                 setProducts(res);
@@ -92,11 +91,11 @@ function ManagerHome(props) {
                                     });
                                 }}
                             />
-                            <GenericTable tableName="Ingredients" tableInfo={ingredients} />
+                            <GenericTable tableName="Ingredients" tableInfo={ingredients} language={language}/>
                         </>
                         : <></>
                     }
-                    {orderHistoryVisible ? <GenericTable tableName="Order History" tableInfo={orders} /> : <></>}
+                    {orderHistoryVisible ? <GenericTable tableName="Order History" tableInfo={orders} language={language}/> : <></>}
                     {trendsVisible ?
                         <>
                             <div id='managerTrendsButtonsContainer'>
@@ -142,10 +141,10 @@ function ManagerHome(props) {
                     }
                     {salesVisible ?
                         <>
-                            <GenericTable tableName="Sales" tableInfo={sales} />
+                            <GenericTable tableName="Sales" tableInfo={sales} language={language}/>
                         </>
                         : <></>}
-                    {excessVisible ? <GenericTable tableName="Excess" tableInfo={excess} /> : <></>}
+                    {excessVisible ? <GenericTable tableName="Excess" tableInfo={excess} language={language}/> : <></>}
                     {addVisible ? 
                         <>
                             <SearchBar
@@ -155,14 +154,14 @@ function ManagerHome(props) {
                                     });
                                 }}
                             />
-                            <GenericTable tableName="Products" tableInfo={products} />
+                            <GenericTable tableName="Products" tableInfo={products} language={language}/>
                             <AddProductForm ingredientOptions={ingredients} />
                         </>
                         : <></>
                     }
                     {reorderVisible ?
                         <>
-                            <GenericTable tableName="Restock Report" tableInfo={restock} setSelectedInTable={setSelectedInTable} />
+                            <GenericTable tableName="Restock Report" tableInfo={restock} setSelectedInTable={setSelectedInTable} language={language}/>
                             <button onClick={() => {
                                 let ingredientUpdates = []
                                 for(let i = 0; i < selectedInTable?.length; i++) {
