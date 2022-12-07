@@ -24,7 +24,7 @@ function App() {
         <Routes>
             <Route path='/' element={<LandingPage language={language} setLanguage={setLanguage}/>} />
             <Route path='/login' element={<LoginPage setUserData={setUserData} language={language} setLanguage={setLanguage}/>} />
-            <Route path='/order' element={<CustomerView userData={userData}/>} />
+            <Route path='/order' element={<CustomerView userData={userData} language={language}/>} />
             <Route path='/serverorder' element={(
                 <div id="serverViewContainer">
                 <MainPanel />

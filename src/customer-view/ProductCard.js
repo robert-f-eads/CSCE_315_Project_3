@@ -1,15 +1,21 @@
-import { React } from 'react'
+import { React, useEffect, useState } from 'react'
 import './ProductCard.css'
 import TestImage from './ProductImages/strawberry-kiwi-breeze.png'
 import { product, orderItem, ingredient } from '../dataStructures/dataStructuresExports';
 import { getProductIngredients } from '../databaseConnections/databaseFunctionExports'
+import { translateText } from '../databaseConnections/managerViewFunctions';
 
 
 /**
- * @param {orderTicket} currentOrderTicket
+ * @param {*} currentOrderTicket the current order ticket in which to add the item
+ * @param {*} id the ingredient id
+ * @param {*} name the name of the item
+ * @param {*} price the price of the item
+ * @param {*} setTempItem  the temporary item to set
+ * @param {*} setShowMod the state for determing whether the popup is open or close
+ * @returns a boostrap card with an image on top and a text section at the bottom to display products
  */
 async function productCardClicked(currentOrderTicket, id, name, price, setTempItem, setShowMod) {
-
     var tempProduct = new product(id, name, price)
     let ingreds = []
     await getProductIngredients(id).then((data) => {
@@ -37,7 +43,25 @@ async function productCardClicked(currentOrderTicket, id, name, price, setTempIt
 }
 
 
+/**
+ * @param {*} props data to use in displaying each individual product card
+ * @returns a boostrap card with an image on top and a text section at the bottom to display products
+ */
 export default function ProductCard(props) {
+    const [translatedName, setTranslatedName] = useState(props.pName);
+
+    useEffect(() => {
+        translateText(props.pName, 'en', props.language).then(tt => {
+            setTranslatedName(tt.translatedText);
+        });
+    }, []);
+
+    let productImagePath = require(`./ProductImages/angel-food-slim.png`);
+    try {
+        productImagePath = require(`./ProductImages/${props.pName}.png`);
+    } catch {
+    }
+
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossOrigin="anonymous"></link>
@@ -57,9 +81,9 @@ export default function ProductCard(props) {
 
             <div className="card product-card shadow-sm p-3 mb-5" style={{ "height": "80%" }}>
                 <button type="button" onClick={() => { productCardClicked(props.orderTicket, props.pId, props.pName, props.pPrice, props.func, props.func1) }}>
-                    <img className="card-img-top" src={require(`./ProductImages/${props.pName}.png`)} alt="Card cap"></img>
+                    <img className="card-img-top" src={productImagePath} alt="Card cap"></img>
                     <div className="card-body">
-                        <h4 className="card-title"> {props.pName} </h4>
+                        <h4 className="card-title"> {translatedName} </h4>
                     </div>
                 </button>
             </div>

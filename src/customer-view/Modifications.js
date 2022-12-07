@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Modifications.css'
 import SearchBar from './SearchBar'
 import AdditionButton from './AdditionButton'
@@ -6,12 +6,32 @@ import SubtractionButton from './SubtractionButton'
 import { getIngredientsByName, getProductsByName } from '../databaseConnections/databaseFunctionExports'
 import { useState } from 'react'
 import orderTicket from '../dataStructures/orderTicket'
+import { translateText } from '../databaseConnections/managerViewFunctions'
 
+
+
+/**
+ * @param {*} props data to use in displaying the modifications page
+ * @returns a popup which allows customers to modify their order item's size and ingredients
+ */
 export default function Modifications(props) {
     //const [additionItems, setAdditionItems] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+    const [translatedName, setTranslatedName] = useState(props.currentOrderItem?.getProduct.getName);
+
+    useEffect(() => {
+        translateText(props.currentOrderItem?.getProduct.getName, 'en', props.language).then(tt => {
+            setTranslatedName(tt.translatedText);
+        });
+    })
+
     var showSearch = false;
 
+    
+    /**
+     * @param {*} setSearchResults state information
+     * @returns creates additions based on a search entry
+     */
     function getSearchResults(setSearchResults) {
         let searchString = document.getElementById('additionEntryField').value
         if (searchString === "") { getIngredientsByName("-").then((data) => { setSearchResults(data) }) }
@@ -55,7 +75,7 @@ export default function Modifications(props) {
                                 </div>
                             </div>
                             <div className="row top-panel item-name">
-                                {props.currentOrderItem.getProduct.getName}
+                                {translatedName}
                             </div>
                         </div>
 
@@ -120,7 +140,7 @@ export default function Modifications(props) {
                                 <div className="container">
                                     {props.currentOrderItem.getProduct.getIngredients.map((element) => {
                                         return (
-                                            <SubtractionButton ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
+                                            <SubtractionButton language={props.language} ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
                                             )
                                     })}
                                 </div>
@@ -141,7 +161,7 @@ export default function Modifications(props) {
                                 <div className="container" style={{ minHeight: "100%" }}>
                                     {searchResults.map((element) => {
                                         return (
-                                            <AdditionButton ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
+                                            <AdditionButton language={props.language} ingredientName={element.name} currentOrderItem={props.currentOrderItem} ingredientId={element.id} />
                                         );
 
                                     })}

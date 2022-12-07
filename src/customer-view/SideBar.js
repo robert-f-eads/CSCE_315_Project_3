@@ -1,12 +1,43 @@
-import {React} from 'react'
+import {React, useEffect, useState} from 'react'
 import './SideBar.css'
 import { useNavigate } from 'react-router-dom'
 import SmoothieKingLogo from '../Logo.png'
 import SearchBar from './SearchBar'
+import { translateText } from '../databaseConnections/managerViewFunctions'
 
 export default function SideBar(props) {
-    const { getSearchResults, showCartView} = props;
+    const { language, getSearchResults, showCartView} = props;
     const navigate = useNavigate()
+
+    const categoryNames = {
+        'Feel Energized': 'Feel Energized',
+        'Get Fit': 'Get Fit',
+        'Manage Weight': 'Manage Weight',
+        'Be Well': 'Be Well',
+        'Enjoy A Treat': 'Enjoy A Treat',
+    }
+
+    const [translatedCategoryNames, setTranslatedCategoryNames] = useState(categoryNames);
+
+    useEffect(() => {
+        let originalNames = [];
+        for(const [key, ] of Object.entries(categoryNames)) {
+            originalNames.push(key);
+        }
+        const originalNamesCopy = originalNames.slice();
+        Promise.all(originalNames.map(async originalName => {
+            let tt = await translateText(originalName, 'en', language)
+            return tt.translatedText;
+        })).then(translatedNames => {
+            let tempNames = {};
+            for(let i = 0; i < originalNamesCopy.length; i++) {
+                let originalName = originalNamesCopy[i];
+                let translatedName = translatedNames[i];
+                tempNames[originalName] = translatedName;
+            }
+            setTranslatedCategoryNames(tempNames);
+        });
+    }, [])
 
     return (
         <>
@@ -50,27 +81,28 @@ export default function SideBar(props) {
                     <ul className="nav nav-pills flex-column mb-auto" style={{ "paddingTop": "0px" }}>
                         <li className="nav-item">
                             <a href="#FeelEnergized" className="nav-link link-dark" aria-current="page">
-                                Feel Energized
+                                {translatedCategoryNames['Feel Energized']}
                             </a>
                         </li>
                         <li>
                             <a href="#GetFit" className="nav-link link-dark">
-                                Get Fit
+                                {translatedCategoryNames['Get Fit']}
                             </a>
                         </li>
                         <li>
                             <a href="#ManageWeight" className="nav-link link-dark">
-                                Manage Weight
+                                {translatedCategoryNames['Manage Weight']}
                             </a>
                         </li>
                         <li>
                             <a href="#BeWell" className="nav-link link-dark">
-                                Be Well
+                                {translatedCategoryNames['Be Well']}
                             </a>
                         </li>
                         <li>
                             <a href="#EnjoyATreat" className="nav-link link-dark">
-                                Enjoy A Treat</a>
+                                {translatedCategoryNames['Enjoy A Treat']}
+                            </a>
                         </li>
                     </ul>
                 </div>

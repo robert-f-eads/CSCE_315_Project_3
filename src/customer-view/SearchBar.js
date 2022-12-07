@@ -1,6 +1,10 @@
 import React from 'react'
 import './SearchBar.css'
 
+/**
+ * @param {*} props data to use in displaying a search bar, or text field and button
+ * @returns a container with a text box and a button 
+ */
 export default function SearchBar(props) {
     const { getSearchResults } = props;
     return (
@@ -24,7 +28,7 @@ export default function SearchBar(props) {
                 <div className="row g-0" style={{ "alignContent": "left !important", "paddingBottom": "10px" }}>
                     <div className="search">
                         <div className="col">
-                            <input type="text" className="form-control" placeholder="Search for Item" id={props.inputId} ></input>
+                            <input type="text" className="form-control" placeholder="" id={props.inputId} ></input>
                         </div>
                         <div className="col">
                             <button className="btn btn-primary" type="button" onClick={getSearchResults}>

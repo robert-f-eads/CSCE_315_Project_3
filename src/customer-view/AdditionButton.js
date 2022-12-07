@@ -2,6 +2,11 @@ import React from 'react'
 import {orderItemModification} from '../dataStructures/dataStructuresExports.js'
 
 
+
+/**
+ * @param {*} props data to use in displaying the addition buttons
+ * @returns a button that will add an ingredient as an addition to the order ticket
+ */
 export default function AdditionButton(props) {
 
   function addModificationToOrder() {

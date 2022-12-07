@@ -7,6 +7,10 @@ import TextBox from './TextBox'
 
 
 
+/**
+ * @param {*} props data to use in displaying the cart view
+ * @returns a pop up which details all of the items in the cart as well as some buttons for manipulating these items
+ */
 
 export default function CartView(props) {
     const [selectedIndex, setSelectedIndex] = useState(null)
@@ -86,6 +90,3 @@ export default function CartView(props) {
         </>
     ) : "";
 }
-
-
-//make customer view component

@@ -1,10 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './SubtractionButton.css'
 import { orderItemModification } from '../dataStructures/dataStructuresExports.js'
+import { translateText } from '../databaseConnections/managerViewFunctions';
+
+/**
+ * @param {*} props data to use in displaying the subtraction buttons
+ * @returns a button that will add an ingredient as a subtraction to the order ticket
+ */
 
 export default function SubtractionButton(props) {
 
   const [isSelected, setIsSelected] = useState(false);
+  const [translatedIngredientName, setTranslatedIngredientName] = useState(props.ingredientName);
+
+  useEffect(() => {
+    translateText(props.ingredientName, 'en', props.language).then(tt => {
+      setTranslatedIngredientName(tt.translatedText);
+    })
+  }, [])
 
   function removeModificationFromOrder() {
     //Create modification
@@ -24,7 +37,7 @@ export default function SubtractionButton(props) {
         removeModificationFromOrder();
         setIsSelected(!isSelected)
       }}> {/* subrract ingredient to order ticket */}
-        {props.ingredientName}
+        {translatedIngredientName}
       </button>
     </>
   )

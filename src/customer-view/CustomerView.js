@@ -24,8 +24,19 @@ var ticket = new orderTicket(0, new dateTime(mm + "-" + dd + "-" + yyyy, time), 
 //var showCart = false;
 var showSearch = false;
 
+
+
+/**
+ * @param {*} props resets the order ticket when an order is done
+ */
 function refreshOrderTicket() {ticket = new orderTicket(0, new dateTime(mm + "-" + dd + "-" + yyyy, time), name, id, 0, 0)}
 
+
+
+/**
+ * @param {*} props the order ticket to pass to the cart view
+ * @returns a popup of the cart view 
+ */
 function ShowCartView(ticket) {
     console.log("showing cart");
     return (
@@ -36,11 +47,11 @@ function ShowCartView(ticket) {
 }
 
 
-/*const getShowCart = (bool) => {
-    showCart = bool;
-    console.log(bool);
-}*/
 
+/**
+ * @param {*} props gets all of the search results from using the search bar in the sidebar
+ * @returns search bar
+ */
 function getSearchResults(setSearchResults) {
     let searchString = document.getElementById('searchBarEntryField').value
     if (searchString === "") { getProductsByName("-").then((data) => { setSearchResults(data) }) }
@@ -48,13 +59,19 @@ function getSearchResults(setSearchResults) {
     showSearch = true
 }
 
+
+/**
+ * @param {*} props data to use in display
+ * @returns either renders a menu view component or a series of product cards if something specific is searched
+ * 
+ */
 export function CheckDisplay(props) {
     if (props.hasSearched) {
         /*Search bar results*/
         return <div className="container">
             <div className="row">
                 {props.dataProp && props.dataProp.length > 0 && props.dataProp.map((item) =>
-                    <ProductCard orderTicket={props.ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory={item.category} func={props.func} func1={props.func1} />
+                    <ProductCard language={props.language} orderTicket={props.ticket} pId={item.id} pName={item.name} pPrice={item.price} pCategory={item.category} func={props.func} func1={props.func1} />
                 )}
             </div>
         </div>
@@ -62,11 +79,16 @@ export function CheckDisplay(props) {
     else {
         /*Menu view */
         return <div className="row">
-            <MenuView orderTicket={props.ticket} func={props.func} func1={props.func1}></MenuView>
+            <MenuView language={props.language} orderTicket={props.ticket} func={props.func} func1={props.func1}></MenuView>
         </div>
     }
 }
 
+
+/**
+ * @param {*} props data to use in displaying the customer view page
+ * @returns customer view home
+ */
 export default function CustomerView(props) {
     const [searchResults, setSearchResults] = useState([])
     const [showCart, setshowCart] = useState(false)
@@ -96,13 +118,13 @@ export default function CustomerView(props) {
 
                 <div className="row g-0">
                     <div className="col-3">
-                        <SideBar usingGoogle = {props.usingGoogle} searchBarId="searchBarEntryField" getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
+                        <SideBar language={props.language} usingGoogle = {props.usingGoogle} searchBarId="searchBarEntryField" getSearchResults={() => { getSearchResults(setSearchResults) }} ShowCartView={ShowCartView} func={setshowCart} />
                     </div>
-                    <Modifications orderTicket = {ticket} currentOrderItem={tempItem} trigger={showMod} func={setShowMod} />
+                    <Modifications language={props.language} orderTicket = {ticket} currentOrderItem={tempItem} trigger={showMod} func={setShowMod} />
                     <div className="col">
                         <div className="container-fluid">
 
-                            <CheckDisplay dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod} ticket={ticket} />
+                            <CheckDisplay language={props.language} dataProp={searchResults} hasSearched={showSearch} func={setTempItem} func1={setShowMod} ticket={ticket} />
                             {/*<MenuView/>*/}
                             {/*Popup cart view*/}
                             <div className="row" style={{ "paddingTop": "100px" }}>

@@ -3,12 +3,23 @@ import './CartViewEntry.css'
 import { orderTicket, dateTime, orderItem, product } from './../dataStructures/dataStructuresExports'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 
+
+/**
+ * @param {*} props data to use in displaying a cart view entry
+ * @returns a div that shows the details of each item including price, quantity, and size, as well as additions and subtractions
+ */
+
 export default function CartViewEntry(props) {
     const [amount, setAmount] = useState(props.orderItem.getItemAmount)
 
     const color1 = "rgb(186, 186, 187)"
     const color2 = "rgb(248, 249, 250)"
 
+    
+/**
+ * Function used in changing visual color based on currently selected item in cart
+ * 
+ */
     async function updateIndex() {
         if(props.currentIndex !== null) {document.getElementById(props.currentIndex).style.backgroundColor = color2}
         var reference = document.getElementById(props.orderItem.getItemNumberInOrder)
